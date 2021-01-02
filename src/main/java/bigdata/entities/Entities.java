@@ -15,9 +15,10 @@ public class Entities implements Serializable{
 
     @Override
     public String toString(){
-        return "{"+
-        "\n\t\t - hashtags: "+this.hashtags+
-        "\n\t\t - user_mentions: "+this.user_mentions+
-        "\n\t\t}";
+        return 
+        "\n  {"+
+        "\n   - hashtags: "+this.hashtags+
+        "\n   - user_mentions: "+this.user_mentions+
+        "\n  }";
     } 	 
 } 

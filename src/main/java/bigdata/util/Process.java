@@ -5,6 +5,8 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaPairRDD;
 
+import bigdata.entities.User;
+import bigdata.util.Builder;
 import bigdata.entities.Tweet;
 import bigdata.entities.Hashtag;
 
@@ -13,6 +15,7 @@ public class Process {
     private JavaRDD<String> fileRDD;
     private JavaRDD<Tweet> tweetRDD;
     private JavaPairRDD<Hashtag, Integer> hashtagsRDD;
+    private JavaRDD<User> userByHashtag;
 
     public Process(String app_name, String pathFile){
         SparkConf conf = new SparkConf().setAppName(app_name);
@@ -29,9 +32,19 @@ public class Process {
         this.hashtagsRDD = Builder.topHastag(this.tweetRDD);
     } 
 
-    public void displayTopKHashtag(int n){
-        this.hashtagsRDD.take(n).forEach(item -> System.out.println(item));
+    public void displayTopKHashtag(int k){
+        this.hashtagsRDD.take(k).forEach(item -> System.out.println(item));
     } 
+
+    public void getUserByHashtag(String hashtag){
+        getAllTweet();
+        this.userByHashtag = Builder.usersByHashtag(this.tweetRDD, hashtag);
+    } 
+
+    public void displayKUserByHashtag(int k){
+        this.userByHashtag.take(k).forEach(item -> System.out.println(item));
+    } 
+
 
     
     public void close(){

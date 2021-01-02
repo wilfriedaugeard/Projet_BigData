@@ -9,6 +9,7 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaPairRDD;
 import com.google.gson.Gson;
 
+import bigdata.entities.User;
 import bigdata.entities.Tweet;
 import bigdata.entities.Hashtag;
 
@@ -49,5 +50,13 @@ public class Builder {
 			.mapToPair(item -> new Tuple2<Hashtag, Integer>(item._2, item._1));	
 	} 
 	
+
+	public static final JavaRDD<User> usersByHashtag(JavaRDD<Tweet> tweetRDD, String hashtag){
+		Hashtag h = new Hashtag(hashtag);
+		JavaRDD<User> userList = tweetRDD
+			.filter(tweet -> (tweet.getEntities().getHashtags().contains(h)))
+			.map(tweet -> tweet.getUser());
+		return userList;
+	} 
 	
 }

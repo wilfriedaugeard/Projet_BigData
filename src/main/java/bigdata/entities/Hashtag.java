@@ -5,6 +5,11 @@ import java.io.Serializable;
 public class Hashtag implements Serializable{
     private String text;
 
+
+    public Hashtag(String value){
+        this.text = value;
+    } 
+
     public String getText() {
         return this.text;
     }

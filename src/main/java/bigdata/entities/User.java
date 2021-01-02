@@ -18,19 +18,20 @@ public class User implements Serializable{
 
     @Override
     public String toString(){
-        return "{"+
-        "\n\t\t- id: "+this.id_str+
-        "\n\t\t- name: "+this.name+
-        "\n\t\t- screen_name: "+this.screen_name+
-        "\n\t\t- location: "+this.location+
-        "\n\t\t- verified: "+this.verified+
-        "\n\t\t- created_at: "+this.created_at+
-        "\n\t\t- followers_count: "+this.followers_count+
-        "\n\t\t- friends_count: "+this.friends_count+
-        "\n\t\t- reply_count: "+this.reply_count+
-        "\n\t\t- retweet_count: "+this.retweet_count+
-        "\n\t\t- favorite_count: "+this.favorite_count+
-        "\n\t\t}";
+        return 
+        "\n  {"+
+        "\n   - id: "+this.id_str+
+        "\n   - name: "+this.name+
+        "\n   - screen_name: "+this.screen_name+
+        "\n   - location: "+this.location+
+        "\n   - verified: "+this.verified+
+        "\n   - created_at: "+this.created_at+
+        "\n   - followers_count: "+this.followers_count+
+        "\n   - friends_count: "+this.friends_count+
+        "\n   - reply_count: "+this.reply_count+
+        "\n   - retweet_count: "+this.retweet_count+
+        "\n   - favorite_count: "+this.favorite_count+
+        "\n  }";
     } 	 
 
 } 

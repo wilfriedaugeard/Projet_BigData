@@ -9,10 +9,10 @@ public class Mention implements Serializable{
 
     @Override
     public String toString(){
-        return ""+
-        "\n\t\t\t - name: "+this.name+
-        "\n\t\t\t - screen_name: "+this.screen_name+
-        "\n\t\t\t - id_str: "+this.id_str+
-        "\n\t\t\t";
+        return
+        "\n   - name: "+this.name+
+        "\n   - screen_name: "+this.screen_name+
+        "\n   - id_str: "+this.id_str+
+        "\n";
     } 	
 } 
