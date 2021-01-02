@@ -23,7 +23,14 @@ public class Hashtag implements Serializable{
            return false;
        } 
        Hashtag h = (Hashtag) o;
-       return this.text.toLowerCase().equalsIgnoreCase(h.getText().toLowerCase());
+       return this.text.toLowerCase().equals(h.getText().toLowerCase());
    } 
+
+  @Override
+  public int hashCode(){
+      int result = 17;
+      result = 31 * result + this.text.toLowerCase().hashCode();
+      return result;
+  }  
 
 }
