@@ -42,7 +42,11 @@ public class Builder {
 			});
 			return list.iterator();
 		});
-		return tuple.reduceByKey((a, b) -> a+b);
+		return tuple
+			.reduceByKey((a, b) -> a+b)
+			.mapToPair(item -> new Tuple2<Integer, Hashtag>(item._2, item._1))
+			.sortByKey(false)
+			.mapToPair(item -> new Tuple2<Hashtag, Integer>(item._2, item._1));
 			
 	} 
 	

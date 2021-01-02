@@ -24,7 +24,7 @@ public class TPSpark {
 
 		// JavaRDD<List<Hashtag>> hashtagsRDD = Builder.getAllHastags(tweetRDD);
 		JavaPairRDD<Hashtag, Integer> hashtagsRDD = Builder.topHastag(tweetRDD);
-		hashtagsRDD.foreach(item -> System.out.println(item));
+		hashtagsRDD.take(10).forEach(item -> System.out.println(item));
 		
 		context.close();
 
