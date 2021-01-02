@@ -1,10 +1,12 @@
 package bigdata.util;
 
-
+import scala.Tuple2;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.io.Serializable;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaPairRDD;
 import com.google.gson.Gson;
 
 import bigdata.entities.Tweet;
@@ -31,5 +33,18 @@ public class Builder {
 		return hashtagRDD;
 	} 
 
+
+	public final static JavaPairRDD<Hashtag, Integer> topHastag(JavaRDD<Tweet> tweetRDD){
+		JavaPairRDD<Hashtag, Integer> tuple = tweetRDD.flatMapToPair(t -> {
+			List<Tuple2<Hashtag, Integer>> list = new LinkedList();
+			t.getEntities().getHashtags().forEach(h ->{
+				list.add(new Tuple2<Hashtag, Integer>(h, 1));
+			});
+			return list.iterator();
+		});
+		return tuple.reduceByKey((a, b) -> a+b);
+			
+	} 
+	
 	
 }

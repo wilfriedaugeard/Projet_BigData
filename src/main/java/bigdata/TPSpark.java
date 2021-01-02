@@ -5,7 +5,6 @@ import org.apache.spark.api.java.*;
 import org.apache.spark.util.StatCounter;
 import com.google.gson.Gson;
 import java.util.List;
-
 import bigdata.entities.Tweet;
 import bigdata.entities.Hashtag;
 import bigdata.util.Builder;
@@ -23,7 +22,8 @@ public class TPSpark {
 
 		JavaRDD<Tweet> tweetRDD = Builder.getAllTweet(fileRDD);
 
-		JavaRDD<List<Hashtag>> hashtagsRDD = Builder.getAllHastags(tweetRDD);
+		// JavaRDD<List<Hashtag>> hashtagsRDD = Builder.getAllHastags(tweetRDD);
+		JavaPairRDD<Hashtag, Integer> hashtagsRDD = Builder.topHastag(tweetRDD);
 		hashtagsRDD.foreach(item -> System.out.println(item));
 		
 		context.close();
