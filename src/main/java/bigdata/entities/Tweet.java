@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tweet{
+public class Tweet implements Serializable{
     private String created_at;
     private String id_str;
     private String text;

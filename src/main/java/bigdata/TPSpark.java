@@ -19,16 +19,12 @@ public class TPSpark {
 		SparkConf conf = new SparkConf().setAppName(Config.APP_NAME);
 		JavaSparkContext context = new JavaSparkContext(conf);
 
-		JavaRDD<String> tweetsRDD = context.textFile(Config.FILE_PATH);
-		List<Tweet> allTweet = Builder.buildNTweet(tweetsRDD, 50);
-		int i = 0;
-		for(Tweet tweet: allTweet){
-			System.out.println(i+" "+tweet.getEntities().getHashtags());
-			i++;
-		} 
+		JavaRDD<String> fileRDD = context.textFile(Config.FILE_PATH);
 
-		JavaRDD<Hashtag> hashtagsRDD = context.parallelize(Builder.getAllHastags(allTweet));
-		System.out.println(hashtagsRDD.count());
+		JavaRDD<Tweet> tweetRDD = Builder.getAllTweet(fileRDD);
+
+		JavaRDD<List<Hashtag>> hashtagsRDD = Builder.getAllHastags(tweetRDD);
+		hashtagsRDD.foreach(item -> System.out.println(item));
 		
 		context.close();
 
