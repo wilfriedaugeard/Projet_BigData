@@ -1,6 +1,8 @@
 package bigdata.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tweet{
     private String created_at;
@@ -15,6 +17,13 @@ public class Tweet{
     private String lang;
     private Entities entities; 
 
+    public Entities getEntities() {
+        return this.entities;
+    }
+
+    public boolean isAvailable(){
+        return this.created_at != null;
+    } 
 
     @Override
     public String toString(){

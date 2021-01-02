@@ -5,11 +5,13 @@ import java.io.Serializable;
 public class Hashtag implements Serializable{
     private String text;
 
+    public String getText() {
+        return this.text;
+    }
+
     @Override
     public String toString(){
-        return ""+
-        "\n\t\t\t - text: "+this.text+
-        "\n\t\t\t";
+        return this.text;
     } 	
 
 }
