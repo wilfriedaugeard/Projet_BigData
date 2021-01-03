@@ -61,8 +61,13 @@ public class Process {
 
     public void getHashtagByUser(String id){
         getAllTweet();
-        this.hashtagByUser = Builder.hashtagByUser(tweetRDD, id);
+        this.hashtagByUser = Builder.hashtagByUser(this.tweetRDD, id);
         this.hashtagByUser.collect().forEach(item -> System.out.println(item));
+    } 
+
+    public long getNbTweetByUser(String id){
+        getAllTweet();
+        return this.tweetRDD.filter(tweet -> tweet.getUser().getId().equals(id)).count();
     } 
 
     

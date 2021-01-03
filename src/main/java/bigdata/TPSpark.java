@@ -15,6 +15,7 @@ public class TPSpark {
 		Process process = new Process(Config.APP_NAME, Config.FILE_PATH);
 		
 		// Exemple d'analyse des hashtags
+		
 		// a) Permettre de récupérer pour un jour donné la liste des khashtags les plus utilisés ainsi que leur nombre d’apparition (k entre 1 et 10000).
 		// process.computeTopHashtag();
 		// process.displayTopKHashtag(TOP_K);
@@ -28,8 +29,12 @@ public class TPSpark {
 
 
 		// Exemple d’analyse des users
+		
 		// a) Permettre de récupérer pour un utilisateur la liste de ses hashtags sans doublon.
 		// process.getHashtagByUser(USER_ID);
+		
+		// b) Permettre de savoir le nombre de tweet d’un utilisateur.
+		// System.out.print("L'utilisateur "+USER_ID+" a twitté "+process.getNbTweetByUser(USER_ID)+" fois\n");
 
 		process.close();
 
