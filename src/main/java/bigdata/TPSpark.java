@@ -7,6 +7,7 @@ import bigdata.util.Config;
 public class TPSpark {
 
 	public static final Integer TOP_K = 50;
+	public static final String HASHTAG = "bbb20";
 
 	public static void main(String[] args) {
 		
@@ -16,9 +17,12 @@ public class TPSpark {
 		// a) 
 		// process.computeTopHashtag();
 		// process.displayTopKHashtag(TOP_K);
-
+		
 		// c)
-		// process.getUserByHashtag("bbb20");
+		// System.out.print("Le #"+HASHTAG+" est utilisé "+process.getNbHashtagOccurence(HASHTAG)+" fois\n");
+
+		// d)
+		// process.getUserByHashtag(HASHTAG);
 		// process.displayKUserByHashtag(10);
 
 		process.close();

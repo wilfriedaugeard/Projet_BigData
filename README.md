@@ -18,7 +18,7 @@ c) Afin de planifier nos achats de matériels futurs, calculez le nombre de mach
 
 - [x] a) Permettre de récupérer pour un jour donné la liste des khashtags les plus utilisés ainsi que leur nombre d’apparition (k entre 1 et 10000).
 - [ ] b) Permettre de récupérer les k hashtags les plus utilisés (k entre 1 et 10000) sur toutes les données.
-- [ ] c) Permettre de récupérer le nombre d’apparition d’un hashtag donné.
+- [x] c) Permettre de récupérer le nombre d’apparition d’un hashtag donné.
 - [x] d) Récupérer tous les utilisateurs qui ont utilisé un hashtag.
 
 ## Exemple d’analyse des users

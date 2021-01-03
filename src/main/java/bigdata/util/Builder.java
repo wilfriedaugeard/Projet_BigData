@@ -25,12 +25,15 @@ public class Builder {
 		return tweets;
 	} 
 
-	public static final JavaRDD<List<Hashtag>> getAllHastags(JavaRDD<Tweet> tweetRDD){
-		JavaRDD<List<Hashtag>> hashtagRDD = tweetRDD
-			.map(tweet -> {
-				return tweet.getEntities().getHashtags();
-			})
-			.filter(hashtag -> !hashtag.isEmpty());
+	public static final JavaRDD<Hashtag> getAllHastags(JavaRDD<Tweet> tweetRDD){
+		JavaRDD<Hashtag> hashtagRDD = tweetRDD
+			.flatMap(tweet -> {
+				List<Hashtag> list = new LinkedList();
+				tweet.getEntities().getHashtags().forEach(h -> {
+					list.add(h);
+				});
+				return list.iterator();
+			});
 		return hashtagRDD;
 	} 
 
