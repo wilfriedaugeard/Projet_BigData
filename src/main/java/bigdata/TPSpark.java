@@ -39,6 +39,8 @@ public class TPSpark {
 		// c) Nombre de tweet par pays ou par langue
 		// process.getNbTweetByLang();
 		
+		// recupere les triplets. ToDo: recuperer les users utilisant ce triplet
+		// process.getTripletHashtag();
 		process.close();
 
 	}

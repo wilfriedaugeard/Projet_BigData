@@ -5,6 +5,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaPairRDD;
 
+import java.util.List;
 import bigdata.entities.User;
 import bigdata.util.Builder;
 import bigdata.entities.Tweet;
@@ -77,6 +78,11 @@ public class Process {
         this.nbTweetByLang.collect().forEach(item -> System.out.println(item));
     } 
     
+    public void getTripletHashtag(){
+        getAllTweet();
+        JavaRDD<List<Hashtag>> triplet = Builder.tripletHashTag(this.tweetRDD);
+        triplet.collect().forEach(item -> System.out.println(item));
+    } 
 
     public void close(){
         this.context.close();

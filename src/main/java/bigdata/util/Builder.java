@@ -83,5 +83,13 @@ public class Builder {
 		return tuple.reduceByKey((a, b) -> a+b);
 	} 
 
+	public static final JavaRDD<List<Hashtag>> tripletHashTag(JavaRDD<Tweet> tweetRDD){
+		JavaRDD<List<Hashtag>> triplet = tweetRDD
+			.filter(tweet -> tweet.getEntities().getHashtags().size() == 3)
+			.map(tweet -> { return tweet.getEntities().getHashtags();});  
+		return triplet;
+
+	}  
+
 	
 }
