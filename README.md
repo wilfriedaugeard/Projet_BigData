@@ -1,9 +1,10 @@
-# Projet_BigData
+ # Projet_BigData
 
 
 ## Question Infrastructure
 a) Les données que nous utilisons pour l’instant ne sont pas complètes car il manque des tweets. Combien de jours complets de collecte de données pouvons-nous stocker sur notre  infrastructure de test (votre salle de TP) ?
-> Réponse: 
+> Réponse: 1 Tweet = 5 ko et il y a 504 millions de tweet par jour. Donc on a: 504 000 000 x 5 ko = 2.52 To. 
+> Si on a 20 machines avec 1 To (je sais pas la capacité) ca fait: 20To / 2.52To = 7.93 jours donc 7 jours entiers.
 
 
 b) Pour ce nombre de jour de collecte complet, combien de blocs de données seront disponibles sur chaque machine en moyenne?
