@@ -11,7 +11,7 @@ b) Pour ce nombre de jour de collecte complet, combien de blocs de données sero
 > Réponse: 20To / 128Mo = 156 250 blocs.
 
 c) Afin de planifier nos achats de matériels futurs, calculez le nombre de machines total que nous devrons avoir dans notre cluster pour stocker 5 ans de tweets ?
-> Réponse: 
+> Réponse: 1 jour de tweets = 2.52 To. Donc 5 * 365 * 2.52 = 4 599 To soit 4.599 Po. Pour 1 marchine ayant 1To il faudrait 4579 machines supplémentaires pour 5 ans. 
 
 
 ## Exemple d’analyse des hashtags
