@@ -8,7 +8,7 @@ a) Les données que nous utilisons pour l’instant ne sont pas complètes car i
 
 
 b) Pour ce nombre de jour de collecte complet, combien de blocs de données seront disponibles sur chaque machine en moyenne?
-> Réponse:
+> Réponse: 20To / 128Mo = 156 250 blocs.
 
 c) Afin de planifier nos achats de matériels futurs, calculez le nombre de machines total que nous devrons avoir dans notre cluster pour stocker 5 ans de tweets ?
 > Réponse: 
