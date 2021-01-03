@@ -18,6 +18,7 @@ public class Process {
     private JavaRDD<User> userByHashtag;
     private long nbHashtagOccurence;
     private JavaRDD<Hashtag> hashtagByUser;
+    private JavaPairRDD<String, Integer>  nbTweetByLang;
 
     public Process(String app_name, String pathFile){
         SparkConf conf = new SparkConf().setAppName(app_name);
@@ -70,7 +71,11 @@ public class Process {
         return this.tweetRDD.filter(tweet -> tweet.getUser().getId().equals(id)).count();
     } 
 
-    
+    public void getNbTweetByLang(){
+        getAllTweet();
+        this.nbTweetByLang = Builder.nbTweetByLang(this.tweetRDD);
+        this.nbTweetByLang.collect().forEach(item -> System.out.println(item));
+    } 
     
 
     public void close(){

@@ -25,6 +25,10 @@ public class Tweet implements Serializable{
         return this.user;
     }
 
+    public String getLang() {
+        return this.lang;
+    }
+
     public boolean isAvailable(){
         return this.created_at != null;
     } 

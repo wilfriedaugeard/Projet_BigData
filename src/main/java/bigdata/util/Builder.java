@@ -76,5 +76,12 @@ public class Builder {
 		return hashtagRDD;
 	} 
 
+	public static final JavaPairRDD<String, Integer> nbTweetByLang(JavaRDD<Tweet> tweetRDD){
+		JavaPairRDD<String, Integer> tuple = tweetRDD.mapToPair(t -> {
+			return new Tuple2(t.getLang().toLowerCase(), 1);
+		});
+		return tuple.reduceByKey((a, b) -> a+b);
+	} 
+
 	
 }

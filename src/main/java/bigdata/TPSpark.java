@@ -36,6 +36,9 @@ public class TPSpark {
 		// b) Permettre de savoir le nombre de tweet d’un utilisateur.
 		// System.out.print("L'utilisateur "+USER_ID+" a twitté "+process.getNbTweetByUser(USER_ID)+" fois\n");
 
+		// c) Nombre de tweet par pays ou par langue
+		// process.getNbTweetByLang();
+		
 		process.close();
 
 	}
