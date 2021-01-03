@@ -23,7 +23,7 @@ c) Afin de planifier nos achats de matériels futurs, calculez le nombre de mach
 
 ## Exemple d’analyse des users
 
-- [ ] a) Permettre de récupérer pour un utilisateur la liste de ses hashtags sans doublon.
+- [x] a) Permettre de récupérer pour un utilisateur la liste de ses hashtags sans doublon.
 - [ ] b) Permettre de d’avoir le nombre de tweet d’un utilisateur.
 - [ ] c) Nombre de tweet par pays ou par langue.
 

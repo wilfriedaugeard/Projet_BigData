@@ -16,6 +16,10 @@ public class User implements Serializable{
     private long favorite_count;
     
 
+    public String getId() {
+        return this.id_str;
+    }
+
     @Override
     public String toString(){
         return 

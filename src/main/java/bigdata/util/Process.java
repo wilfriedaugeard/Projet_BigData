@@ -17,6 +17,7 @@ public class Process {
     private JavaPairRDD<Hashtag, Integer> hashtagsRDD;
     private JavaRDD<User> userByHashtag;
     private long nbHashtagOccurence;
+    private JavaRDD<Hashtag> hashtagByUser;
 
     public Process(String app_name, String pathFile){
         SparkConf conf = new SparkConf().setAppName(app_name);
@@ -26,6 +27,11 @@ public class Process {
 
     private void getAllTweet(){
         this.tweetRDD = Builder.getAllTweet(this.fileRDD);
+    } 
+
+    public void displayNTweet(int n){
+        getAllTweet();
+        this.tweetRDD.take(n).forEach(item -> System.out.println(item));
     } 
 
     public void computeTopHashtag(){
@@ -51,6 +57,12 @@ public class Process {
         Hashtag h = new Hashtag(hashtag);
         this.nbHashtagOccurence = Builder.getAllHastags(this.tweetRDD).filter(x -> x.equals(h)).count();
         return this.nbHashtagOccurence;
+    } 
+
+    public void getHashtagByUser(String id){
+        getAllTweet();
+        this.hashtagByUser = Builder.hashtagByUser(tweetRDD, id);
+        this.hashtagByUser.collect().forEach(item -> System.out.println(item));
     } 
 
     

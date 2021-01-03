@@ -61,5 +61,19 @@ public class Builder {
 			.map(tweet -> tweet.getUser());
 		return userList;
 	} 
+
+	public static final JavaRDD<Hashtag> hashtagByUser(JavaRDD<Tweet> tweetRDD, String userId){
+		JavaRDD<Hashtag> hashtagRDD = tweetRDD
+			.filter(tweet -> tweet.getUser().getId().equals(userId))
+			.flatMap(tweet -> {
+				List<Hashtag> list = new LinkedList();
+				tweet.getEntities().getHashtags().forEach(h -> {
+					list.add(h);
+				});
+				return list.iterator();
+			})
+			.distinct();
+		return hashtagRDD;
+	} 
 	
 }
