@@ -7,7 +7,7 @@ import bigdata.util.Config;
 public class TPSpark {
 
 	public static final Integer TOP_K = 50;
-	public static final String HASHTAG = "bbb20";
+	public static final String HASHTAG = "ATINfourSB19";
 	public static final String USER_ID = "1870597914";
 
 	public static void main(String[] args) {
@@ -17,8 +17,8 @@ public class TPSpark {
 		// Exemple d'analyse des hashtags
 		
 		// a) Permettre de récupérer pour un jour donné la liste des khashtags les plus utilisés ainsi que leur nombre d’apparition (k entre 1 et 10000).
-		// process.computeTopHashtag();
-		// process.displayTopKHashtag(TOP_K);
+		//  process.computeTopHashtag();
+		//  process.displayTopKHashtag(TOP_K);
 		
 		// c) Permettre de récupérer le nombre d’apparition d’un hashtag donné.
 		// System.out.print("Le #"+HASHTAG+" est utilisé "+process.getNbHashtagOccurence(HASHTAG)+" fois\n");
@@ -39,8 +39,11 @@ public class TPSpark {
 		// c) Nombre de tweet par pays ou par langue
 		// process.getNbTweetByLang();
 		
-		// recupere les triplets. ToDo: recuperer les users utilisant ce triplet
+		// recupere les triplets et les utilisateurs les utilisant
 		// process.getTripletHashtag();
+		// processus.displayKTripletUsers(10);
+		// processus.displayTripletWithMoreNUsers(2);
+
 		process.close();
 
 	}

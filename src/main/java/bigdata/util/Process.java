@@ -5,11 +5,13 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaPairRDD;
 
+import scala.Tuple2;
 import java.util.List;
 import bigdata.entities.User;
 import bigdata.util.Builder;
 import bigdata.entities.Tweet;
 import bigdata.entities.Hashtag;
+import bigdata.entities.Triplet;
 
 public class Process {
     private JavaSparkContext context;
@@ -20,6 +22,7 @@ public class Process {
     private long nbHashtagOccurence;
     private JavaRDD<Hashtag> hashtagByUser;
     private JavaPairRDD<String, Integer>  nbTweetByLang;
+    private JavaPairRDD<Triplet, List<User>> triplet;
 
     public Process(String app_name, String pathFile){
         SparkConf conf = new SparkConf().setAppName(app_name);
@@ -80,8 +83,14 @@ public class Process {
     
     public void getTripletHashtag(){
         getAllTweet();
-        JavaRDD<List<Hashtag>> triplet = Builder.tripletHashTag(this.tweetRDD);
-        triplet.collect().forEach(item -> System.out.println(item));
+        this.triplet = Builder.userByTripletHashTag(this.tweetRDD);
+    } 
+    public void displayKTripletUsers(int k){
+        this.triplet.take(k).forEach(item -> System.out.println(item));
+    } 
+
+    public void displayTripletWithMoreNUsers(int n){
+        this.triplet.filter(t-> t._2.size()> n).forEach(item -> System.out.println(item));
     } 
 
     public void close(){

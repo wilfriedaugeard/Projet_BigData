@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import bigdata.entities.User;
 import bigdata.entities.Tweet;
 import bigdata.entities.Hashtag;
+import bigdata.entities.Triplet;
 
 public class Builder {
 
@@ -90,6 +91,28 @@ public class Builder {
 		return triplet;
 
 	}  
+
+	public static final JavaPairRDD<Triplet, List<User>> userByTripletHashTag(JavaRDD<Tweet> tweetRDD){
+		JavaPairRDD<Triplet, List<User>> tuple = tweetRDD
+			.filter(tweet -> tweet.getEntities().getHashtags().size() == 3)
+			.flatMapToPair(tweet ->{
+				Triplet triplet = new Triplet();
+				List<User> userList = new LinkedList();
+				List<Tuple2<Triplet, List<User>>> list = new LinkedList();
+				tweet.getEntities().getHashtags().forEach(h ->{
+					triplet.add(h);
+				});
+				userList.add(tweet.getUser());
+				list.add(new Tuple2<Triplet, List<User>>(triplet, userList));
+				return list.iterator();
+			})
+			.reduceByKey((a, b) -> {
+				b.forEach(user -> a.add(user));
+				return a;
+			});
+		// return tuple.filter(t-> t._2.size()> 1);
+		return tuple;
+	} 	
 
 	
 }

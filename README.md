@@ -29,7 +29,7 @@ c) Afin de planifier nos achats de matériels futurs, calculez le nombre de mach
 
 ## Exemple d’analyse des influencers
 
-- [ ] a) Récupérer tous les triplets de hashtags ainsi que les utilisateurs qui les ont utilisés.  
+- [x] a) Récupérer tous les triplets de hashtags ainsi que les utilisateurs qui les ont utilisés.  
 - [ ] b) Donner k triplets de hashtags les plus utilisés (k entre 1 et 1000)
 - [ ] c) Trouver les influencers c.a.d les personnes avec le plus grand nombre de tweets dans les triplets que l’on a trouvé. 
 - [ ] d) Trouver les faux influencer, personnes avec beaucoup de followers dont les tweets ne sont jamais retweeté.
