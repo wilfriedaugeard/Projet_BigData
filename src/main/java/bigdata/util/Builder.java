@@ -84,10 +84,14 @@ public class Builder {
 		return tuple.reduceByKey((a, b) -> a+b);
 	} 
 
-	public static final JavaRDD<List<Hashtag>> tripletHashTag(JavaRDD<Tweet> tweetRDD){
-		JavaRDD<List<Hashtag>> triplet = tweetRDD
+	public static final JavaRDD<Triplet> tripletHashTag(JavaRDD<Tweet> tweetRDD){
+		JavaRDD<Triplet> triplet = tweetRDD
 			.filter(tweet -> tweet.getEntities().getHashtags().size() == 3)
-			.map(tweet -> { return tweet.getEntities().getHashtags();});  
+			.map(tweet -> { 
+				Triplet t = new Triplet();
+				tweet.getEntities().getHashtags().forEach(h -> t.add(h));
+				return t;
+			});  
 		return triplet;
 
 	}  
@@ -110,9 +114,21 @@ public class Builder {
 				b.forEach(user -> a.add(user));
 				return a;
 			});
-		// return tuple.filter(t-> t._2.size()> 1);
 		return tuple;
 	} 	
+
+	public static final JavaPairRDD<Triplet, Integer> topTriplet(JavaRDD<Tweet> tweetRDD){
+		JavaPairRDD<Triplet, Integer> top = tripletHashTag(tweetRDD)
+			.mapToPair(t ->{
+				return new Tuple2<Triplet, Integer>(t, 1);
+
+			});
+		return top
+			.reduceByKey((a, b) -> a+b)
+			.mapToPair(item -> new Tuple2<Integer, Triplet>(item._2, item._1))
+			.sortByKey(false)
+			.mapToPair(item -> new Tuple2<Triplet, Integer>(item._2, item._1));	
+	} 
 
 	
 }

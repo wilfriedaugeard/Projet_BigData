@@ -90,7 +90,12 @@ public class Process {
     } 
 
     public void displayTripletWithMoreNUsers(int n){
-        this.triplet.filter(t-> t._2.size()> n).forEach(item -> System.out.println(item));
+        this.triplet.filter(t-> t._2.size()> n).collect().forEach(item -> System.out.println(item));
+    } 
+
+    public void tripletTopK(int k){
+        getAllTweet();
+        Builder.topTriplet(this.tweetRDD).take(k).forEach(item -> System.out.println(item));
     } 
 
     public void close(){

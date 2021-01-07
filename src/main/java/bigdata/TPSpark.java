@@ -39,11 +39,16 @@ public class TPSpark {
 		// c) Nombre de tweet par pays ou par langue
 		// process.getNbTweetByLang();
 		
-		// recupere les triplets et les utilisateurs les utilisant
+		// Exemple d'analyse des influenceurs
+		 
+		// a) Récupérer tous les triplets de hashtags ainsi que les utilisateurs qui les ont utilisés
 		// process.getTripletHashtag();
 		// processus.displayKTripletUsers(10);
 		// processus.displayTripletWithMoreNUsers(2);
 
+		// b) Donner les k triplets de hashtags les plus utilisés (k entre 1 et 1000)
+		// process.tripletTopK(TOP_K);
+		
 		process.close();
 
 	}
