@@ -10,8 +10,9 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.util.ToolRunner;
 
 import scala.Tuple2;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 
-import java.io.File;
 import java.util.List;
 import bigdata.entities.User;
 import bigdata.util.Builder;
@@ -19,6 +20,7 @@ import bigdata.entities.Tweet;
 import bigdata.entities.Hashtag;
 import bigdata.entities.Triplet;
 import bigdata.InitTable;
+import bigdata.InsertTweet;
 
 public class Process {
     private JavaSparkContext context;

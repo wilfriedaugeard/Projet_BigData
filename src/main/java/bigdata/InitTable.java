@@ -61,7 +61,7 @@ public class InitTable extends Configured implements Tool {
 
     public int run(String[] args) throws IOException{
         Connection connection = ConnectionFactory.createConnection(getConf());
-        createTable(connexion);
+        createTable(connection);
         return 0;
     }
 

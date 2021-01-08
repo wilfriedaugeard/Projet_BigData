@@ -18,6 +18,7 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 
 import java.io.IOException;
@@ -55,7 +56,6 @@ public class InsertTweet extends Configured implements Tool{
 
             Put put = new Put(Bytes.toBytes(row));
             
-            put.add(Bytes.toBytes(""));
             put.add(Bytes.toBytes("create at"));
             put.add(Bytes.toBytes("id"));
             put.add(Bytes.toBytes("text"));
