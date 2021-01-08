@@ -29,13 +29,14 @@ public class Process {
     private JavaRDD<Hashtag> hashtagByUser;
     private JavaPairRDD<String, Integer>  nbTweetByLang;
     private JavaPairRDD<Triplet, List<User>> triplet;
+    private Configuration hConf;
 
     public Process(String app_name, String pathFile){
         SparkConf conf = new SparkConf().setAppName(app_name);
         this.context = new JavaSparkContext(conf);
         this.fileRDD = this.context.textFile(pathFile);
 
-        Configuration hConf = HbaseConfiguration.create();
+        this.hConf = HbaseConfiguration.create();
         ToolRunner.run(hConf, new InitTable(), null);
 
     } 

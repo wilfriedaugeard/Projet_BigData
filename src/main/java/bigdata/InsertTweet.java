@@ -50,8 +50,10 @@ public class InsertTweet extends Configured implements Tool{
         }
 
         public Put insertTweet(String line, String row){
-            String tweet = value.toString();
+            String tweet = line.toString();
             String[] splittedTweet = tweet.split(",");
+
+            Put put = new Put(Bytes.toBytes(row));
             
             put.add(Bytes.toBytes(""));
             put.add(Bytes.toBytes("create at"));

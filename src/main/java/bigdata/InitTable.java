@@ -44,13 +44,13 @@ public class InitTable extends Configured implements Tool {
         try( Admin admin = connection.getAdmin()){
             HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf(TABLE_NAME));
         
-            for(byte[] famuly : FAMILIES){
+            for(byte[] family : FAMILIES){
                 tableDescriptor.addFamily(new HColumnDescriptor(family));
             }
 
-            if(admin.tableExists(table.getTableName())){
-                admin.disableTable(table.getTableName());
-                admin.deleteTable(table.getTableName());
+            if(admin.tableExists(tableDescriptor.getTableName())){
+                admin.disableTable(tableDescriptor.getTableName());
+                admin.deleteTable(tableDescriptor.getTableName());
             }
 
         }catch (Exception e){
