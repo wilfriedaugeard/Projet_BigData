@@ -5,7 +5,13 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaPairRDD;
 
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.util.ToolRunner;
+
 import scala.Tuple2;
+
+import java.io.File;
 import java.util.List;
 import bigdata.entities.User;
 import bigdata.util.Builder;
@@ -28,6 +34,10 @@ public class Process {
         SparkConf conf = new SparkConf().setAppName(app_name);
         this.context = new JavaSparkContext(conf);
         this.fileRDD = this.context.textFile(pathFile);
+
+        Configuration hConf = HbaseConfiguration.create();
+        ToolRunner.run(hConf, new InitTable(), null);
+
     } 
 
     private void getAllTweet(){
@@ -35,8 +45,11 @@ public class Process {
     } 
 
     public void displayNTweet(int n){
+        File tweet = new File("../tweet.txt");
         getAllTweet();
-        this.tweetRDD.take(n).forEach(item -> System.out.println(item));
+        this.tweetRDD.take(n).forEach(item -> {System.out.println(item); tweet.write(item);});
+        tweet.close();
+        ToolRunnner.run(this.hconf, new InsertTweet(), "../tweet.txt");
     } 
 
     public void computeTopHashtag(){

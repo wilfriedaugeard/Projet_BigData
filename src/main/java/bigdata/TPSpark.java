@@ -13,6 +13,8 @@ public class TPSpark {
 	public static void main(String[] args) {
 		
 		Process process = new Process(Config.APP_NAME, Config.FILE_PATH);
+
+		process.displayNTweet(5);
 		
 		// Exemple d'analyse des hashtags
 		
