@@ -18,6 +18,7 @@ import bigdata.util.Builder;
 import bigdata.entities.Tweet;
 import bigdata.entities.Hashtag;
 import bigdata.entities.Triplet;
+import bigdata.InitTable;
 
 public class Process {
     private JavaSparkContext context;
@@ -36,8 +37,8 @@ public class Process {
         this.context = new JavaSparkContext(conf);
         this.fileRDD = this.context.textFile(pathFile);
 
-        this.hConf = HbaseConfiguration.create();
-        ToolRunner.run(hConf, new InitTable(), null);
+        this.hConf = HBaseConfiguration.create();
+        ToolRunner.run(this.hConf, new InitTable(), null);
 
     } 
 
@@ -46,10 +47,11 @@ public class Process {
     } 
 
     public void displayNTweet(int n){
-        File tweet = new File("../tweet.txt");
+        
+        BufferedWriter tweetfile = new BufferedWriter(new FileWriter("../tweet.txt"));
         getAllTweet();
-        this.tweetRDD.take(n).forEach(item -> {System.out.println(item); tweet.write(item);});
-        tweet.close();
+        this.tweetRDD.take(n).forEach(item -> {System.out.println(item); tweetfile.write(item);});
+        tweetfile.close();
         ToolRunnner.run(this.hconf, new InsertTweet(), "../tweet.txt");
     } 
 

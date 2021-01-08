@@ -40,7 +40,7 @@ public class InitTable extends Configured implements Tool {
         Bytes.toBytes("mentions")
     };
 
-    public static void createTable(Connection connexion){
+    public static void createTable(Connection connection){
         try( Admin admin = connection.getAdmin()){
             HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf(TABLE_NAME));
         
