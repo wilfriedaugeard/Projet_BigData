@@ -67,8 +67,8 @@ public class InsertTweet extends Configured implements Tool{
             this.row+=1;
         }
 
-        @Override
-        public int run(String filename) throws Exception{
+       @Override
+        public int run(String[] args) throws Exception{
             Job job = Job.getInstance(getConf(), "InsertTweet");
 
             job.setNumReduceTasks(1);
@@ -80,8 +80,7 @@ public class InsertTweet extends Configured implements Tool{
 
             
             job.setInputFormatClass(TextInputFormat.class);
-            FileInputFormat.addInputPath(job, new Path(filename));
-
+            FileInputFormat.addInputPath(job, new Path("../tweet.txt"));
             TableMapReduceUtil.initTableReducerJob(
                     "Big-data-project",
                     SimpleReducer.class,

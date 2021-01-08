@@ -32,16 +32,12 @@ public class Process {
     private JavaRDD<Hashtag> hashtagByUser;
     private JavaPairRDD<String, Integer>  nbTweetByLang;
     private JavaPairRDD<Triplet, List<User>> triplet;
-    private Configuration hConf;
+
 
     public Process(String app_name, String pathFile){
         SparkConf conf = new SparkConf().setAppName(app_name);
         this.context = new JavaSparkContext(conf);
         this.fileRDD = this.context.textFile(pathFile);
-
-        this.hConf = HBaseConfiguration.create();
-        ToolRunner.run(this.hConf, new InitTable(), null);
-
     } 
 
     private void getAllTweet(){
@@ -54,7 +50,9 @@ public class Process {
         getAllTweet();
         this.tweetRDD.take(n).forEach(item -> {System.out.println(item); tweetfile.write(String.valueOf(item));});
         tweetfile.close();
-        ToolRunnner.run(this.hconf, new InsertTweet(), "../tweet.txt");
+        Configuration hConf = HBaseConfiguration.create();
+        ToolRunner.run(hConf, new InitTable(),null);
+        ToolRunner.run(hConf, new InsertTweet(), null);
     } 
 
     public void computeTopHashtag(){
