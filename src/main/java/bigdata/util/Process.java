@@ -52,7 +52,7 @@ public class Process {
         
         BufferedWriter tweetfile = new BufferedWriter(new FileWriter("../tweet.txt"));
         getAllTweet();
-        this.tweetRDD.take(n).forEach(item -> {System.out.println(item); tweetfile.write(item);});
+        this.tweetRDD.take(n).forEach(item -> {System.out.println(item); tweetfile.write(String.valueOf(item));});
         tweetfile.close();
         ToolRunnner.run(this.hconf, new InsertTweet(), "../tweet.txt");
     } 

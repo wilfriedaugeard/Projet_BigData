@@ -35,7 +35,7 @@ public class InsertTweet extends Configured implements Tool{
     };
 
     public static class SimpleMapper extends Mapper<Object, Text, Text, NullWritable>{
-        public void map(Object key, org.w3c.dom.Text value, Context context) throws IOException, InterruptedException{
+        public void map(Object key, Text value, Context context) throws IOException, InterruptedException{
             context.write(value, NullWritable.get());
         }
     }
@@ -51,34 +51,14 @@ public class InsertTweet extends Configured implements Tool{
         }
 
         public Put insertTweet(String line, String row){
-            String tweet = line.toString();
-            String[] splittedTweet = tweet.split(",");
-
+            String[] splittedTweet = line.split("-");
+            for(int i=0; i < splittedTweet.length;i++){
+                splittedTweet[i] = splittedTweet[i].substring(splittedTweet[i].indexOf(":")+1);
+            }
             Put put = new Put(Bytes.toBytes(row));
-            
-            put.add(Bytes.toBytes("create at"));
-            put.add(Bytes.toBytes("id"));
-            put.add(Bytes.toBytes("text"));
-            put.add(Bytes.toBytes("in reply to statys id"));
-            put.add(Bytes.toBytes("in reply to user id"));
-            put.add(Bytes.toBytes("in reply de screen name"));
-            put.add(Bytes.toBytes("user id"));
-            put.add(Bytes.toBytes("user name"));
-            put.add(Bytes.toBytes("user screen name"));
-            put.add(Bytes.toBytes("user location"));
-            put.add(Bytes.toBytes("user verified"));
-            put.add(Bytes.toBytes("user created at"));
-            put.add(Bytes.toBytes("user followers count"));
-            put.add(Bytes.toBytes("user friends count"));
-            put.add(Bytes.toBytes("user reply count"));
-            put.add(Bytes.toBytes("user retweet count"));
-            put.add(Bytes.toBytes("user favorite count"));
-            put.add(Bytes.toBytes("favorited"));
-            put.add(Bytes.toBytes("retweeted"));
-            put.add(Bytes.toBytes("lang"));
-            put.add(Bytes.toBytes("hashtags"));
-            put.add(Bytes.toBytes("mentions"));
 
+            put.add(Bytes.toBytes("id"),Bytes.toBytes(""), Bytes.toBytes(splittedTweet[1]));
+           
             return put;
         }
 
@@ -87,6 +67,7 @@ public class InsertTweet extends Configured implements Tool{
             this.row+=1;
         }
 
+        @Override
         public int run(String filename) throws Exception{
             Job job = Job.getInstance(getConf(), "InsertTweet");
 
