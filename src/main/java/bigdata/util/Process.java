@@ -40,19 +40,22 @@ public class Process {
     Configuration hConf;
     FileWriter saveFile;
 
-    public Process(String app_name, String pathFile){
+    public Process(String app_name, String pathFile) throws IOException{
         SparkConf conf = new SparkConf().setAppName(app_name);
         this.context = new JavaSparkContext(conf);
         this.fileRDD = this.context.textFile(pathFile);
         this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
             
         this.hConf = HBaseConfiguration.create();
-        File file = new File("saveFile.txt");
+        try {
+            File file = new File("saveFile.txt");
         if(!file.createNewFile()){
             file.delete();
             file.createNewFile();
         }
         this.saveFile = new FileWriter("saveFile.txt");
+        }catch(IOException ioe) {}
+        
     } 
 
     public void close(){
@@ -118,8 +121,13 @@ public class Process {
     public void displayResultJavaRDD(JavaRDD<IBigDataObject> rdd, int k){
         rdd.take(k).forEach(item -> System.out.println(item));
     } 
-    public void displayResultJavaPairRDDInt(JavaPairRDD<IBigDataObject, Long> rdd, int k){
-        rdd.take(k).forEach(item -> { System.out.println(item); this.saveFile.write(String.valueOf(item));});
+    public void displayResultJavaPairRDDInt(JavaPairRDD<IBigDataObject, Long> rdd, int k) throws IOException{
+        rdd.take(k).forEach(item -> { 
+            try{
+                System.out.println(item); 
+                this.saveFile.write(String.valueOf(item));
+            }catch(IOException ioe){}
+        });
         ToolRunner.run(this.hConf, new InitHashtagTable(),null);
         ToolRunner.run(this.hConf, new InsertHashtag(), null);
     } 

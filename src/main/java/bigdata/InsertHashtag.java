@@ -73,7 +73,7 @@ public class InsertHashtag extends Configured implements Tool{
     public int run(String[] args) throws Exception{
         Job job = Job.getInstance(getConf(), "InsertHashtag");
         job.setNumReduceTasks(1);
-        job.setJarByClass(InsertTweet.class);
+        job.setJarByClass(InsertHashtag.class);
         
         job.setMapperClass(SimpleMapper.class);
         job.setMapOutputKeyClass(Text.class);
