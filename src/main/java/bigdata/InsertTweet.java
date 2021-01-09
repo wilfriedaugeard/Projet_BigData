@@ -66,28 +66,27 @@ public class InsertTweet extends Configured implements Tool{
             context.write(null, insertTweet(key.toString(),String.valueOf(row)));
             this.row+=1;
         }
-	@Override
-        public int run(String[] args) throws Exception{
-            Job job = Job.getInstance(getConf(), "InsertTweet");
-
-            job.setNumReduceTasks(1);
-            job.setJarByClass(InsertTweet.class);
-            
-            job.setMapperClass(SimpleMapper.class);
-            job.setMapOutputKeyClass(Text.class);
-            job.setMapOutputValueClass(NullWritable.class);
-
-            
-            job.setInputFormatClass(TextInputFormat.class);
-            FileInputFormat.addInputPath(job, new Path("../tweet.txt"));
-            TableMapReduceUtil.initTableReducerJob(
-                    "Big-data-project",
-                    SimpleReducer.class,
-                    job
-            );
-
-            return job.waitForCompletion(true)? 0 : 1;
-        }
     }
 
+    @Override
+    public int run(String[] args) throws Exception{
+        Job job = Job.getInstance(getConf(), "InsertTweet");
+        job.setNumReduceTasks(1);
+        job.setJarByClass(InsertTweet.class);
+        
+        job.setMapperClass(SimpleMapper.class);
+        job.setMapOutputKeyClass(Text.class);
+        job.setMapOutputValueClass(NullWritable.class);
+        
+        job.setInputFormatClass(TextInputFormat.class);
+        FileInputFormat.addInputPath(job, new Path("../tweet.txt"));
+        TableMapReduceUtil.initTableReducerJob(
+                "Big-data-project",
+                SimpleReducer.class,
+                job
+        );
+        return job.waitForCompletion(true)? 0 : 1;
+    }
 }
+
+
