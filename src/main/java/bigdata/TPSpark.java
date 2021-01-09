@@ -13,12 +13,12 @@ public class TPSpark {
 
 	public static void main(String[] args) {
 		
-		Process process = new Process(Config.APP_NAME, Config.FILE_PATH);
+		Process process = new Process(Config.APP_NAME, Config.ALL_FILES_PATH);
 		
 		// EXEMPLE D'ANALYSE DES HASHTAGS
 		
 		// a) Permettre de récupérer pour un jour donné la liste des k hashtags les plus utilisés ainsi que leur nombre d’apparition (k entre 1 et 10000).
-		// process.displayResult(process.getTopHashtags(), TOP_K);
+		process.displayResult(process.getTopHashtags(), TOP_K);
 		
 		// c) Permettre de récupérer le nombre d’apparition d’un hashtag donné.
 		//  process.displayResult(process.getTopHashtags(), 10);
