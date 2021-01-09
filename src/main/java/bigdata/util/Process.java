@@ -58,9 +58,9 @@ public class Process {
         
     } 
 
-    public void close(){
+    public void close() throws IOException{
         this.context.close();
-	    this.saveFile.close();
+        try{ this.saveFile.close();} catch(IOException ioe){}
     } 
 
     // Tweets
@@ -122,14 +122,16 @@ public class Process {
         rdd.take(k).forEach(item -> System.out.println(item));
     } 
     public void displayResultJavaPairRDDInt(JavaPairRDD<IBigDataObject, Long> rdd, int k) throws IOException{
-        rdd.take(k).forEach(item -> { 
-            try{
-                System.out.println(item); 
-                this.saveFile.write(String.valueOf(item));
-            }catch(IOException ioe){}
-        });
-        ToolRunner.run(this.hConf, new InitHashtagTable(),null);
-        ToolRunner.run(this.hConf, new InsertHashtag(), null);
+        try{
+            rdd.take(k).forEach(item -> { 
+                try{
+                    System.out.println(item); 
+                    this.saveFile.write(String.valueOf(item));
+                }catch(IOException ioe){}
+            });
+            ToolRunner.run(this.hConf, new InitHashtagTable(),null);
+            ToolRunner.run(this.hConf, new InsertHashtag(), null);
+        }catch(IOException ioe) {}
     } 
     public void displayResultJavaPairRDDSet(JavaPairRDD<IBigDataObject, Set<IBigDataObject>> rdd, int k){
         rdd.take(k).forEach(item -> System.out.println(item));
