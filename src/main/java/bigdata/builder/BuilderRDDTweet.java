@@ -14,8 +14,15 @@ public class BuilderRDDTweet {
     public static final JavaRDD<Tweet> getAllTweet(JavaRDD<String> tweetsRDD){
 		JavaRDD<Tweet> tweets = tweetsRDD
 			.map(line ->{
-				Tweet t = GsonFactory.create().fromJson(line, Tweet.class);
-				return t;
+				Tweet t = new Tweet();
+				try {
+					t = GsonFactory.create().fromJson(line, Tweet.class);
+				} catch (Exception e) {
+					//TODO: handle exception
+				}finally{
+					return t;
+				} 
+				
 			})
 			.filter(t -> t.isAvailable());
 		return tweets;
