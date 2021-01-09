@@ -2,7 +2,7 @@ package bigdata.entities;
 
 import java.io.Serializable;
 
-public class Hashtag implements Serializable{
+public class Hashtag extends BigDataObject implements IBigDataObject{
     private String text;
 
 
@@ -12,12 +12,7 @@ public class Hashtag implements Serializable{
 
     public String getText() {
         return this.text;
-    }
-
-    @Override
-    public String toString(){
-        return this.text;
-    } 	
+    }	
 
    @Override
    public boolean equals(Object o){

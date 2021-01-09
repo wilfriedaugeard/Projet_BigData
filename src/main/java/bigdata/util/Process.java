@@ -17,8 +17,9 @@ import java.io.IOException;
 
 
 import java.util.List;
+
 import bigdata.entities.User;
-import bigdata.util.Builder;
+import bigdata.builder.*;
 import bigdata.entities.Tweet;
 import bigdata.entities.Hashtag;
 import bigdata.entities.Triplet;
@@ -44,10 +45,11 @@ public class Process {
         this.fileRDD = this.context.textFile(pathFile);
         this.hConf = HBaseConfiguration.create();
 
+        this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
     } 
 
-    private void getAllTweet(){
-        this.tweetRDD = Builder.getAllTweet(this.fileRDD);
+    public void close(){
+        this.context.close();
     } 
 
     public void displayNTweet(int n) throws IOException, Exception {
@@ -70,70 +72,75 @@ public class Process {
         ToolRunner.run(this.hConf, new InsertTweet(), null);
 	}catch(IOException e){}
 
+    // Tweets
+    public JavaRDD<Tweet> getAllTweets(){
+        return this.tweetRDD;
+    } 
+    public JavaPairRDD<Hashtag, Long> getNbTweetByLang(){
+        return BuilderRDDTweet.nbTweetByLang(this.tweetRDD);
     } 
 
-    public void computeTopHashtag(){
-        getAllTweet();
-        this.hashtagsRDD = Builder.topHastag(this.tweetRDD);
+    // Hashtags
+    public JavaRDD<Hashtag> getAllHastags(){
+        return BuilderRDDHashtags.getAllHastags(this.tweetRDD);
+    } 
+    public JavaPairRDD<Hashtag, Long> getTopHashtags(){
+        return BuilderRDDHashtags.topHastag(this.tweetRDD);
+    }
+    public JavaPairRDD<User, Set<Hashtag>> getUserHashtags(){
+        return BuilderRDDHashtags.userHashtags(this.tweetRDD);
+    }  
+    public JavaRDD<Triplet> getTripletHashtags(){
+        return BuilderRDDHashtags.tripletHashtags(this.tweetRDD);
+    } 
+    public JavaPairRDD<Triplet, Long> getTopTripletHashtags(){
+        return BuilderRDDHashtags.topTriplet(this.tweetRDD);
     } 
 
-    public void displayTopKHashtag(int k){
-        this.hashtagsRDD.take(k).forEach(item -> System.out.println(item));
+    // Users
+    public JavaPairRDD<Triplet, Set<User>> getTripletHashtagsAndUsers(){
+        return BuilderRDDUser.userByTripletHashtags(this.tweetRDD);
+    } 
+    public JavaPairRDD<User, Long> getTopUsers(){
+        return BuilderRDDUser.topUser(this.tweetRDD);
     } 
 
-    public void getUserByHashtag(String hashtag){
-        getAllTweet();
-        this.userByHashtag = Builder.usersByHashtag(this.tweetRDD, hashtag);
-    } 
 
-    public void displayKUserByHashtag(int k){
-        this.userByHashtag.take(k).forEach(item -> System.out.println(item));
-    } 
-
-    public long getNbHashtagOccurence(String hashtag){
-        getAllTweet();
-        Hashtag h = new Hashtag(hashtag);
-        this.nbHashtagOccurence = Builder.getAllHastags(this.tweetRDD).filter(x -> x.equals(h)).count();
-        return this.nbHashtagOccurence;
-    } 
-
-    public void getHashtagByUser(String id){
-        getAllTweet();
-        this.hashtagByUser = Builder.hashtagByUser(this.tweetRDD, id);
-        this.hashtagByUser.collect().forEach(item -> System.out.println(item));
-    } 
-
-    public long getNbTweetByUser(String id){
-        getAllTweet();
-        return this.tweetRDD.filter(tweet -> tweet.getUser().getId().equals(id)).count();
-    } 
-
-    public void getNbTweetByLang(){
-        getAllTweet();
-        this.nbTweetByLang = Builder.nbTweetByLang(this.tweetRDD);
-        this.nbTweetByLang.collect().forEach(item -> System.out.println(item));
-    } 
-    
-    public void getTripletHashtag(){
-        getAllTweet();
-        this.triplet = Builder.userByTripletHashTag(this.tweetRDD);
-    } 
-    public void displayKTripletUsers(int k){
-        this.triplet.take(k).forEach(item -> System.out.println(item));
-    } 
-
-    public void displayTripletWithMoreNUsers(int n){
-        this.triplet.filter(t-> t._2.size()> n).collect().forEach(item -> System.out.println(item));
-    } 
-
-    public void tripletTopK(int k){
-        getAllTweet();
-        Builder.topTriplet(this.tweetRDD).take(k).forEach(item -> System.out.println(item));
-    } 
-
-    public void close(){
-        this.context.close();
-    } 
 
     
+
+
+
+
+    // DISPLAYING
+    public void displayResult(Object o, int k){
+        switch(o.getClass().getSimpleName()){
+            case "JavaRDD":
+                displayResultJavaRDD((JavaRDD<IBigDataObject>) o, k);
+                break;
+            case "JavaPairRDD":
+                try{
+                    JavaPairRDD<IBigDataObject, Long> rdd = (JavaPairRDD<IBigDataObject, Long>) o;
+                    displayResultJavaPairRDDInt(rdd, k);
+                }catch(Exception e){
+                    try{
+                        JavaPairRDD<IBigDataObject, Set<IBigDataObject>> rdd = (JavaPairRDD<IBigDataObject, Set<IBigDataObject>>) o;
+                        displayResultJavaPairRDDSet(rdd, k);
+                    }catch(Exception e2){}  
+                }finally{
+                    break;
+                } 
+            default:
+                break;
+        } 
+    } 
+    public void displayResultJavaRDD(JavaRDD<IBigDataObject> rdd, int k){
+        rdd.take(k).forEach(item -> System.out.println(item));
+    } 
+    public void displayResultJavaPairRDDInt(JavaPairRDD<IBigDataObject, Long> rdd, int k){
+        rdd.take(k).forEach(item -> System.out.println(item));
+    } 
+    public void displayResultJavaPairRDDSet(JavaPairRDD<IBigDataObject, Set<IBigDataObject>> rdd, int k){
+        rdd.take(k).forEach(item -> System.out.println(item));
+    } 
 }

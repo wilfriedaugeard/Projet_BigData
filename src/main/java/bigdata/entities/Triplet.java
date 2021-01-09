@@ -10,7 +10,7 @@ import java.util.Map;
 
 import bigdata.entities.Hashtag;
 
-public class Triplet implements Serializable{
+public class Triplet extends BigDataObject implements IBigDataObject{
     private List<Hashtag> triplet;
 
     public Triplet(){
@@ -36,11 +36,6 @@ public class Triplet implements Serializable{
     public List<Hashtag> getTriplet() {
         return this.triplet;
     }
-
-   @Override
-   public String toString(){
-       return this.triplet.toString();
-   }  
 
    @Override
    public boolean equals(Object o){
