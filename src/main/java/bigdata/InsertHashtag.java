@@ -24,15 +24,10 @@ import org.apache.hadoop.util.Tool;
 import java.io.IOException;
 
 public class InsertHashtag extends Configured implements Tool{
-    private static final byte[] TABLE_NAME = Bytes.toBytes("augeard-tarmil-Ntweet");
+    private static final byte[] TABLE_NAME = Bytes.toBytes("augeard-tarmil-top-hashtag");
     private static final byte[][] FAMILIES = {
-        Bytes.toBytes("create at"),
-     /*   Bytes.toBytes("id"),
-        Bytes.toBytes("text"),
-        Bytes.toBytes("in reply to statys id"),
-        Bytes.toBytes("in replu to user id"),
-        Bytes.toBytes("in reply de screen name")
-    */};
+        Bytes.toBytes("hashtag"),
+    };
 
     public static class SimpleMapper extends Mapper<Object, Text, Text, NullWritable>{
         public void map(Object key, Text value, Context context) throws IOException, InterruptedException{
@@ -51,15 +46,12 @@ public class InsertHashtag extends Configured implements Tool{
         }
 
         public Put insertTweet(String line, String row){
-	        System.out.println("\n\n\n\n line : "+line+" \n\n\n");
-            String[] splittedTweet = line.split("-");
-            for(int i=0; i < splittedTweet.length;i++){
-                splittedTweet[i] = splittedTweet[i].substring(splittedTweet[i].indexOf(":")+1);
-            }
+	        String[] splittedTweet = line.split(",");
             Put put = new Put(Bytes.toBytes(row));
 
-            put.add(Bytes.toBytes("date"),Bytes.toBytes("create-at"), Bytes.toBytes(splittedTweet[1]));
-           
+            put.add(Bytes.toBytes("hashtag"),Bytes.toBytes("count"), Bytes.toBytes(splittedTweet[1]));
+            put.add(Bytes.toBytes("hashtag"),Bytes.toBytes("hashtag-value"), Bytes.toBytes(splittedTweet[1]));
+
             return put;
         }
 
@@ -82,7 +74,7 @@ public class InsertHashtag extends Configured implements Tool{
         job.setInputFormatClass(TextInputFormat.class);
         FileInputFormat.addInputPath(job, new Path("saveFile.txt"));
         TableMapReduceUtil.initTableReducerJob(
-                "augeard-tarmil-Ntweet",
+                "augeard-tarmil-top-hashtag",
                 SimpleReducer.class,
                 job
         );

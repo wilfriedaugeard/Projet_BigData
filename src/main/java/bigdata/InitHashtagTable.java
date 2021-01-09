@@ -13,18 +13,9 @@ import org.apache.hadoop.util.Tool;
 import java.io.IOException;
 
 public class InitHashtagTable extends Configured implements Tool {
-    private static final byte[] TABLE_NAME = Bytes.toBytes("augeard-tarmil-Ntweet");
+    private static final byte[] TABLE_NAME = Bytes.toBytes("augeard-tarmil-top-hashtag");
     private static final byte[][] FAMILIES = {
-        Bytes.toBytes("date"),
-      /*  Bytes.toBytes("id"),
-        Bytes.toBytes("text"),
-        Bytes.toBytes("in reply to"),
-        Bytes.toBytes("user"),
-        Bytes.toBytes("favorited"),
-        Bytes.toBytes("retweeted"),
-        Bytes.toBytes("lang"),
-        Bytes.toBytes("hashtags"),
-        Bytes.toBytes("mentions")*/
+        Bytes.toBytes("hashtag")
     };
 
     public static void createTable(Connection connection) throws IOException {
