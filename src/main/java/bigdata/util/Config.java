@@ -5,8 +5,6 @@ public class Config {
    	public static final String APP_NAME 		= "TP Spark";
 	public static final String ONE_FILE_PATH 	= "/raw_data/tweet_01_03_2020.nljson";
 	public static final String SMALL_FILE_PATH 	= "/raw_data/tweet_01_03_2020_first10000.nljson";
-	public static final String ALL_FILES_PATH 	= concatFiles();
-
 	public static final String[]  FILES_LIST = {    
 		"/raw_data/tweet_01_03_2020.nljson",
 		"/raw_data/tweet_02_03_2020.nljson",
@@ -38,6 +36,9 @@ public class Config {
 		} 
 		files = files.substring(0, files.length()-1); // remove last ','
 		return files;
-	} 
+	}
+		public static final String ALL_FILES_PATH 	= concatFiles();
+
+	 
 
 }

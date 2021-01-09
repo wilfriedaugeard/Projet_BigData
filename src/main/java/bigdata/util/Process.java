@@ -60,7 +60,7 @@ public class Process {
 
     public void close() throws IOException{
         this.context.close();
-        try{ this.saveFile.close();} catch(IOException ioe){}
+//        try{ this.saveFile.close();} catch(IOException ioe){}
     } 
 
     // Tweets
@@ -124,11 +124,12 @@ public class Process {
     public void displayResultJavaPairRDDInt(JavaPairRDD<IBigDataObject, Long> rdd, int k) throws IOException, Exception{
         try{
             rdd.take(k).forEach(item -> { 
-                try{
-                    System.out.println(item); 
-                    this.saveFile.write(String.valueOf(item));
+                 System.out.println(item); 
+		try{
+                   this.saveFile.write(item.toString());
                 }catch(Exception e){}
             });
+	   this.saveFile.close();
             ToolRunner.run(this.hConf, new InitHashtagTable(),null);
             ToolRunner.run(this.hConf, new InsertHashtag(), null);
         }catch(IOException ioe) {}
