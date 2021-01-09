@@ -9,6 +9,4 @@ public abstract class BigDataObject implements Serializable {
     public String toString() {
         return GsonFactory.create().toJson(this);
     }
-
-    public abstract String Save();
 }
