@@ -122,8 +122,7 @@ public class Process {
     public String getSavingFormat(String line){
         line = line.replace("}","").replace(")","").replace("{","").replace("(","").replace("\n","").replace(" ","");
         line = line.split(":")[1];
-        System.out.println("\n\n"+line + "\n");
-        return line;
+        return line+"\n";
     }
 
     public void displayResultJavaRDD(JavaRDD<IBigDataObject> rdd, int k){
