@@ -62,12 +62,11 @@ public class InsertTweet extends Configured implements Tool{
             return put;
         }
 
-        public void reduce(org.w3c.dom.Text key, Iterable<NullWritable> values, Context context) throws IOException, InterruptedException{
+        public void reduce(Text key, Iterable<NullWritable> values, Context context) throws IOException, InterruptedException{
             context.write(null, insertTweet(key.toString(),String.valueOf(row)));
             this.row+=1;
         }
-
-       @Override
+	@Override
         public int run(String[] args) throws Exception{
             Job job = Job.getInstance(getConf(), "InsertTweet");
 

@@ -12,6 +12,8 @@ import org.apache.hadoop.util.ToolRunner;
 import scala.Tuple2;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
+
 
 import java.util.List;
 import bigdata.entities.User;
@@ -47,15 +49,19 @@ public class Process {
         this.tweetRDD = Builder.getAllTweet(this.fileRDD);
     } 
 
-    public void displayNTweet(int n){
-        
+    public void displayNTweet(int n) throws IOException, Exception {
+	try{        
         BufferedWriter tweetfile = new BufferedWriter(new FileWriter("../tweet.txt"));
         getAllTweet();
-        this.tweetRDD.take(n).forEach(item -> {System.out.println(item); tweetfile.write(String.valueOf(item));});
+        this.tweetRDD.take(n).forEach(item -> {System.out.println(item); /*tweetfile.write(String.valueOf(item));*/});
         tweetfile.close();
         ToolRunner.run(this.hConf, new InitTable(),null);
         ToolRunner.run(this.hConf, new InsertTweet(), null);
-    } 
+	}catch(IOException e){
+	
+	}    
+
+} 
 
     public void computeTopHashtag(){
         getAllTweet();

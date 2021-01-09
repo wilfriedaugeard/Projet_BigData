@@ -10,7 +10,7 @@ public class TPSpark {
 	public static final String HASHTAG = "ATINfourSB19";
 	public static final String USER_ID = "1870597914";
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
 		Process process = new Process(Config.APP_NAME, Config.FILE_PATH);
 
