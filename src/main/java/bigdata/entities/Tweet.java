@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tweet implements Serializable{
+public class Tweet extends BigDataObject implements IBigDataObject {
     private String created_at;
     private String id_str;
     private String text;
@@ -31,22 +31,5 @@ public class Tweet implements Serializable{
 
     public boolean isAvailable(){
         return this.created_at != null;
-    } 
-
-    @Override
-    public String toString(){
-        return "Tweet {"+
-        "\n - created_at: "+this.created_at+ 
-        "\n - id: "+this.id_str+
-        "\n - text: "+this.text+
-        "\n - in_reply_to_status_id: "+this.in_reply_to_status_id_str+
-        "\n - in_reply_to_user_id: "+this.in_reply_to_user_id_str+
-        "\n - in_reply_to_screen_name: "+this.in_reply_to_screen_name+
-        "\n - user: "+this.user+
-        "\n - favorited: "+this.favorited+
-        "\n - retweeted: "+this.retweeted+
-        "\n - lang: "+this.lang+
-        "\n - entities: "+this.entities+
-        "\n}";
     } 	 
 } 
