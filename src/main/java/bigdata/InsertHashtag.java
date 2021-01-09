@@ -31,7 +31,6 @@ public class InsertHashtag extends Configured implements Tool{
 
     public static class SimpleMapper extends Mapper<Object, Text, Text, NullWritable>{
 		public void map(Object key, Text value, Context context) throws IOException, InterruptedException{
-            if(value.toString().split(",").length() !=2) return; 
             context.write(value, NullWritable.get());
         }
     }
