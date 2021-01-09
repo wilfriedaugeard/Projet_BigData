@@ -7,7 +7,6 @@ import org.apache.spark.api.java.JavaPairRDD;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.util.ToolRunner;
 
 import scala.Tuple2;
@@ -52,28 +51,26 @@ public class Process {
     } 
 
     public void displayNTweet(int n) throws IOException, Exception {
-	try{        
+	try{
         File file = new File("tweet.txt");
-	if(file.createNewFile()){
-		 System.out.println("CEST BON");
-	}else{
+	if(!file.createNewFile()){
 		file.delete();
 		file.createNewFile();
-		System.out.println("nouveau: "+file.exists());
 	}
 	FileWriter tweetfile = new FileWriter("tweet.txt");
         getAllTweet();
-        this.tweetRDD.take(n).forEach(item -> {try{System.out.println(item); tweetfile.write(String.valueOf(item));}catch(Exception e){}});
+        this.tweetRDD.take(n).forEach(item -> {
+						try{
+							System.out.println(item);
+							tweetfile.write(String.valueOf(item));
+						}catch(Exception e){}
+						});
         tweetfile.close();
         ToolRunner.run(this.hConf, new InitTable(),null);
-	HBaseAdmin admin = new HBaseAdmin(this.hConf);
-	System.out.print("\n \n \n \n TABLE "+admin.tableExists("augeard-tarmil-Ntweet"));
         ToolRunner.run(this.hConf, new InsertTweet(), null);
-	}catch(IOException e){
-	
-	}    
+	}catch(IOException e){}
 
-} 
+    } 
 
     public void computeTopHashtag(){
         getAllTweet();

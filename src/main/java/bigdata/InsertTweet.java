@@ -51,6 +51,7 @@ public class InsertTweet extends Configured implements Tool{
         }
 
         public Put insertTweet(String line, String row){
+	System.out.println("\n\n\n\n line : "+line+" \n\n\n");
             String[] splittedTweet = line.split("-");
             for(int i=0; i < splittedTweet.length;i++){
                 splittedTweet[i] = splittedTweet[i].substring(splittedTweet[i].indexOf(":")+1);
@@ -79,9 +80,9 @@ public class InsertTweet extends Configured implements Tool{
         job.setMapOutputValueClass(NullWritable.class);
         
         job.setInputFormatClass(TextInputFormat.class);
-        FileInputFormat.addInputPath(job, new Path("util/tweet.txt"));
+        FileInputFormat.addInputPath(job, new Path("tweet.txt"));
         TableMapReduceUtil.initTableReducerJob(
-                "Big-data-project",
+                "augeard-tarmil-Ntweet",
                 SimpleReducer.class,
                 job
         );
