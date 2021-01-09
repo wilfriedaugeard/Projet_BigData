@@ -129,7 +129,10 @@ public class Process {
                 System.out.println(item); 
 		        try{
                     String line = item.toString();
-                    System.out.println(line + "\n");
+                    line = line.replace("({\n\"text\"; ","");
+                    line = line.replace("}","");
+                    line = line.replace(")","");
+                    System.out.println("\n\n"+line + "\n");
                     this.saveFile.write(item.toString());
                 }catch(Exception e){}
             });
