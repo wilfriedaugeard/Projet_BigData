@@ -9,14 +9,14 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.util.ToolRunner;
 
-import scala.Tuple2;
 import java.io.File;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
+import scala.Tuple2;
 import java.util.List;
+import java.util.Set;
 
 import bigdata.entities.User;
 import bigdata.builder.*;
@@ -25,6 +25,7 @@ import bigdata.entities.Hashtag;
 import bigdata.entities.Triplet;
 import bigdata.InitTable;
 import bigdata.InsertTweet;
+import bigdata.entities.IBigDataObject;
 
 public class Process {
     private JavaSparkContext context;
@@ -37,29 +38,30 @@ public class Process {
     private JavaPairRDD<String, Integer>  nbTweetByLang;
     private JavaPairRDD<Triplet, List<User>> triplet;
     Configuration hConf;
-
+    FileWriter saveFile;
 
     public Process(String app_name, String pathFile){
         SparkConf conf = new SparkConf().setAppName(app_name);
         this.context = new JavaSparkContext(conf);
         this.fileRDD = this.context.textFile(pathFile);
-        this.hConf = HBaseConfiguration.create();
-
-        this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
-    } 
-
-    public void close(){
-        this.context.close();
-    } 
-
-    public void displayNTweet(int n) throws IOException, Exception {
-	try{
-        File file = new File("tweet.txt");
+	this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
+    	
+	this.hConf = HBaseConfiguration.create();
+	File file = new File("tweet.txt");
 	if(!file.createNewFile()){
 		file.delete();
 		file.createNewFile();
 	}
-	FileWriter tweetfile = new FileWriter("tweet.txt");
+	this.saveFile = new FileWriter("tweet.txt");
+    } 
+
+    public void close(){
+        this.context.close();
+	this.saveFile.close();
+    } 
+
+    public void displayNTweet(int n) throws IOException, Exception {
+	
         getAllTweet();
         this.tweetRDD.take(n).forEach(item -> {
 						try{
@@ -68,10 +70,8 @@ public class Process {
 						}catch(Exception e){}
 						});
         tweetfile.close();
-        ToolRunner.run(this.hConf, new InitTable(),null);
-        ToolRunner.run(this.hConf, new InsertTweet(), null);
-	}catch(IOException e){}
-
+        catch(IOException e){}
+}
     // Tweets
     public JavaRDD<Tweet> getAllTweets(){
         return this.tweetRDD;
@@ -143,4 +143,9 @@ public class Process {
     public void displayResultJavaPairRDDSet(JavaPairRDD<IBigDataObject, Set<IBigDataObject>> rdd, int k){
         rdd.take(k).forEach(item -> System.out.println(item));
     } 
+
+	public void saveResult(){
+		ToolRunner.run(this.hConf, new InitTable(),null);
+        	ToolRunner.run(this.hConf, new InsertTweet(), null);
+	}
 }
