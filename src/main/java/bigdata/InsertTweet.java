@@ -24,15 +24,15 @@ import org.apache.hadoop.util.Tool;
 import java.io.IOException;
 
 public class InsertTweet extends Configured implements Tool{
-    private static final byte[] TABLE_NAME = Bytes.toBytes("Big-data-project");
+    private static final byte[] TABLE_NAME = Bytes.toBytes("augeard-tarmil-Ntweet");
     private static final byte[][] FAMILIES = {
         Bytes.toBytes("create at"),
-        Bytes.toBytes("id"),
+     /*   Bytes.toBytes("id"),
         Bytes.toBytes("text"),
         Bytes.toBytes("in reply to statys id"),
         Bytes.toBytes("in replu to user id"),
         Bytes.toBytes("in reply de screen name")
-    };
+    */};
 
     public static class SimpleMapper extends Mapper<Object, Text, Text, NullWritable>{
         public void map(Object key, Text value, Context context) throws IOException, InterruptedException{
@@ -57,7 +57,7 @@ public class InsertTweet extends Configured implements Tool{
             }
             Put put = new Put(Bytes.toBytes(row));
 
-            put.add(Bytes.toBytes("id"),Bytes.toBytes(""), Bytes.toBytes(splittedTweet[1]));
+            put.add(Bytes.toBytes("date"),Bytes.toBytes("create-at"), Bytes.toBytes(splittedTweet[1]));
            
             return put;
         }
@@ -79,7 +79,7 @@ public class InsertTweet extends Configured implements Tool{
         job.setMapOutputValueClass(NullWritable.class);
         
         job.setInputFormatClass(TextInputFormat.class);
-        FileInputFormat.addInputPath(job, new Path("../tweet.txt"));
+        FileInputFormat.addInputPath(job, new Path("util/tweet.txt"));
         TableMapReduceUtil.initTableReducerJob(
                 "Big-data-project",
                 SimpleReducer.class,

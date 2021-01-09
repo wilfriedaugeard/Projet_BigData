@@ -7,15 +7,11 @@ import org.apache.spark.api.java.JavaPairRDD;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.util.ToolRunner;
 
 import scala.Tuple2;
-import java.io.File;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.IOException;
-
 
 import java.util.List;
 import bigdata.entities.User;
@@ -51,29 +47,18 @@ public class Process {
         this.tweetRDD = Builder.getAllTweet(this.fileRDD);
     } 
 
-    public void displayNTweet(int n) throws IOException, Exception {
+    public void displayNTweet(int n){
 	try{        
-        File file = new File("tweet.txt");
-	if(file.createNewFile()){
-		 System.out.println("CEST BON");
-	}else{
-		file.delete();
-		file.createNewFile();
-		System.out.println("nouveau: "+file.exists());
-	}
-	FileWriter tweetfile = new FileWriter("tweet.txt");
+        BufferedWriter tweetfile = new BufferedWriter(new FileWriter("../tweet.txt"));
         getAllTweet();
-        this.tweetRDD.take(n).forEach(item -> {try{System.out.println(item); tweetfile.write(String.valueOf(item));}catch(Exception e){}});
+        this.tweetRDD.take(n).forEach(item -> {System.out.println(item); /*tweetfile.write(String.valueOf(item));*/});
         tweetfile.close();
         ToolRunner.run(this.hConf, new InitTable(),null);
-	HBaseAdmin admin = new HBaseAdmin(this.hConf);
-	System.out.print("\n \n \n \n TABLE "+admin.tableExists("augeard-tarmil-Ntweet"));
-        ToolRunner.run(this.hConf, new InsertTweet(), null);
+        	ToolRunner.run(this.hConf, new InsertTweet(), null);
 	}catch(IOException e){
-	
-	}    
 
-} 
+	}
+    } 
 
     public void computeTopHashtag(){
         getAllTweet();

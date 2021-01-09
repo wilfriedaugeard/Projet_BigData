@@ -14,10 +14,10 @@ import org.apache.hadoop.util.Tool;
 import java.io.IOException;
 
 public class InitTable extends Configured implements Tool {
-    private static final byte[] TABLE_NAME = Bytes.toBytes("Big-data-project");
+    private static final byte[] TABLE_NAME = Bytes.toBytes("augeard-tarmil-Ntweet");
     private static final byte[][] FAMILIES = {
         Bytes.toBytes("date"),
-        Bytes.toBytes("id"),
+      /*  Bytes.toBytes("id"),
         Bytes.toBytes("text"),
         Bytes.toBytes("in reply to"),
         Bytes.toBytes("user"),
@@ -25,10 +25,10 @@ public class InitTable extends Configured implements Tool {
         Bytes.toBytes("retweeted"),
         Bytes.toBytes("lang"),
         Bytes.toBytes("hashtags"),
-        Bytes.toBytes("mentions")
+        Bytes.toBytes("mentions")*/
     };
 
-    public static void createTable(Connection connection){
+    public static void createTable(Connection connection) throws IOException {
         try( Admin admin = connection.getAdmin()){
             HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf(TABLE_NAME));
         
@@ -40,6 +40,7 @@ public class InitTable extends Configured implements Tool {
                 admin.disableTable(tableDescriptor.getTableName());
                 admin.deleteTable(tableDescriptor.getTableName());
             }
+	   admin.createTable(tableDescriptor);
 
         }catch (Exception e){
             e.printStackTrace();
