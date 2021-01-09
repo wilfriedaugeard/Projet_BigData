@@ -118,6 +118,14 @@ public class Process {
         } 
     } 
 
+
+    public String getSavingFormat(String line){
+        line = line.replace("}","").replace(")","").replace("{","").replace("(","").replace("\n","").replace(" ","");
+        line = line.split(":")[1];
+        System.out.println("\n\n"+line + "\n");
+        return line;
+    }
+
     public void displayResultJavaRDD(JavaRDD<IBigDataObject> rdd, int k){
         rdd.take(k).forEach(item -> System.out.println(item));
     } 
@@ -128,11 +136,7 @@ public class Process {
             rdd.take(k).forEach(item -> { 
                 System.out.println(item); 
 		        try{
-                    String line = item.toString();
-                    line = line.replace("}","").replace(")","").replace("{","").replace("(","").replace("\n","").replace(" ","");
-                    line = line.split(":")[1];
-                    System.out.println("\n\n"+line + "\n");
-                    this.saveFile.write(item.toString());
+                    this.saveFile.write(getSavingFormat(item.toString()));
                 }catch(Exception e){}
             });
 
