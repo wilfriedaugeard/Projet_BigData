@@ -121,13 +121,13 @@ public class Process {
     public void displayResultJavaRDD(JavaRDD<IBigDataObject> rdd, int k){
         rdd.take(k).forEach(item -> System.out.println(item));
     } 
-    public void displayResultJavaPairRDDInt(JavaPairRDD<IBigDataObject, Long> rdd, int k) throws IOException{
+    public void displayResultJavaPairRDDInt(JavaPairRDD<IBigDataObject, Long> rdd, int k) throws IOException, Exception{
         try{
             rdd.take(k).forEach(item -> { 
                 try{
                     System.out.println(item); 
                     this.saveFile.write(String.valueOf(item));
-                }catch(IOException ioe){}
+                }catch(Exception e){}
             });
             ToolRunner.run(this.hConf, new InitHashtagTable(),null);
             ToolRunner.run(this.hConf, new InsertHashtag(), null);
