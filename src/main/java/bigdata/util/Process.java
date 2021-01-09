@@ -48,12 +48,12 @@ public class Process {
             
         this.hConf = HBaseConfiguration.create();
         try {
-            File file = new File("saveFile.txt");
+            File file = new File("/users/ctarmil/saveFile.txt");
         if(!file.createNewFile()){
             file.delete();
             file.createNewFile();
         }
-        this.saveFile = new FileWriter("saveFile.txt");
+        this.saveFile = new FileWriter("users/ctarmil/saveFile.txt");
         }catch(IOException ioe) {}
         
     } 

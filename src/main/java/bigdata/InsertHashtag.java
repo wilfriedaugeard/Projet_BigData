@@ -73,7 +73,7 @@ public class InsertHashtag extends Configured implements Tool{
         job.setMapOutputValueClass(NullWritable.class);
         
         job.setInputFormatClass(TextInputFormat.class);
-        FileInputFormat.addInputPath(job, new Path("saveFile.txt"));
+        FileInputFormat.addInputPath(job, new Path("/users/ctarmil/saveFile.txt"));
         System.out.println("\n\n\n\nPATH : "+FileInputFormat.getInputPaths(job));
         TableMapReduceUtil.initTableReducerJob(
                 "augeard-tarmil-top-hashtag",
