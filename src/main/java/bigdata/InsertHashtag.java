@@ -23,7 +23,7 @@ import org.apache.hadoop.util.Tool;
 
 import java.io.IOException;
 
-public class InsertTweet extends Configured implements Tool{
+public class InsertHashtag extends Configured implements Tool{
     private static final byte[] TABLE_NAME = Bytes.toBytes("augeard-tarmil-Ntweet");
     private static final byte[][] FAMILIES = {
         Bytes.toBytes("create at"),
@@ -51,7 +51,7 @@ public class InsertTweet extends Configured implements Tool{
         }
 
         public Put insertTweet(String line, String row){
-	System.out.println("\n\n\n\n line : "+line+" \n\n\n");
+	        System.out.println("\n\n\n\n line : "+line+" \n\n\n");
             String[] splittedTweet = line.split("-");
             for(int i=0; i < splittedTweet.length;i++){
                 splittedTweet[i] = splittedTweet[i].substring(splittedTweet[i].indexOf(":")+1);
@@ -71,7 +71,7 @@ public class InsertTweet extends Configured implements Tool{
 
     @Override
     public int run(String[] args) throws Exception{
-        Job job = Job.getInstance(getConf(), "InsertTweet");
+        Job job = Job.getInstance(getConf(), "InsertHashtag");
         job.setNumReduceTasks(1);
         job.setJarByClass(InsertTweet.class);
         
@@ -80,7 +80,7 @@ public class InsertTweet extends Configured implements Tool{
         job.setMapOutputValueClass(NullWritable.class);
         
         job.setInputFormatClass(TextInputFormat.class);
-        FileInputFormat.addInputPath(job, new Path("tweet.txt"));
+        FileInputFormat.addInputPath(job, new Path("saveFile.txt"));
         TableMapReduceUtil.initTableReducerJob(
                 "augeard-tarmil-Ntweet",
                 SimpleReducer.class,

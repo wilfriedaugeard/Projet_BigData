@@ -23,8 +23,8 @@ import bigdata.builder.*;
 import bigdata.entities.Tweet;
 import bigdata.entities.Hashtag;
 import bigdata.entities.Triplet;
-import bigdata.InitTable;
-import bigdata.InsertTweet;
+import bigdata.InitHashtagTable;
+import bigdata.InsertHashtag;
 import bigdata.entities.IBigDataObject;
 
 public class Process {
@@ -44,34 +44,22 @@ public class Process {
         SparkConf conf = new SparkConf().setAppName(app_name);
         this.context = new JavaSparkContext(conf);
         this.fileRDD = this.context.textFile(pathFile);
-	this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
-    	
-	this.hConf = HBaseConfiguration.create();
-	File file = new File("tweet.txt");
-	if(!file.createNewFile()){
-		file.delete();
-		file.createNewFile();
-	}
-	this.saveFile = new FileWriter("tweet.txt");
+        this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
+            
+        this.hConf = HBaseConfiguration.create();
+        File file = new File("saveFile.txt");
+        if(!file.createNewFile()){
+            file.delete();
+            file.createNewFile();
+        }
+        this.saveFile = new FileWriter("saveFile.txt");
     } 
 
     public void close(){
         this.context.close();
-	this.saveFile.close();
+	    this.saveFile.close();
     } 
 
-    public void displayNTweet(int n) throws IOException, Exception {
-	
-        getAllTweet();
-        this.tweetRDD.take(n).forEach(item -> {
-						try{
-							System.out.println(item);
-							tweetfile.write(String.valueOf(item));
-						}catch(Exception e){}
-						});
-        tweetfile.close();
-        catch(IOException e){}
-}
     // Tweets
     public JavaRDD<Tweet> getAllTweets(){
         return this.tweetRDD;
@@ -105,13 +93,6 @@ public class Process {
         return BuilderRDDUser.topUser(this.tweetRDD);
     } 
 
-
-
-    
-
-
-
-
     // DISPLAYING
     public void displayResult(Object o, int k){
         switch(o.getClass().getSimpleName()){
@@ -138,14 +119,12 @@ public class Process {
         rdd.take(k).forEach(item -> System.out.println(item));
     } 
     public void displayResultJavaPairRDDInt(JavaPairRDD<IBigDataObject, Long> rdd, int k){
-        rdd.take(k).forEach(item -> System.out.println(item));
+        rdd.take(k).forEach(item -> { System.out.println(item); this.saveFile.write(String.valueOf(item));});
+        ToolRunner.run(this.hConf, new InitHashtagTable(),null);
+        ToolRunner.run(this.hConf, new InsertHashtag(), null);
     } 
     public void displayResultJavaPairRDDSet(JavaPairRDD<IBigDataObject, Set<IBigDataObject>> rdd, int k){
         rdd.take(k).forEach(item -> System.out.println(item));
     } 
 
-	public void saveResult(){
-		ToolRunner.run(this.hConf, new InitTable(),null);
-        	ToolRunner.run(this.hConf, new InsertTweet(), null);
-	}
 }

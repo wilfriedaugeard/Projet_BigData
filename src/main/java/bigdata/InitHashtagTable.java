@@ -1,4 +1,3 @@
-
 package bigdata;
 
 import org.apache.hadoop.conf.Configured;
@@ -13,7 +12,7 @@ import org.apache.hadoop.util.Tool;
 
 import java.io.IOException;
 
-public class InitTable extends Configured implements Tool {
+public class InitHashtagTable extends Configured implements Tool {
     private static final byte[] TABLE_NAME = Bytes.toBytes("augeard-tarmil-Ntweet");
     private static final byte[][] FAMILIES = {
         Bytes.toBytes("date"),

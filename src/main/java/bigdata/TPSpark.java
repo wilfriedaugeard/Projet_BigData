@@ -13,8 +13,6 @@ public class TPSpark {
 
 	public static void main(String[] args) throws Exception {
 		Process process = new Process(Config.APP_NAME, Config.ALL_FILES_PATH);
-		process.displayNTweet(5);
-
 		
 		// EXEMPLE D'ANALYSE DES HASHTAGS
 		
