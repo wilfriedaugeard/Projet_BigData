@@ -30,9 +30,9 @@ public class InsertHashtag extends Configured implements Tool{
     };
 
     public static class SimpleMapper extends Mapper<Object, Text, Text, NullWritable>{
-        	@Override
 		public void map(Object key, Text value, Context context) throws IOException, InterruptedException{
-         		context.write(value, NullWritable.get());
+            if(value.toString().split(",").length() !=2) return; 
+            context.write(value, NullWritable.get());
         }
     }
 
@@ -47,16 +47,16 @@ public class InsertHashtag extends Configured implements Tool{
         }
 
         public Put insertTweet(String line, String row){
-	    String[] splittedTweet = line.split(",");
-            System.out.println("LINE : " + line);
-	    Put put = new Put(Bytes.toBytes(row));
+	        String[] splittedTweet = line.split(",");
 
+            Put put = new Put(Bytes.toBytes(row));
+
+            put.add(Bytes.toBytes("hashtag"),Bytes.toBytes("hashtag-value"), Bytes.toBytes(splittedTweet[0]));
             put.add(Bytes.toBytes("hashtag"),Bytes.toBytes("count"), Bytes.toBytes(splittedTweet[1]));
-            put.add(Bytes.toBytes("hashtag"),Bytes.toBytes("hashtag-value"), Bytes.toBytes(splittedTweet[1]));
 
             return put;
         }
-	@Override
+
         public void reduce(Text key, Iterable<NullWritable> values, Context context) throws IOException, InterruptedException{
             context.write(null, insertTweet(key.toString(),String.valueOf(row)));
             this.row+=1;
@@ -75,6 +75,7 @@ public class InsertHashtag extends Configured implements Tool{
         
         job.setInputFormatClass(TextInputFormat.class);
         FileInputFormat.addInputPath(job, new Path("saveFile.txt"));
+        System.out.println("\n\n\n\nPATH : "+FileInputFormat.getInputPaths(job));
         TableMapReduceUtil.initTableReducerJob(
                 "augeard-tarmil-top-hashtag",
                 SimpleReducer.class,
