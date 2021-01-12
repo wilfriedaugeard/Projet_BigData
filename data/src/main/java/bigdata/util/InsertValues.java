@@ -26,7 +26,7 @@ public class InsertValues {
 
     public static final <T, U> List<Tuple2<T, U>> createFromJavaRDD(JavaRDD<U> rdd) {
         List<Tuple2<T, U>> list = new ArrayList<Tuple2<T, U>>();
-        rdd.foreach(item -> list.add(new Tuple2<T, U>(item.hashCode(), item)));
+        rdd.foreach(item -> list.add(new Tuple2<T, U>(new Integer(item.hashCode()), item)));
         return list;
     }
 
