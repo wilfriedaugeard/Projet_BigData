@@ -59,10 +59,10 @@ public class Process {
         return BuilderRDDHashtags.getAllHastags(this.tweetRDD);
     }
 
-    public JavaPairRDD<Hashtag, Long> getTopHashtags() {
+    public JavaPairRDD<Hashtag, Long> getTopHashtags() throws Exception {
 
         JavaPairRDD<Hashtag, Long> rdd = BuilderRDDHashtags.topHastag(this.tweetRDD);
-
+	try{
         BuilderTable.createTable(
                 this.hConf,
                 "top-hashtag",
@@ -77,6 +77,10 @@ public class Process {
                 "value",
                 "count"
         );
+	}catch(Exception e){
+		e.printStackTrace();
+		System.exit(-1);	
+	}
 
         return rdd;
     }

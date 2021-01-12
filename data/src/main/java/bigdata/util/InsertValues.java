@@ -24,9 +24,9 @@ public class InsertValues {
     private static final int MAX_LIST_SIZE = 100;
     private static final String tablePrefix = "augeard-tarmil-";
 
-    public static final <T, U> List<Tuple2<T, U>> createFromJavaRDD(JavaRDD<U> rdd) {
-        List<Tuple2<T, U>> list = new ArrayList<Tuple2<T, U>>();
-        rdd.foreach(item -> list.add(new Tuple2<T, U>(new Integer(item.hashCode()), item)));
+    public static final <U> List<Tuple2<Integer, U>> createFromJavaRDD(JavaRDD<U> rdd) {
+        List<Tuple2<Integer, U>> list = new ArrayList<>();
+        rdd.foreach(item -> list.add(new Tuple2<Integer, U>(new Integer(item.hashCode()), item)));
         return list;
     }
 
