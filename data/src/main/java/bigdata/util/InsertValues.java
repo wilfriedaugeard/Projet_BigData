@@ -12,17 +12,17 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-
+import java.util.List;
 import bigdata.entities.IBigDataObject;
 
 import java.io.IOException;
 
 public class InsertValues {
-    private static final MAX_LIST_SIZE =100;
+    private static final int  MAX_LIST_SIZE =100;
     private static final String tablePrefix = "augeard-tarmil-";
 
     public static List<Tuple2<T, U>> createFromJavaRDD(JavaRDD<U> rdd) {
-        rdd = rdd.mapToPair(item -> new Tuple2<T, U>(item.hashCode(), item))
+        rdd = rdd.mapToPair(item -> new Tuple2<T, U>(item.hashCode(), item));
         return createFromJavaPairRDD(rdd);
     }
 
@@ -72,3 +72,4 @@ public class InsertValues {
     }
 
 
+}
