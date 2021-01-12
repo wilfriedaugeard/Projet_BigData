@@ -47,7 +47,7 @@ public class BuilderHashtagTable extends Configured implements Tool {
                 createTable(connection, "augeard-tarmil-top-hashtag");
                 break;
             
-            case "byUser"!
+            case "byUser":
                 createTable(connection, "augeard-tarmil-hashtag-byUser");
                 break;
 

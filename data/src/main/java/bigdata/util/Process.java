@@ -9,10 +9,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.util.ToolRunner;
 
-import java.io.File;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 
 import scala.Tuple2;
 import java.util.List;
@@ -23,8 +19,8 @@ import bigdata.builder.*;
 import bigdata.entities.Tweet;
 import bigdata.entities.Hashtag;
 import bigdata.entities.Triplet;
-import bigdata.InitHashtagTable;
-import bigdata.InsertHashtag;
+
+import bigdata.table.*;
 import bigdata.entities.IBigDataObject;
 
 public class Process {
@@ -39,7 +35,7 @@ public class Process {
     private JavaPairRDD<Triplet, List<User>> triplet;
     Configuration hConf;
 
-    public Process(String app_name, String pathFile) throws IOException{
+    public Process(String app_name, String pathFile){
         SparkConf conf = new SparkConf().setAppName(app_name);
         this.context = new JavaSparkContext(conf);
         this.fileRDD = this.context.textFile(pathFile);
@@ -49,7 +45,7 @@ public class Process {
 
     } 
 
-    public void close() throws IOException{
+    public void close(){
         this.context.close();
     } 
 
@@ -66,19 +62,19 @@ public class Process {
         return BuilderRDDHashtags.getAllHastags(this.tweetRDD);
     } 
     public JavaPairRDD<Hashtag, Long> getTopHashtags(){
-        ToolRunner.run(this.hConf, new BuilderHashtagTable(String[]{"top"}),null);
+        ToolRunner.run(this.hConf, new BuilderHashtagTable(new String[]{"top"}),null);
         this.hconf.set(TableInputFormat.INPUT_TABLE, "augeard-tarmil-top-hashtag");
         return BuilderRDDHashtags.topHastag(this.tweetRDD);
     }
     public JavaPairRDD<User, Set<Hashtag>> getUserHashtags(){
-        ToolRunner.run(this.hConf, new BuilderHashtagTable(String[]{"byUser"}),null);
+        ToolRunner.run(this.hConf, new BuilderHashtagTable(new String[]{"byUser"}),null);
         return BuilderRDDHashtags.userHashtags(this.tweetRDD);
     }  
     public JavaRDD<Triplet> getTripletHashtags(){
         return BuilderRDDHashtags.tripletHashtags(this.tweetRDD);
     } 
     public JavaPairRDD<Triplet, Long> getTopTripletHashtags(){
-        ToolRunner.run(this.hConf, new BuilderHashtagTable(String[]{"triplet"}),null);
+        ToolRunner.run(this.hConf, new BuilderHashtagTable(new String[]{"triplet"}),null);
         return BuilderRDDHashtags.topTriplet(this.tweetRDD);
     } 
 
@@ -122,7 +118,7 @@ public class Process {
     public void displayResultJavaPairRDDInt(JavaPairRDD<IBigDataObject, Long> rdd, int k){
        
         rdd.take(k).forEach(item -> System.out.println(item));
-        InsertHashtag.apply(this.hconf,rdd,"augeard-tarmil-top-hashtag")
+        InsertHashtag.apply(this.hconf,rdd,"augeard-tarmil-top-hashtag");
 	       
     } 
 
