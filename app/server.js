@@ -10,10 +10,13 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.set("view engine", "ejs")
 
+// URI Path
+const default_path = require("./routes/default.js")
+const dashboard = require("./routes/dashboard.js")
 
-app.get("/", (req, res) => {
-    res.render("pages/index.ejs")
-})
+default_path.init(app);
+dashboard.init(app);
+
 
 app.listen(port, function () {
     console.log("listening on "+port)
