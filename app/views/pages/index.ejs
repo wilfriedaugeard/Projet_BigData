@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include("../templates/header")%>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand" href="index.html"><i class="fab fa-twitter"></i> Twitter Analytics</a>
+            <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Globale</div>
+                            <a class="nav-link" href="index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-globe"></i></div>
+                                Dashboard
+                            </a>
+                            <div class="sb-sidenav-menu-heading">Tendances</div>
+                            <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                                <div class="sb-nav-link-icon"><i class="fas fa-trophy"></i></div>
+                                Top K
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                    <a class="nav-link" href="#">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                                        Users
+                                    </a>
+                                    <a class="nav-link" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-hashtag"></i></div>
+                                        Hashtags
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="401.html">Simple</a>
+                                            <a class="nav-link" href="404.html">Triplet</a>
+                                        </nav>
+                                    </div>
+                                </nav>
+                            </div>
+                            <div class="sb-sidenav-menu-heading">Recherche</div>
+                            <a class="nav-link" href="tables.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                                Users
+                            </a>
+                            <a class="nav-link" href="charts.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-hashtag"></i></div>
+                                Hashtags
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid">
+                        <h1 class="mt-4">Dashboard</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">Vue global - Mois de mars 2020</li>
+                        </ol>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-area mr-1"></i>
+                                        Nombre de Tweets
+                                    </div>
+                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar mr-1"></i>
+                                        Nombre de Hashtags
+                                    </div>
+                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table mr-1"></i>
+                                Meilleurs Users
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>id</th>
+                                                <th>Nom</th>
+                                                <th>Nombre de Tweets</th>
+                                                <th>Nombre d'Hashtags</th>
+                                                <th>Followers</th>
+                                                <th>Date de création de compte</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>5436587</td>
+                                                <td>Bob B</td>
+                                                <td>54658</td>
+                                                <td>610</td>
+                                                <td>25694</td>
+                                                <td>2011/04/25</td>
+                                            </tr>
+                                            <tr>
+                                                <td>5578687</td>
+                                                <td>Alice A</td>
+                                                <td>568</td>
+                                                <td>10</td>
+                                                <td>569</td>
+                                                <td>2003/05/12</td>
+                                            </tr>
+                                            <tr>
+                                                <td>1966587</td>
+                                                <td>Corentin C</td>
+                                                <td>12</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2020/04/30</td>
+                                            </tr>
+                                            <tr>
+                                                <td>54365870</td>
+                                                <td>Bob B</td>
+                                                <td>54658</td>
+                                                <td>610</td>
+                                                <td>25694</td>
+                                                <td>2011/04/25</td>
+                                            </tr>
+                                            <tr>
+                                                <td>55786870</td>
+                                                <td>Alice A</td>
+                                                <td>568</td>
+                                                <td>10</td>
+                                                <td>569</td>
+                                                <td>2003/05/12</td>
+                                            </tr>
+                                            <tr>
+                                                <td>19665870</td>
+                                                <td>Corentin C</td>
+                                                <td>12</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2020/04/30</td>
+                                            </tr>
+                                            <tr>
+                                                <td>543658700</td>
+                                                <td>Bob B</td>
+                                                <td>54658</td>
+                                                <td>610</td>
+                                                <td>25694</td>
+                                                <td>2011/04/25</td>
+                                            </tr>
+                                            <tr>
+                                                <td>557868700</td>
+                                                <td>Alice A</td>
+                                                <td>568</td>
+                                                <td>10</td>
+                                                <td>569</td>
+                                                <td>2003/05/12</td>
+                                            </tr>
+                                            <tr>
+                                                <td>196658700</td>
+                                                <td>Corentin C</td>
+                                                <td>12</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2020/04/30</td>
+                                            </tr>
+                                            <tr>
+                                                <td>543658700</td>
+                                                <td>Bob B</td>
+                                                <td>54658</td>
+                                                <td>610</td>
+                                                <td>25694</td>
+                                                <td>2011/04/25</td>
+                                            </tr>
+                                            <tr>
+                                                <td>5578687000</td>
+                                                <td>Alice A</td>
+                                                <td>568</td>
+                                                <td>10</td>
+                                                <td>569</td>
+                                                <td>2003/05/12</td>
+                                            </tr>
+                                            <tr>
+                                                <td>19665870000</td>
+                                                <td>Corentin C</td>
+                                                <td>12</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2020/04/30</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <%- include("../templates/footer")%>
+                </footer>
+            </div>
+        </div>
+
+    </body>
+</html>
