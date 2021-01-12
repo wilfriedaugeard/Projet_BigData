@@ -23,7 +23,7 @@ import org.apache.hadoop.util.Tool;
 
 import java.io.IOException;
 
-public class InsertHashtag extends Configured implements Tool{
+public class InsertHashtag {
     private static final byte[] TABLE_NAME = Bytes.toBytes("augeard-tarmil-top-hashtag");
     private static final byte[][] FAMILIES = {
         Bytes.toBytes("hashtag"),

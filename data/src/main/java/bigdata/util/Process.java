@@ -38,7 +38,6 @@ public class Process {
     private JavaPairRDD<String, Integer>  nbTweetByLang;
     private JavaPairRDD<Triplet, List<User>> triplet;
     Configuration hConf;
-    FileWriter saveFile;
 
     public Process(String app_name, String pathFile) throws IOException{
         SparkConf conf = new SparkConf().setAppName(app_name);
@@ -47,15 +46,7 @@ public class Process {
         this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
             
         this.hConf = HBaseConfiguration.create();
-        try {
-            File file = new File("/users/ctarmil/saveFile.txt");
-        if(!file.createNewFile()){
-            file.delete();
-            file.createNewFile();
-        }
-        this.saveFile = new FileWriter("users/ctarmil/saveFile.txt");
-        }catch(IOException ioe) {}
-        
+
     } 
 
     public void close() throws IOException{
@@ -75,15 +66,19 @@ public class Process {
         return BuilderRDDHashtags.getAllHastags(this.tweetRDD);
     } 
     public JavaPairRDD<Hashtag, Long> getTopHashtags(){
+        ToolRunner.run(this.hConf, new BuilderHashtagTable(String[]{"top"}),null);
+        this.hconf.set(TableInputFormat.INPUT_TABLE, "augeard-tarmil-top-hashtag");
         return BuilderRDDHashtags.topHastag(this.tweetRDD);
     }
     public JavaPairRDD<User, Set<Hashtag>> getUserHashtags(){
+        ToolRunner.run(this.hConf, new BuilderHashtagTable(String[]{"byUser"}),null);
         return BuilderRDDHashtags.userHashtags(this.tweetRDD);
     }  
     public JavaRDD<Triplet> getTripletHashtags(){
         return BuilderRDDHashtags.tripletHashtags(this.tweetRDD);
     } 
     public JavaPairRDD<Triplet, Long> getTopTripletHashtags(){
+        ToolRunner.run(this.hConf, new BuilderHashtagTable(String[]{"triplet"}),null);
         return BuilderRDDHashtags.topTriplet(this.tweetRDD);
     } 
 
@@ -119,33 +114,17 @@ public class Process {
     } 
 
 
-    public String getSavingFormat(String line){
-        line = line.replace("}","").replace(")","").replace("{","").replace("(","").replace("\n","").replace(" ","");
-        line = line.split(":")[1];
-        return line+"\n";
-    }
-
     public void displayResultJavaRDD(JavaRDD<IBigDataObject> rdd, int k){
         rdd.take(k).forEach(item -> System.out.println(item));
     } 
 
 
-    public void displayResultJavaPairRDDInt(JavaPairRDD<IBigDataObject, Long> rdd, int k) throws IOException, Exception{
-        try{
-            rdd.take(k).forEach(item -> { 
-                System.out.println(item); 
-		        try{
-                    this.saveFile.write(getSavingFormat(item.toString()));
-                }catch(Exception e){}
-            });
-
-	        this.saveFile.close();
-            ToolRunner.run(this.hConf, new InitHashtagTable(),null);
-            ToolRunner.run(this.hConf, new InsertHashtag(), null);
-
-        }catch(IOException ioe) {}
+    public void displayResultJavaPairRDDInt(JavaPairRDD<IBigDataObject, Long> rdd, int k){
+       
+        rdd.take(k).forEach(item -> System.out.println(item));
+        InsertHashtag.apply(this.hconf,rdd,"augeard-tarmil-top-hashtag")
+	       
     } 
-
 
     public void displayResultJavaPairRDDSet(JavaPairRDD<IBigDataObject, Set<IBigDataObject>> rdd, int k){
         rdd.take(k).forEach(item -> System.out.println(item));

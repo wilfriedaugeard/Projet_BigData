@@ -12,14 +12,16 @@ import org.apache.hadoop.util.Tool;
 
 import java.io.IOException;
 
-public class InitHashtagTable extends Configured implements Tool {
-    private static final byte[] TABLE_NAME = Bytes.toBytes("augeard-tarmil-top-hashtag");
+public class BuilderHashtagTable extends Configured implements Tool {
+    private byte[] TABLE_NAME ;
     private static final byte[][] FAMILIES = {
-        Bytes.toBytes("hashtag")
+        Bytes.toBytes("hashtag"),
+        Bytes.toBytes("user")
     };
 
-    public static void createTable(Connection connection) throws IOException {
+    public static final void createTable(Connection connection, String tableName) throws IOException {
         try( Admin admin = connection.getAdmin()){
+            this.TABLE_NAME = Bytes.toBytes(tableName);
             HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf(TABLE_NAME));
         
             for(byte[] family : FAMILIES){
@@ -40,7 +42,22 @@ public class InitHashtagTable extends Configured implements Tool {
 
     public int run(String[] args) throws IOException{
         Connection connection = ConnectionFactory.createConnection(getConf());
-        createTable(connection);
+        switch(args[0]){
+            case "Top":
+                createTable(connection, "augeard-tarmil-top-hashtag");
+                break;
+            
+            case "byUser"!
+                createTable(connection, "augeard-tarmil-hashtag-byUser");
+                break;
+
+            case "triplet":
+                createTable(connection, "augeard-tarmil-top-triplet-hashtag");
+                break;
+
+            default:
+                break;
+        }
         return 0;
     }
 
