@@ -12,7 +12,10 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
+
 import java.util.List;
+import java.util.ArrayList;
+
 import bigdata.entities.IBigDataObject;
 
 import java.io.IOException;
@@ -21,18 +24,18 @@ public class InsertValues {
     private static final int  MAX_LIST_SIZE =100;
     private static final String tablePrefix = "augeard-tarmil-";
 
-    public static List<Tuple2<T, U>> createFromJavaRDD(JavaRDD<U> rdd) {
+    public static final <T,U> List<Tuple2<T, U>> createFromJavaRDD(JavaRDD<U> rdd) {
         rdd = rdd.mapToPair(item -> new Tuple2<T, U>(item.hashCode(), item));
         return createFromJavaPairRDD(rdd);
     }
 
-    public static List<Tuple2<T, U>> createFromJavaPairRDD(JavaPairRDD<T, U> rdd) {
+    public static final <T,U> List<Tuple2<T, U>> createFromJavaPairRDD(JavaPairRDD<T, U> rdd) {
         List<Tuple2<T, U>> list = new List<Tuple2<T, U>>();
         rdd.foreach(item -> list.add(new Tuple2<T, U>(item._1, item._2)));
         return list;
     }
 
-    public static final void insert(Configuration config, List<Tuple2<T, U>> values, String tablename, String column1, String column2) throws IOException {
+    public static final  <T,U> void insert(Configuration config, List<Tuple2<T, U>> values, String tablename, String column1, String column2) throws IOException {
 
         try (Connection connection = ConnectionFactory.createConnection(config);) {
             Table table = connection.getTable(TableName.valueOf(tablePrefix + tableName));
@@ -58,7 +61,7 @@ public class InsertValues {
 
                 list.add(put);
 
-                if (ind == MAX_LIST_SIZE) {
+                if (row == MAX_LIST_SIZE) {
                     table.put(list);
                     list.clear();
                 }

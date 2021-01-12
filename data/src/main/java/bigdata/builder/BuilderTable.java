@@ -19,17 +19,16 @@ public class BuilderTable {
     public static final void createTable(Connection connection, String tableName, String familyName1, String familyName2) throws IOException {
         try (Admin admin = connection.getAdmin()) {
 
-            if (admin.tableExists(tableDescriptor.getTableName())) {
-                admin.disableTable(tableDescriptor.getTableName());
-                admin.deleteTable(tableDescriptor.getTableName());
-            }
-
             this.tableName = Bytes.toBytes(this.tablePrefix + tableName);
             HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf(Bytes.toBytes(this.tableName)));
 
             tableDescriptor.addFamily(new HColumnDescriptor(Bytes.toBytes(familyName1)));
             tableDescriptor.addFamily(new HColumnDescriptor(Bytes.toBytes(familyName2)));
 
+            if (admin.tableExists(tableDescriptor.getTableName())) {
+                admin.disableTable(tableDescriptor.getTableName());
+                admin.deleteTable(tableDescriptor.getTableName());
+            }
 
             admin.createTable(tableDescriptor);
 
