@@ -7,20 +7,17 @@ import org.apache.spark.api.java.JavaPairRDD;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.util.ToolRunner;
-import org.apache.hadoop.hbase.mapreduce.TableInputFormat;
 
 import scala.Tuple2;
+
 import java.util.List;
 import java.util.Set;
 
-import bigdata.entities.User;
 import bigdata.builder.*;
+import bigdata.entities.User;
 import bigdata.entities.Tweet;
 import bigdata.entities.Hashtag;
 import bigdata.entities.Triplet;
-
-import bigdata.tables.*;
 import bigdata.entities.IBigDataObject;
 
 public class Process {
@@ -31,100 +28,115 @@ public class Process {
     private JavaRDD<User> userByHashtag;
     private long nbHashtagOccurence;
     private JavaRDD<Hashtag> hashtagByUser;
-    private JavaPairRDD<String, Integer>  nbTweetByLang;
+    private JavaPairRDD<String, Integer> nbTweetByLang;
     private JavaPairRDD<Triplet, List<User>> triplet;
-    Configuration hConf;
+    private Configuration hConf;
 
-    public Process(String app_name, String pathFile){
+    public Process(String app_name, String pathFile) {
         SparkConf conf = new SparkConf().setAppName(app_name);
         this.context = new JavaSparkContext(conf);
         this.fileRDD = this.context.textFile(pathFile);
         this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
-            
         this.hConf = HBaseConfiguration.create();
 
-    } 
+    }
 
-    public void close(){
+    public void close() {
         this.context.close();
-    } 
+    }
 
     // Tweets
-    public JavaRDD<Tweet> getAllTweets(){
+    public JavaRDD<Tweet> getAllTweets() {
         return this.tweetRDD;
-    } 
-    public JavaPairRDD<Hashtag, Long> getNbTweetByLang(){
+    }
+
+    public JavaPairRDD<Hashtag, Long> getNbTweetByLang() {
         return BuilderRDDTweet.nbTweetByLang(this.tweetRDD);
-    } 
+    }
 
     // Hashtags
-    public JavaRDD<Hashtag> getAllHastags(){
+    public JavaRDD<Hashtag> getAllHastags() {
         return BuilderRDDHashtags.getAllHastags(this.tweetRDD);
-    } 
-    public JavaPairRDD<Hashtag, Long> getTopHashtags(){
-        String[] args = {"top"};
-	ToolRunner.run(this.hConf, new BuilderHashtagTable(),args);
-        this.hConf.set(TableInputFormat.INPUT_TABLE, "augeard-tarmil-top-hashtag");
-        return BuilderRDDHashtags.topHastag(this.tweetRDD);
     }
-    public JavaPairRDD<User, Set<Hashtag>> getUserHashtags(){
-//        ToolRunner.run(this.hConf, new BuilderHashtagTable(new String[]{"byUser"}),null);
+
+    public JavaPairRDD<Hashtag, Long> getTopHashtags() {
+
+        JavaPairRDD<Hashtag, Long> rdd = BuilderRDDHashtags.topHastag(this.tweetRDD);
+
+        BuilderTable.createTable(
+                this.hConf,
+                "top-hashtag",
+                Hashtag.getClass().getSimpleName(),
+                Long.getClass().getSimpleName()
+        );
+
+        InsertValues.insert(
+                this.hConf,
+                InsertValues.createFromJavaPairRDD(rdd),
+                "top",
+                "value",
+                "count"
+        );
+
+        return rdd;
+    }
+
+    public JavaPairRDD<User, Set<Hashtag>> getUserHashtags() {
         return BuilderRDDHashtags.userHashtags(this.tweetRDD);
-    }  
-    public JavaRDD<Triplet> getTripletHashtags(){
+    }
+
+    public JavaRDD<Triplet> getTripletHashtags() {
         return BuilderRDDHashtags.tripletHashtags(this.tweetRDD);
-    } 
-    public JavaPairRDD<Triplet, Long> getTopTripletHashtags(){
-  //      ToolRunner.run(this.hConf, new BuilderHashtagTable(new String[]{"triplet"}),null);
+    }
+
+    public JavaPairRDD<Triplet, Long> getTopTripletHashtags() {
         return BuilderRDDHashtags.topTriplet(this.tweetRDD);
-    } 
+    }
 
     // Users
-    public JavaPairRDD<Triplet, Set<User>> getTripletHashtagsAndUsers(){
+    public JavaPairRDD<Triplet, Set<User>> getTripletHashtagsAndUsers() {
         return BuilderRDDUser.userByTripletHashtags(this.tweetRDD);
-    } 
-    public JavaPairRDD<User, Long> getTopUsers(){
+    }
+
+    public JavaPairRDD<User, Long> getTopUsers() {
         return BuilderRDDUser.topUser(this.tweetRDD);
-    } 
+    }
 
     // DISPLAYING
-    public void displayResult(Object o, int k){
-        switch(o.getClass().getSimpleName()){
+    public void displayResult(Object o, int k) {
+        switch (o.getClass().getSimpleName()) {
             case "JavaRDD":
                 displayResultJavaRDD((JavaRDD<IBigDataObject>) o, k);
                 break;
             case "JavaPairRDD":
-                try{
+                try {
                     JavaPairRDD<IBigDataObject, Long> rdd = (JavaPairRDD<IBigDataObject, Long>) o;
                     displayResultJavaPairRDDInt(rdd, k);
-                }catch(Exception e){
-                    try{
+                } catch (Exception e) {
+                    try {
                         JavaPairRDD<IBigDataObject, Set<IBigDataObject>> rdd = (JavaPairRDD<IBigDataObject, Set<IBigDataObject>>) o;
                         displayResultJavaPairRDDSet(rdd, k);
-                    }catch(Exception e2){}  
-                }finally{
+                    } catch (Exception e2) {
+                    }
+                } finally {
                     break;
-                } 
+                }
             default:
                 break;
-        } 
-    } 
+        }
+    }
 
 
-    public void displayResultJavaRDD(JavaRDD<IBigDataObject> rdd, int k){
+    public void displayResultJavaRDD(JavaRDD<IBigDataObject> rdd, int k) {
         rdd.take(k).forEach(item -> System.out.println(item));
-    } 
+    }
 
-
-    public void displayResultJavaPairRDDInt(JavaPairRDD<IBigDataObject, Long> rdd, int k){
-       
+    public void displayResultJavaPairRDDInt(JavaPairRDD<IBigDataObject, Long> rdd, int k) {
         rdd.take(k).forEach(item -> System.out.println(item));
-        InsertHashtag.apply(this.hConf,rdd,"augeard-tarmil-top-hashtag");
-	       
-    } 
+    }
 
-    public void displayResultJavaPairRDDSet(JavaPairRDD<IBigDataObject, Set<IBigDataObject>> rdd, int k){
+    public void displayResultJavaPairRDDSet(JavaPairRDD<IBigDataObject, Set<IBigDataObject>> rdd, int k) {
         rdd.take(k).forEach(item -> System.out.println(item));
-    } 
+    }
 
 }
