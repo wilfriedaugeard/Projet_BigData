@@ -1,4 +1,4 @@
-package bigdata;
+package bigdata.builder;
 
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.hbase.HColumnDescriptor;
@@ -13,7 +13,7 @@ import org.apache.hadoop.util.Tool;
 import java.io.IOException;
 
 public class BuilderHashtagTable extends Configured implements Tool {
-    private byte[] TABLE_NAME ;
+    private static byte[] tableName ;
     private static final byte[][] FAMILIES = {
         Bytes.toBytes("hashtag"),
         Bytes.toBytes("user")
@@ -21,8 +21,8 @@ public class BuilderHashtagTable extends Configured implements Tool {
 
     public static final void createTable(Connection connection, String tableName) throws IOException {
         try( Admin admin = connection.getAdmin()){
-            this.TABLE_NAME = Bytes.toBytes(tableName);
-            HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf(TABLE_NAME));
+            this.tableName = Bytes.toBytes(tableName);
+            HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf(this.tableName));
         
             for(byte[] family : FAMILIES){
                 tableDescriptor.addFamily(new HColumnDescriptor(family));
@@ -40,7 +40,7 @@ public class BuilderHashtagTable extends Configured implements Tool {
         }
     }
 
-    public int run(String[] args) throws IOException{
+    public int run(String[] args) throws Exception{
         Connection connection = ConnectionFactory.createConnection(getConf());
         switch(args[0]){
             case "Top":

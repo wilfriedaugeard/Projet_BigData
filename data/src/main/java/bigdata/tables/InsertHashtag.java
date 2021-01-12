@@ -1,7 +1,7 @@
-package bigdata;
+package bigdata.tables;
 
 import scala.Tuple2;
-import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.spark.api.java.function.*;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
@@ -10,7 +10,7 @@ import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Table;
-import org.apache.hadoop.hbase.client.Row;
+import org.apache.spark.sql.Row;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
 import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 import org.apache.hadoop.hbase.mapreduce.TableReducer;
@@ -30,7 +30,7 @@ import bigdata.entities.IBigDataObject;
 import java.io.IOException;
 
 public class InsertHashtag{
-    public static final void apply(HBaseConfiguration config, JavaPairRDD<IBigDataObject, Long> javaRDD, String tablename) {
+    public static final void apply(Configuration config, JavaPairRDD<IBigDataObject, Long> javaRDD, String tablename) {
         Job newAPIJobConfiguration1 = Job.getInstance(config);
         newAPIJobConfiguration1.getConfiguration().set(TableOutputFormat.OUTPUT_TABLE, tablename);
         newAPIJobConfiguration1.setOutputFormatClass(org.apache.hadoop.hbase.mapreduce.TableOutputFormat.class);

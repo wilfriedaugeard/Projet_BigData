@@ -8,7 +8,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.util.ToolRunner;
-
+import org.apache.hadoop.hbase.mapreduce.TableInputFormat;
 
 import scala.Tuple2;
 import java.util.List;
@@ -20,7 +20,7 @@ import bigdata.entities.Tweet;
 import bigdata.entities.Hashtag;
 import bigdata.entities.Triplet;
 
-import bigdata.table.*;
+import bigdata.tables.*;
 import bigdata.entities.IBigDataObject;
 
 public class Process {
@@ -62,19 +62,20 @@ public class Process {
         return BuilderRDDHashtags.getAllHastags(this.tweetRDD);
     } 
     public JavaPairRDD<Hashtag, Long> getTopHashtags(){
-        ToolRunner.run(this.hConf, new BuilderHashtagTable(new String[]{"top"}),null);
-        this.hconf.set(TableInputFormat.INPUT_TABLE, "augeard-tarmil-top-hashtag");
+        String[] args = {"top"};
+	ToolRunner.run(this.hConf, new BuilderHashtagTable(),args);
+        this.hConf.set(TableInputFormat.INPUT_TABLE, "augeard-tarmil-top-hashtag");
         return BuilderRDDHashtags.topHastag(this.tweetRDD);
     }
     public JavaPairRDD<User, Set<Hashtag>> getUserHashtags(){
-        ToolRunner.run(this.hConf, new BuilderHashtagTable(new String[]{"byUser"}),null);
+//        ToolRunner.run(this.hConf, new BuilderHashtagTable(new String[]{"byUser"}),null);
         return BuilderRDDHashtags.userHashtags(this.tweetRDD);
     }  
     public JavaRDD<Triplet> getTripletHashtags(){
         return BuilderRDDHashtags.tripletHashtags(this.tweetRDD);
     } 
     public JavaPairRDD<Triplet, Long> getTopTripletHashtags(){
-        ToolRunner.run(this.hConf, new BuilderHashtagTable(new String[]{"triplet"}),null);
+  //      ToolRunner.run(this.hConf, new BuilderHashtagTable(new String[]{"triplet"}),null);
         return BuilderRDDHashtags.topTriplet(this.tweetRDD);
     } 
 
@@ -118,7 +119,7 @@ public class Process {
     public void displayResultJavaPairRDDInt(JavaPairRDD<IBigDataObject, Long> rdd, int k){
        
         rdd.take(k).forEach(item -> System.out.println(item));
-        InsertHashtag.apply(this.hconf,rdd,"augeard-tarmil-top-hashtag");
+        InsertHashtag.apply(this.hConf,rdd,"augeard-tarmil-top-hashtag");
 	       
     } 
 
