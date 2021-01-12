@@ -16,11 +16,12 @@ public class BuilderTable {
 
     private static final String tablePrefix = "augeard-tarmil-";
 
-    public static final void createTable(Connection connection, String tableName, String familyName1, String familyName2) throws IOException {
+    public static final void createTable(Configuration config, String tableName, String familyName1, String familyName2) throws IOException {
+        Connection connection = ConnectionFactory.createConnection(config);
         try (Admin admin = connection.getAdmin()) {
 
-            this.tableName = Bytes.toBytes(this.tablePrefix + tableName);
-            HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf(Bytes.toBytes(this.tableName)));
+            tableName = this.tablePrefix + tableName;
+            HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf(Bytes.toBytes(tableName)));
 
             tableDescriptor.addFamily(new HColumnDescriptor(Bytes.toBytes(familyName1)));
             tableDescriptor.addFamily(new HColumnDescriptor(Bytes.toBytes(familyName2)));

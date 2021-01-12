@@ -66,8 +66,8 @@ public class Process {
         BuilderTable.createTable(
                 this.hConf,
                 "top-hashtag",
-                Hashtag.getClass().getSimpleName(),
-                Long.getClass().getSimpleName()
+                Hashtag.class.getSimpleName(),
+                Long.class.getSimpleName()
         );
 
         InsertValues.insert(

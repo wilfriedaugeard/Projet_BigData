@@ -25,8 +25,9 @@ public class InsertValues {
     private static final String tablePrefix = "augeard-tarmil-";
 
     public static final <T,U> List<Tuple2<T, U>> createFromJavaRDD(JavaRDD<U> rdd) {
-        rdd = rdd.mapToPair(item -> new Tuple2<T, U>(item.hashCode(), item));
-        return createFromJavaPairRDD(rdd);
+        List<Tuple2<T, U>> list = new List<Tuple2<T, U>>();
+        rdd.foreach(item -> list.add(new Tuple2<T, U>(item, item.hashCode())));
+        return list;
     }
 
     public static final <T,U> List<Tuple2<T, U>> createFromJavaPairRDD(JavaPairRDD<T, U> rdd) {
@@ -35,7 +36,7 @@ public class InsertValues {
         return list;
     }
 
-    public static final  <T,U> void insert(Configuration config, List<Tuple2<T, U>> values, String tablename, String column1, String column2) throws IOException {
+    public static final  <T,U> void insert(Configuration config, List<Tuple2<T, U>> values, String tableName, String column1, String column2) throws IOException {
 
         try (Connection connection = ConnectionFactory.createConnection(config);) {
             Table table = connection.getTable(TableName.valueOf(tablePrefix + tableName));
@@ -66,7 +67,7 @@ public class InsertValues {
                     list.clear();
                 }
             }
-            list.put(list);
+            table.put(list);
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
