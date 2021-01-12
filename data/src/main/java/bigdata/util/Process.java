@@ -73,7 +73,7 @@ public class Process {
         InsertValues.insert(
                 this.hConf,
                 InsertValues.createFromJavaPairRDD(rdd),
-                "top",
+                "top-hashtag",
                 "value",
                 "count"
         );
