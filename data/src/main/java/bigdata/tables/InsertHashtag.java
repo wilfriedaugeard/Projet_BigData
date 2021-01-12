@@ -30,7 +30,7 @@ import bigdata.entities.IBigDataObject;
 import java.io.IOException;
 
 public class InsertHashtag{
-    public static final void apply(Configuration config, JavaPairRDD<IBigDataObject, Long> javaRDD, String tablename) {
+    public static final void apply(Configuration config, JavaPairRDD<IBigDataObject,Long> javaRDD, String tablename) {
         Job newAPIJobConfiguration1 = Job.getInstance(config);
         newAPIJobConfiguration1.getConfiguration().set(TableOutputFormat.OUTPUT_TABLE, tablename);
         newAPIJobConfiguration1.setOutputFormatClass(org.apache.hadoop.hbase.mapreduce.TableOutputFormat.class);
