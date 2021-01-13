@@ -13,9 +13,11 @@ app.set("view engine", "ejs")
 // URI Path
 const default_path = require("./routes/default.js")
 const dashboard = require("./routes/dashboard.js")
+const top_k_user = require("./routes/top_k_user.js")
 
 default_path.init(app);
 dashboard.init(app);
+top_k_user.init(app)
 
 
 app.listen(port, function () {
