@@ -1,6 +1,7 @@
 package bigdata.entities;
 
 import java.io.Serializable;
+
 import bigdata.util.GsonFactory;
 
 public abstract class BigDataObject implements Serializable {

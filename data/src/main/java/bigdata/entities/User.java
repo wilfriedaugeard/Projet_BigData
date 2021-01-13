@@ -2,7 +2,7 @@ package bigdata.entities;
 
 import java.io.Serializable;
 
-public class User extends BigDataObject implements IBigDataObject{
+public class User extends BigDataObject implements IBigDataObject {
     private String id_str;
     private String name;
     private String screen_name;
@@ -14,29 +14,29 @@ public class User extends BigDataObject implements IBigDataObject{
     private long reply_count;
     private long retweet_count;
     private long favorite_count;
-    
+
 
     public String getId() {
         return this.id_str;
     }
 
     @Override
-    public boolean equals(Object o){
-        if(o == this){
+    public boolean equals(Object o) {
+        if (o == this) {
             return true;
-        } 
-        if(!(o instanceof User)){
+        }
+        if (!(o instanceof User)) {
             return false;
-        } 
+        }
         User h = (User) o;
         return this.id_str.equals(h.getId());
-    } 
- 
-   @Override
-   public int hashCode(){
-       int result = 17;
-       result = 31 * result + this.id_str.hashCode();
-       return result;
-   }  
-	 
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + this.id_str.hashCode();
+        return result;
+    }
+
 } 
