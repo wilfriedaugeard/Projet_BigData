@@ -136,6 +136,7 @@ public class Process {
 
     public JavaPairRDD<User, Long> getInfluencers() throws Exception {
         JavaPairRDD<User, Long> rdd = BuilderRDDUser.influencer(this.tweetRDD);
+	System.out.println("\n\n A calculé le RDD\n\n");
         /*
         String[] families = {User.class.getSimpleName(), Long.class.getSimpleName()};
         String[] columns = {"user", "top-triplet-tweet"};

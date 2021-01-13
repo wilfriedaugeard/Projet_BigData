@@ -14,7 +14,7 @@ public class Tweet extends BigDataObject implements IBigDataObject {
     private User user;
     private boolean favorited;
     private boolean retweeted;
-    private long retweet_count;
+    private int retweet_count;
     private String lang;
     private Entities entities;
 
@@ -35,6 +35,7 @@ public class Tweet extends BigDataObject implements IBigDataObject {
     }
 
     public long getRetweetCount() {
-        return this.retweet_count;
-    }
+	System.out.println(this.retweet_count);
+        return new Long(this.retweet_count);
+	}
 } 

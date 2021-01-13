@@ -12,7 +12,7 @@ public class TPSpark {
     public static final String USER_ID = "1870597914";
 
     public static void main(String[] args) throws Exception {
-        Process process = new Process(Config.APP_NAME, Config.ALL_FILES_PATH);
+        Process process = new Process(Config.APP_NAME, Config.SMALL_FILE_PATH);
 
         // EXEMPLE D'ANALYSE DES HASHTAGS
 
@@ -47,13 +47,13 @@ public class TPSpark {
         //process.displayResult(process.getTopTripletHashtags(TOP_K), TOP_K);
 
         // c) Trouver les influenceurs, c'est a dire les personnes avec le plus grand nombre de tweets dans les triplets que l'on a trouvé.
-        process.displayResult(process.getInfluencers(), 10);
+//        process.displayResult(process.getInfluencers(), 10);
 
         // d) Trouver les faux influencer, personnes avec beaucoup de followers dont les tweets ne sont jamais retweeté.
-        process.displayResult(process.getFakeInfluencers(), 10);
+      process.displayResult(process.getFakeInfluencers(), 10);
 
         // g) Trouver les k users les plus Retweetés (k entre 1 et 1000)
-        process.displayResult(process.getUserRtCount(TOP_K), TOP_K);
+//        process.displayResult(process.getUserRtCount(TOP_K), TOP_K);
 
         process.close();
 
