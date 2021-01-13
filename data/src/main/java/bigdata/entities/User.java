@@ -8,9 +8,9 @@ public class User extends BigDataObject implements IBigDataObject {
     private String screen_name;
     private String location;
     private String verified;
+    private String created_at; 
     private long followers_count;
     private long friends_count;
-    private String created_at;
     private long reply_count;
     private long favorite_count;
 

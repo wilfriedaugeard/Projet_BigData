@@ -50,7 +50,7 @@ public class TPSpark {
 //        process.displayResult(process.getInfluencers(), 10);
 
         // d) Trouver les faux influencer, personnes avec beaucoup de followers dont les tweets ne sont jamais retweeté.
-      process.displayResult(process.getFakeInfluencers(), 10);
+      process.displayResult(process.getFakeInfluencers(), 100);
 
         // g) Trouver les k users les plus Retweetés (k entre 1 et 1000)
 //        process.displayResult(process.getUserRtCount(TOP_K), TOP_K);
