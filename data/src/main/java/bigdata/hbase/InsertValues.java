@@ -25,19 +25,12 @@ public class InsertValues {
     private static final String tablePrefix = "augeard-tarmil-";
 
     public static final <U> List<Tuple2<Integer, U>> createFromJavaRDD(JavaRDD<U> rdd) {
-      JavaPairRDD<Integer,U> rddP = rdd.mapToPair(item -> new Tuple2<Integer,U>(new Integer(item.hashCode()),item));
-	return rddP.collect();
-	 // List<Tuple2<Integer, U>> list = new ArrayList<>();
-       // rdd.foreach(item -> list.add(new Tuple2<Integer, U>(new Integer(item.hashCode()), item)));
-       // return list;
+        JavaPairRDD<Integer, U> rddP = rdd.mapToPair(item -> new Tuple2<Integer, U>(new Integer(item.hashCode()), item));
+        return rddP.collect();
     }
 
     public static final <T, U> List<Tuple2<T, U>> createFromJavaPairRDD(JavaPairRDD<T, U> rdd) {
-  	 return rdd.collect();
-//    List<Tuple2<T, U>> list = new ArrayList<Tuple2<T, U>>();
-  //      rdd.foreach(item -> list.add(new Tuple2<T, U>(item._1, item._2)));
-//       	System.out.println("\n\n\n\n"+list+"\n\n");
-	 //return list;
+        return rdd.collect();
     }
 
     public static final <T, U> void insert(Configuration config, List<Tuple2<T, U>> values, String tableName, String column1, String column2) throws IOException {
@@ -45,8 +38,7 @@ public class InsertValues {
         try (Connection connection = ConnectionFactory.createConnection(config);) {
             Table table = connection.getTable(TableName.valueOf(tablePrefix + tableName));
             ArrayList<Put> list = new ArrayList<Put>();
-        	System.out.println("\n\n"+values.size()+"\n\n");    
-	for (int row = 0; row < values.size(); row++) {
+            for (int row = 0; row < values.size(); row++) {
 
                 Tuple2<T, U> tuple = values.get(row);
 
@@ -65,14 +57,12 @@ public class InsertValues {
                 );
 
                 list.add(put);
-		System.out.println("\n\n\n"+row+"\n");
                 if (row == MAX_LIST_SIZE) {
                     table.put(list);
                     list.clear();
                 }
             }
             table.put(list);
-
 
         } catch (IOException ioe) {
             ioe.printStackTrace();

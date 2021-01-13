@@ -47,11 +47,19 @@ public class Process {
 
     // Tweets
     public JavaRDD<Tweet> getAllTweets() {
+
         return this.tweetRDD;
     }
 
     public JavaPairRDD<Hashtag, Long> getNbTweetByLang() {
-        return BuilderRDDTweet.nbTweetByLang(this.tweetRDD);
+
+        JavaPairRDD<Hashtag, Long> rdd = BuilderRDDTweet.nbTweetByLang(this.tweetRDD);
+
+        String[] families = {Hashtag.class.getSimpleName(), Long.class.getSimpleName()};
+        String[] columns = {"language", "count"};
+        Save.apply(this.hConf, "by-lang-tweet", families, columns, InsertValues.createFromJavaPairRDD(rdd));
+
+        return rdd;
     }
 
     // Hashtags
@@ -59,51 +67,67 @@ public class Process {
         return BuilderRDDHashtags.getAllHastags(this.tweetRDD);
     }
 
-    public JavaPairRDD<Hashtag, Long> getTopHashtags() throws Exception {
+    public JavaPairRDD<Hashtag, Long> getTopHashtags(int topK) throws Exception {
 
         JavaPairRDD<Hashtag, Long> rdd = BuilderRDDHashtags.topHastag(this.tweetRDD);
-	try{
-        BuilderTable.createTable(
-                this.hConf,
-                "top-hashtag",
-                Hashtag.class.getSimpleName(),
-                Long.class.getSimpleName()
-        );
 
-        InsertValues.insert(
-                this.hConf,
-                InsertValues.createFromJavaPairRDD(rdd),
-                "top-hashtag",
-                "value",
-                "count"
-        );
-	}catch(Exception e){
-		e.printStackTrace();
-		System.exit(-1);	
-	}
+        String[] families = {Hashtag.class.getSimpleName(), Long.class.getSimpleName()};
+        String[] columns = {"value", "count"};
+        Save.apply(this.hConf, "top-hashtag", families, columns, InsertValues.createFromJavaPairRDD(rdd.take(topK)));
 
         return rdd;
     }
 
     public JavaPairRDD<User, Set<Hashtag>> getUserHashtags() {
-        return BuilderRDDHashtags.userHashtags(this.tweetRDD);
+
+        JavaPairRDD<User, Set<Hashtag>> rdd = BuilderRDDHashtags.userHashtags(this.tweetRDD);
+
+        String[] families = {User.class.getSimpleName(), Set.class.getSimpleName()};
+        String[] columns = {"user", "hashtags"};
+        Save.apply(this.hConf, "user-hashtag", families, columns, InsertValues.createFromJavaPairRDD(rdd));
+
+        return rdd;
     }
 
     public JavaRDD<Triplet> getTripletHashtags() {
-        return BuilderRDDHashtags.tripletHashtags(this.tweetRDD);
+        JavaRDD<Triple> rdd = BuilderRDDHashtags.tripletHashtags(this.tweetRDD);
+
+        String[] families = {Integer.class.getSimpleName(), Triplet.class.getSimpleName()};
+        String[] columns = {"hashcode", "hashtags"};
+        Save.apply(this.hConf, "triplet-hashtag", families, columns, InsertValues.createFromJavaRDD(rdd));
+
+        return rdd;
     }
 
-    public JavaPairRDD<Triplet, Long> getTopTripletHashtags() {
-        return BuilderRDDHashtags.topTriplet(this.tweetRDD);
+    public JavaPairRDD<Triplet, Long> getTopTripletHashtags(int topK) {
+        JavaPairRDD<Triplet, Long> rdd = BuilderRDDHashtags.topTriplet(this.tweetRDD);
+
+        String[] families = {Triplet.class.getSimpleName(), Long.class.getSimpleName()};
+        String[] columns = {"value", "count"};
+        Save.apply(this.hConf, "top-triplet-hashtag", families, columns, InsertValues.createFromJavaPairRDD(rdd.take(topK)));
+
+        return rdd;
     }
 
     // Users
     public JavaPairRDD<Triplet, Set<User>> getTripletHashtagsAndUsers() {
-        return BuilderRDDUser.userByTripletHashtags(this.tweetRDD);
+        JavaPairRDD<Triplet, Set<<User >> rdd = BuilderRDDUser.userByTripletHashtags(this.tweetRDD);
+
+        String[] families = {Triplet.class.getSimpleName(), Set.class.getSimpleName()};
+        String[] columns = {"value", "user"};
+        Save.apply(this.hConf, "triplet-user", families, columns, InsertValues.createFromJavaPairRDD(rdd));
+
+        return rdd;
     }
 
     public JavaPairRDD<User, Long> getTopUsers() {
-        return BuilderRDDUser.topUser(this.tweetRDD);
+        JavaPairRDD<User, Long> rdd = BuilderRDDUser.topUser(this.tweetRDD);
+
+        String[] families = {User.class.getSimpleName(), Long.class.getSimpleName()};
+        String[] columns = {"user", "count"};
+        Save.apply(this.hConf, "top-user", families, columns, InsertValues.createFromJavaPairRDD(rdd));
+
+        return rdd;
     }
 
     // DISPLAYING
