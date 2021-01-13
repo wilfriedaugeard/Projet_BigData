@@ -35,6 +35,7 @@ c) Afin de planifier nos achats de matériels futurs, calculez le nombre de mach
 - [ ] d) Trouver les faux influencer, personnes avec beaucoup de followers dont les tweets ne sont jamais retweeté.
 - [ ] e) Trouvez les sujets (hashtag) qui permettent d’avoir le plus de followers. 
 - [ ] f) Retagger les tweet en cherchant les hashtags connus dans le texte des tweets. 
+- [ ] g) Trouver les k users les plus Retweetés (k entre 1 et 1000)
 
 
 

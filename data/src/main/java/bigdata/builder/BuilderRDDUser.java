@@ -59,11 +59,11 @@ public class BuilderRDDUser {
         JavaPairRDD<User, Long> tripletTweetByUser = userByTripletHashtags(tweetRDD)
                 .flatMapToPair(pair -> {
                     Set<Tuple2<User, Long>> list = new HashSet();
-		  Iterator<User> it = pair._2().iterator(); 
-		   while(it.hasNext()){
-			User user = it.next();
-			list.add(new Tuple2<User,Long>(user, new Long(1)));
-		    }
+                    Iterator<User> it = pair._2().iterator();
+                    while (it.hasNext()) {
+                        User user = it.next();
+                        list.add(new Tuple2<User, Long>(user, new Long(1)));
+                    }
                     return list.iterator();
                 })
                 .reduceByKey((a, b) -> a + b);
@@ -73,7 +73,7 @@ public class BuilderRDDUser {
                     Tuple2<Long, Long> tuple = item._2;
                     return new Tuple2<User, Long>(item._1, (tuple._1 * 100) / tuple._2);
                 })
-                .mapToPair(item -> new Tuple2<Long,User>(item._2, item._1))
+                .mapToPair(item -> new Tuple2<Long, User>(item._2, item._1))
                 .sortByKey(false)
                 .mapToPair(item -> new Tuple2<User, Long>(item._2, item._1));
     }
@@ -110,7 +110,7 @@ public class BuilderRDDUser {
     //User avec beaucoup de followers et peu de RT
     //calcul le nombre moyen de RT par tweet
     //trie par nombre de followers (>) puis nombre de RT moyen (<)
-    public static final JavaPairRDD<User, Tuple2<Long, Long>> fakeInfluenceur(JavaRDD<Tweet> tweetRDD) {
+    public static final JavaPairRDD<User, Tuple2<Long, Long>> fakeInfluencer(JavaRDD<Tweet> tweetRDD) {
         JavaPairRDD<User, Long> userRTRDD = userByTotalRT(tweetRDD);
         JavaPairRDD<User, Long> ratioRdd = topUser(tweetRDD)
                 .join(userRTRDD)

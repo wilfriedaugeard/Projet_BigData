@@ -133,6 +133,39 @@ public class Process {
         return rdd;
     }
 
+
+    public JavaPair<User, Long> getInfluencers() throws Exception {
+        JavaPair<User, Long> rdd = BuilderRDDUser.influencer(this.tweetRDD);
+        /*
+        String[] families = {User.class.getSimpleName(), Long.class.getSimpleName()};
+        String[] columns = {"user", "top-triplet-tweet"};
+        Save.apply(this.hConf, "influencers-user", families, columns, InsertValues.createFromJavaPairRDD(rdd,Optional.empty()));
+        */
+        return rdd;
+    }
+
+    public JavaPair<User, Tuple2<Long, Long>> getFakeInfluencers() throws Exception {
+        JavaPair<User, Tuple2<Long, Long>> rdd = BuilderRDDUser.fakeInfluencer(this.tweetRDD);
+        /*
+        String[] families = {User.class.getSimpleName(), Tuple2.class.getSimpleName()};
+        String[] columns = {"user", "followers-averageRT"};
+        Save.apply(this.hConf, "fake-influencers-user", families, columns, InsertValues.createFromJavaPairRDD(rdd,Optional.empty()));
+        */
+        return rdd;
+
+    }
+
+    public JavaPair<User, Long> getUserRtCount(int topK) throws Exception {
+        JavaPair<User, Long> rdd = BuilderRDDUser.userByTotalRT(this.tweetRDD);
+        /*
+        String[] families = {User.class.getSimpleName(), Long.class.getSimpleName()};
+        String[] columns = {"user", "Retweets"};
+        Save.apply(this.hConf, "retweets-by-user", families, columns, InsertValues.createFromJavaPairRDD(rdd,Optional.of(topK)));
+        */
+        return rdd;
+    }
+
+
     // DISPLAYING
     public void displayResult(Object o, int k) {
         switch (o.getClass().getSimpleName()) {
