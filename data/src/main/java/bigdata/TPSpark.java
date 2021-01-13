@@ -17,13 +17,13 @@ public class TPSpark {
         // EXEMPLE D'ANALYSE DES HASHTAGS
 
         // a) Permettre de récupérer pour un jour donné la liste des k hashtags les plus utilisés ainsi que leur nombre d’apparition (k entre 1 et 10000).
-        process.displayResult(process.getTopHashtags(TOP_K), TOP_K);
+ 	//process.displayResult(process.getTopHashtags(TOP_K), TOP_K);
 
         // c) Permettre de récupérer le nombre d’apparition d’un hashtag donné.
-        //  process.displayResult(process.getTopHashtags(), 10);
+        //process.displayResult(process.getTopHashtags(), 10);
 
         // d) Récupérer tous les utilisateurs qui ont utilisé un hashtag.
-        // process.displayResult(process.getUserHashtags(), 10);
+         process.displayResult(process.getUserHashtags(), 10);
 
 
         // EXEMPLE D'ANALYSE DES USERS
@@ -32,16 +32,16 @@ public class TPSpark {
         // process.displayResult(process.getUserHashtags(), 10);
 
         // b) Permettre de savoir le nombre de tweet d’un utilisateur.
-        // process.displayResult(process.getTopUsers(), 10);
+         //process.displayResult(process.getTopUsers(), 10);
 
         // c) Nombre de tweet par pays ou par langue
-        // process.displayResult(process.getNbTweetByLang(), 10);
+         //process.displayResult(process.getNbTweetByLang(), 10);
 
 
         // EXEMPLE D'ANALYSE DES INFLUENCEURS
 
         // a) Récupérer tous les triplets de hashtags ainsi que les utilisateurs qui les ont utilisés
-        // process.displayResult(process.getTripletHashtagsAndUsers(), 10);
+         //process.displayResult(process.getTripletHashtagsAndUsers(), 10);
 
         // b) Donner les k triplets de hashtags les plus utilisés (k entre 1 et 1000)
         //  process.displayResult(process.getTopTripletHashtags(), TOP_K);

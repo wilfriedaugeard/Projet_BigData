@@ -1,4 +1,4 @@
-package bigdata.util;
+package bigdata.hbase;
 
 import org.apache.hadoop.conf.Configuration;
 
@@ -9,9 +9,9 @@ import scala.Tuple2;
 
 import java.util.List;
 
-public static class Save {
+public class Save {
 
-    public static final void apply(Configuration hConf, String tableName, String[] families, String[] columns, List<Tuple2<T, U>> values) throws Exception {
+    public static final <T,U> void apply(Configuration hConf, String tableName, String[] families, String[] columns, List<Tuple2<T, U>> values) throws Exception {
         try {
             BuilderTable.createTable(
                     hConf,

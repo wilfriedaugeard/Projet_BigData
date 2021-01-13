@@ -1,4 +1,4 @@
-package bigdata.util;
+package bigdata.hbase;
 
 import scala.Tuple2;
 
@@ -15,6 +15,7 @@ import org.apache.spark.api.java.JavaRDD;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import bigdata.entities.IBigDataObject;
 
@@ -29,7 +30,8 @@ public class InsertValues {
         return rddP.collect();
     }
 
-    public static final <T, U> List<Tuple2<T, U>> createFromJavaPairRDD(JavaPairRDD<T, U> rdd) {
+    public static final <T, U> List<Tuple2<T, U>> createFromJavaPairRDD(JavaPairRDD<T, U> rdd, Optional<Integer> topK) {
+	if(topK.isPresent()) return rdd.take(topK.get());
         return rdd.collect();
     }
 
