@@ -76,7 +76,7 @@ public class Process {
 
         String[] families = {Hashtag.class.getSimpleName(), Long.class.getSimpleName()};
         String[] columns = {"value", "count"};
-	Save.apply(this.hConf, "top-hashtag", families, columns, InsertValues.createFromJavaPairRDD(rdd,Optional.of(topK)));
+        Save.apply(this.hConf, "top-hashtag", families, columns, InsertValues.createFromJavaPairRDD(rdd, Optional.of(topK)));
 
         return rdd;
     }
@@ -87,7 +87,7 @@ public class Process {
 
         String[] families = {User.class.getSimpleName(), HashSet.class.getSimpleName()};
         String[] columns = {"user", "hashtags"};
-        Save.apply(this.hConf, "user-hashtag", families, columns, InsertValues.createFromJavaPairRDD(rdd,Optional.empty()));
+        Save.apply(this.hConf, "user-hashtag", families, columns, InsertValues.createFromJavaPairRDD(rdd, Optional.empty()));
 
         return rdd;
     }
@@ -107,18 +107,18 @@ public class Process {
 
         String[] families = {Triplet.class.getSimpleName(), Long.class.getSimpleName()};
         String[] columns = {"value", "count"};
-        Save.apply(this.hConf, "top-triplet-hashtag", families, columns, InsertValues.createFromJavaPairRDD(rdd,Optional.of(topK)));
+        Save.apply(this.hConf, "top-triplet-hashtag", families, columns, InsertValues.createFromJavaPairRDD(rdd, Optional.of(topK)));
 
         return rdd;
     }
 
     // Users
     public JavaPairRDD<Triplet, Set<User>> getTripletHashtagsAndUsers() throws Exception {
-        JavaPairRDD<Triplet, Set<User >> rdd = BuilderRDDUser.userByTripletHashtags(this.tweetRDD);
+        JavaPairRDD<Triplet, Set<User>> rdd = BuilderRDDUser.userByTripletHashtags(this.tweetRDD);
 
         String[] families = {Triplet.class.getSimpleName(), HashSet.class.getSimpleName()};
         String[] columns = {"value", "user"};
-        Save.apply(this.hConf, "triplet-user", families, columns, InsertValues.createFromJavaPairRDD(rdd,Optional.empty()));
+        Save.apply(this.hConf, "triplet-user", families, columns, InsertValues.createFromJavaPairRDD(rdd, Optional.empty()));
 
         return rdd;
     }
@@ -128,7 +128,7 @@ public class Process {
 
         String[] families = {User.class.getSimpleName(), Long.class.getSimpleName()};
         String[] columns = {"user", "count"};
-        Save.apply(this.hConf, "top-user", families, columns, InsertValues.createFromJavaPairRDD(rdd,Optional.empty()));
+        Save.apply(this.hConf, "top-user", families, columns, InsertValues.createFromJavaPairRDD(rdd, Optional.empty()));
 
         return rdd;
     }

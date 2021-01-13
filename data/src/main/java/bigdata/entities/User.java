@@ -12,12 +12,15 @@ public class User extends BigDataObject implements IBigDataObject {
     private long friends_count;
     private String created_at;
     private long reply_count;
-    private long retweet_count;
     private long favorite_count;
 
 
     public String getId() {
         return this.id_str;
+    }
+
+    public long getFollowers() {
+        return this.followers_count;
     }
 
     @Override
