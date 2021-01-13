@@ -15,11 +15,14 @@ const default_path = require("./routes/default.js")
 const dashboard = require("./routes/dashboard.js")
 const top_k_user = require("./routes/top_k_user.js")
 const top_k_lang = require("./routes/top_k_lang.js")
+const top_k_hashtag_simple = require("./routes/top_k_hashtag_simple.js")
 
 default_path.init(app);
 dashboard.init(app);
 top_k_user.init(app)
 top_k_lang.init(app)
+top_k_hashtag_simple.init(app)
+
 
 
 app.listen(port, function () {
