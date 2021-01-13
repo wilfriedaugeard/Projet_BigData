@@ -91,7 +91,7 @@ public class BuilderRDDUser {
                 .mapToPair(item -> new Tuple2<User, Long>(item._2, item._1));
     }
 
-    class RtFollowersComparator implements Comparator<Tuple2<Long, Long>>, Serializable {
+    private static class RtFollowersComparator implements Comparator<Tuple2<Long, Long>>, Serializable {
         private static final long serialVersionUID = 1L;
 
         @Override
