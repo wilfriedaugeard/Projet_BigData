@@ -57,9 +57,10 @@ public class BuilderRDDUser {
         JavaPairRDD<User, Long> topUser = topUser(tweetRDD);
 
         JavaPairRDD<User, Long> tripletTweetByUser = userByTripletHashtags(tweetRDD)
-                .flatMapPair(pair -> {
+                .flatMapToPair(pair -> {
                     Set<Tuple2<User, Long>> list = new HashSet();
-		   for(Iterator<User> it : pair._2.iterator(); it.hasNext();){
+		  Iterator<User> it = pair._2().iterator(); 
+		   while(it.hasNext()){
 			User user = it.next();
 			list.add(new Tuple2<User,Long>(user, new Long(1)));
 		    }
