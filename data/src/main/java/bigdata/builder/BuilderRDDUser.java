@@ -1,5 +1,8 @@
 package bigdata.builder;
 
+import java.util.Iterator;
+import java.util.Comparator;
+import java.io.Serializable;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -10,7 +13,7 @@ import scala.Tuple2;
 import bigdata.entities.User;
 import bigdata.entities.Tweet;
 import bigdata.entities.Triplet;
-
+import bigdata.entities.Hashtag;
 
 public class BuilderRDDUser {
 
@@ -56,9 +59,10 @@ public class BuilderRDDUser {
         JavaPairRDD<User, Long> tripletTweetByUser = userByTripletHashtags(tweetRDD)
                 .flatMapPair(pair -> {
                     Set<Tuple2<User, Long>> list = new HashSet();
-                    pair._2.forEach(user -> {
-                        list.add(new Tuple2<User, Long>(user, new Long(1)));
-                    });
+		   for(Iterator<User> it : pair._2.iterator(); it.hasNext();){
+			User user = it.next();
+			list.add(new Tuple2<User,Long>(user, new Long(1)));
+		    }
                     return list.iterator();
                 })
                 .reduceByKey((a, b) -> a + b);
@@ -66,11 +70,11 @@ public class BuilderRDDUser {
         return topUser.join(tripletTweetByUser)
                 .mapToPair(item -> {
                     Tuple2<Long, Long> tuple = item._2;
-                    return new Tuple2<User, Long>(item._1, (tuple._1 * 100) / tuple._2));
+                    return new Tuple2<User, Long>(item._1, (tuple._1 * 100) / tuple._2);
                 })
-                .mapToPair(item -> new Tuple2<Long, Hashtag>(item._2, item._1))
+                .mapToPair(item -> new Tuple2<Long,User>(item._2, item._1))
                 .sortByKey(false)
-                .mapToPair(item -> new Tuple2<Hashtag, Long>(item._2, item._1));
+                .mapToPair(item -> new Tuple2<User, Long>(item._2, item._1));
     }
 
     //Nombre total de RT que l'user à eu tous tweet confondu
@@ -107,7 +111,7 @@ public class BuilderRDDUser {
     //trie par nombre de followers (>) puis nombre de RT moyen (<)
     public static final JavaPairRDD<User, Tuple2<Long, Long>> fakeInfluenceur(JavaRDD<Tweet> tweetRDD) {
         JavaPairRDD<User, Long> userRTRDD = userByTotalRT(tweetRDD);
-        JavaPairRRD<User, Long> ratioRdd = topUser(tweetRDD)
+        JavaPairRDD<User, Long> ratioRdd = topUser(tweetRDD)
                 .join(userRTRDD)
                 .mapToPair(item -> {
                     Tuple2<Long, Long> tuple = item._2;
