@@ -31,6 +31,13 @@ top_k_hashtag_triplet.init(app)
 user.init(app)
 hashtag.init(app)
 
+const tableName = "augeard-tarmil-top-hashtag"
+
+hbase()
+.table(tableName)
+.schema(function(error, schema){
+  console.info(schema)
+});
 
 app.listen(port, function () {
     console.log("listening on "+port)
