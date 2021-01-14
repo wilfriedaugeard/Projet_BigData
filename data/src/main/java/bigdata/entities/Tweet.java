@@ -5,17 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tweet extends BigDataObject implements IBigDataObject {
-    private String created_at;
+ private String created_at;
     private String id_str;
     private String text;
     private String in_reply_to_status_id_str;
     private String in_reply_to_user_id_str;
     private String in_reply_to_screen_name;
+    private String lang;
     private User user;
     private boolean favorited;
     private boolean retweeted;
-    private String lang;
     private Entities entities;
+    private long retweet_count;
+        
 
     public Entities getEntities() {
         return this.entities;
@@ -32,4 +34,8 @@ public class Tweet extends BigDataObject implements IBigDataObject {
     public boolean isAvailable() {
         return this.created_at != null;
     }
+
+    public long getRetweetCount() {
+        return this.retweet_count;
+	}
 } 
