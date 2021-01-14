@@ -81,13 +81,13 @@ public class Process {
         return rdd;
     }
 
-    public JavaPairRDD<User, Set<Hashtag>> getUserHashtags() throws Exception {
+    public JavaPairRDD<User, Set<Hashtag>> getUserHashtags(int topK) throws Exception {
 
         JavaPairRDD<User, Set<Hashtag>> rdd = BuilderRDDHashtags.userHashtags(this.tweetRDD);
 
         String[] families = {User.class.getSimpleName(), HashSet.class.getSimpleName()};
         String[] columns = {"user", "hashtags"};
-        Save.apply(this.hConf, "user-hashtag", families, columns, InsertValues.createFromJavaPairRDD(rdd, Optional.empty()));
+        Save.apply(this.hConf, "user-hashtag", families, columns, InsertValues.createFromJavaPairRDD(rdd, Optional.of(topK)));
 
         return rdd;
     }
@@ -116,10 +116,10 @@ public class Process {
     public JavaPairRDD<Triplet, Set<User>> getTripletHashtagsAndUsers() throws Exception {
         JavaPairRDD<Triplet, Set<User>> rdd = BuilderRDDUser.userByTripletHashtags(this.tweetRDD);
 
-        String[] families = {Triplet.class.getSimpleName(), HashSet.class.getSimpleName()};
+   /*     String[] families = {Triplet.class.getSimpleName(), HashSet.class.getSimpleName()};
         String[] columns = {"value", "user"};
         Save.apply(this.hConf, "triplet-user", families, columns, InsertValues.createFromJavaPairRDD(rdd, Optional.empty()));
-
+*/
         return rdd;
     }
 
@@ -136,7 +136,6 @@ public class Process {
 
     public JavaPairRDD<User, Long> getInfluencers() throws Exception {
         JavaPairRDD<User, Long> rdd = BuilderRDDUser.influencer(this.tweetRDD);
-	System.out.println("\n\n A calculé le RDD\n\n");
         /*
         String[] families = {User.class.getSimpleName(), Long.class.getSimpleName()};
         String[] columns = {"user", "top-triplet-tweet"};
