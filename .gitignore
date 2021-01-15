@@ -30,5 +30,6 @@ node_modules/
 build
 .npm
 .eslintcache
+.idea
 package-lock.json
 
