@@ -55,7 +55,7 @@ public class InsertValues {
                 put.add(
                         Bytes.toBytes(tuple._2.getClass().getSimpleName()),
                         Bytes.toBytes(column2),
-                        Bytes.toBytes(tuple._1.toString())
+                        Bytes.toBytes(tuple._2.toString())
                 );
 
                 list.add(put);

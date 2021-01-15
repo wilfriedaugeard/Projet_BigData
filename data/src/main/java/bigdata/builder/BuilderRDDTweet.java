@@ -28,11 +28,14 @@ public class BuilderRDDTweet {
         return tweets;
     }
 
-    public static final JavaPairRDD<Hashtag, Long> nbTweetByLang(JavaRDD<Tweet> tweetRDD) {
-        JavaPairRDD<Hashtag, Long> tuple = tweetRDD.mapToPair(t -> {
-            return new Tuple2(new Hashtag(t.getLang().toLowerCase()), new Long(1));
+    public static final JavaPairRDD<String, Long> nbTweetByLang(JavaRDD<Tweet> tweetRDD) {
+        JavaPairRDD<String, Long> tuple = tweetRDD.mapToPair(t -> {
+            return new Tuple2(t.getLang().toLowerCase(), new Long(1));
         });
-        return tuple.reduceByKey((a, b) -> a + b);
+        return tuple.reduceByKey((a, b) -> a + b)
+                .mapToPair(item -> new Tuple2<Long, String>(item._2, item._1))
+                .sortByKey(false)
+                .mapToPair(item -> new Tuple2<String, Long>(item._2, item._1));
     }
 
 

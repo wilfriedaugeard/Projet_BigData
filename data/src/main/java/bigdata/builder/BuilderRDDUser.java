@@ -77,7 +77,7 @@ public class BuilderRDDUser {
     public static final JavaPairRDD<User, Long> userByTotalRT(JavaRDD<Tweet> tweetRDD) {
         JavaPairRDD<User, Long> top = tweetRDD
                 .mapToPair(t -> {
-                    return new Tuple2<User, Long>(t.getUser(), new Long(t.getRetweetCount()));
+                    return new Tuple2<User, Long>(t.getUser(), new Long(t.getRetweet_count()));
                 });
         return top
                 .reduceByKey((a, b) -> a + b)

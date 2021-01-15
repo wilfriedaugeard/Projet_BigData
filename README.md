@@ -17,8 +17,8 @@ c) Afin de planifier nos achats de matériels futurs, calculez le nombre de mach
 
 |                         Description                          | Front | API  | HBase | Spark | Globale |
 | :----------------------------------------------------------: | :---: | :--: | :---: | :---: | :-----: |
-| Permettre de récupérer pour un jour donné la liste des khashtags les plus utilisés ainsi que leur nombre d’apparition (k entre 1 et 10000). | DONE  | TODO | TODO  | DONE  |   50%   |
-| Permettre de récupérer les k hashtags les plus utilisés (k entre 1 et 10000) sur toutes les données. | DONE  | TODO | TODO  | DONE  |   50%   |
+| Permettre de récupérer pour un jour donné la liste des khashtags les plus utilisés ainsi que leur nombre d’apparition (k entre 1 et 1000). | DONE  | TODO | TODO  | DONE  |   50%   |
+| Permettre de récupérer les k hashtags les plus utilisés (k entre 1 et 1000) sur toutes les données. | DONE  | DONE | DONE  | DONE  |   100%   |
 | Permettre de récupérer le nombre d’apparition d’un hashtag donné. | DONE  | TODO | TODO  | DONE  |   50%   |
 | Récupérer tous les utilisateurs qui ont utilisé un hashtag.  | TODO  | TODO | TODO  | DONE  |   25%   |
 | Permettre de récupérer pour un utilisateur la liste de ses hashtags sans doublon. | TODO  | TODO | TODO  | DONE  |   25%   |

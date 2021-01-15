@@ -54,11 +54,11 @@ public class Process {
         return this.tweetRDD;
     }
 
-    public JavaPairRDD<Hashtag, Long> getNbTweetByLang() throws Exception {
+    public JavaPairRDD<String, Long> getNbTweetByLang() throws Exception {
 
-        JavaPairRDD<Hashtag, Long> rdd = BuilderRDDTweet.nbTweetByLang(this.tweetRDD);
+        JavaPairRDD<String, Long> rdd = BuilderRDDTweet.nbTweetByLang(this.tweetRDD);
 
-        String[] families = {Hashtag.class.getSimpleName(), Long.class.getSimpleName()};
+        String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
         String[] columns = {"language", "count"};
         Save.apply(this.hConf, "by-lang-tweet", families, columns, InsertValues.createFromJavaPairRDD(rdd, Optional.empty()));
 
@@ -123,12 +123,12 @@ public class Process {
         return rdd;
     }
 
-    public JavaPairRDD<User, Long> getTopUsers() throws Exception {
+    public JavaPairRDD<User, Long> getTopUsers(int topK) throws Exception {
         JavaPairRDD<User, Long> rdd = BuilderRDDUser.topUser(this.tweetRDD);
 
         String[] families = {User.class.getSimpleName(), Long.class.getSimpleName()};
         String[] columns = {"user", "count"};
-        Save.apply(this.hConf, "top-user", families, columns, InsertValues.createFromJavaPairRDD(rdd, Optional.empty()));
+        Save.apply(this.hConf, "top-user", families, columns, InsertValues.createFromJavaPairRDD(rdd, Optional.of(topK)));
 
         return rdd;
     }
