@@ -4,15 +4,34 @@ import bigdata.util.Process;
 import bigdata.util.Config;
 
 
-public class TPSpark {
+public class ProjetTwitter {
 
-    public static final Integer TOP_K = 1000;
-    public static final Integer ALL = Integer.MAX_VALUE;
-    public static final String HASHTAG = "ATINfourSB19";
-    public static final String USER_ID = "1870597914";
+    private static void usage(String error){
+        Sytem.out.println("Usage: "+ error);
+        System.exit(0);
+    }
 
     public static void main(String[] args) throws Exception {
-        Process process = new Process(Config.APP_NAME, Config.ONE_FILE_PATH);
+
+        if(args.length != 3) {
+            usage("wrong number of arguments");
+        }
+        String file;
+        Switch(args[1]){
+            case "small":
+                file = Congig.SMALL_FILE_PATH;
+                break;
+            case "one":
+                file = Config.ONE_FILE_PATH;
+                break;
+            case "all":
+                file = Config.ALL_FILES_PATH;
+                break
+            default :
+                usage("wrong file arguments ")
+        }
+
+        Process process = new Process(Config.APP_NAME, file);
 
         // EXEMPLE D'ANALYSE DES HASHTAGS
 
