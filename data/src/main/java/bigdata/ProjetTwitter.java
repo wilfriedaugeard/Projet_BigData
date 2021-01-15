@@ -2,22 +2,24 @@ package bigdata;
 
 import bigdata.util.Process;
 import bigdata.util.Config;
+import bigdata.util.Display;
 
 
 public class ProjetTwitter {
 
-    private static void usage(String error){
-        System.out.println("Usage: "+ error);
+    private static void usage(String error) {
+        System.out.println("Usage: " + error);
         System.exit(0);
     }
 
     public static void main(String[] args) throws Exception {
 
-        if(args.length != 3) {
+        if (args.length != 3) {
             usage("wrong number of arguments");
         }
+
         String file = "";
-        switch(args[1]){
+        switch (args[1]) {
             case "small":
                 file = Config.SMALL_FILE_PATH;
                 break;
@@ -27,53 +29,53 @@ public class ProjetTwitter {
             case "all":
                 file = Config.ALL_FILES_PATH;
                 break;
-            default :
+            default:
                 usage("wrong file arguments ");
-		break;
+                break;
         }
-	System.out.println(file);
+
         Process process = new Process(Config.APP_NAME, file);
 
-        // EXEMPLE D'ANALYSE DES HASHTAGS
+        Boolean saveValues = (args[2].equals("true")) ? true : false;
 
-        // a) Permettre de récupérer pour un jour donné la liste des k hashtags les plus utilisés ainsi que leur nombre d’apparition (k entre 1 et 10000).
-       // process.displayResult(process.getTopHashtags(TOP_K),10);
-
-        // c) Permettre de récupérer le nombre d’apparition d’un hashtag donné.
-        //process.displayResult(process.getTopHashtags(), 10);
-
-        // d) Récupérer tous les utilisateurs qui ont utilisé un hashtag.
-        //process.displayResult(process.getUserHashtags(TOP_K), 10);
-
-
-        // EXEMPLE D'ANALYSE DES USERS
-
-        // a) Permettre de récupérer pour un utilisateur la liste de ses hashtags sans doublon.
-        // process.displayResult(process.getUserHashtags(), 10);
-
-        // b) Permettre de savoir le nombre de tweet d’un utilisateur.
-//         process.displayResult(process.getTopUsers(TOP_K), 10);
-
-        // c) Nombre de tweet par pays ou par langue
-//       process.displayResult(process.getNbTweetByLang(), 100);
-
-
-        // EXEMPLE D'ANALYSE DES INFLUENCEURS
-
-        // a) Récupérer tous les triplets de hashtags ainsi que les utilisateurs qui les ont utilisés
-        // process.displayResult(process.getTripletHashtagsAndUsers(), 100);
-
-        // b) Donner les k triplets de hashtags les plus utilisés (k entre 1 et 1000)
-        //process.displayResult(process.getTopTripletHashtags(TOP_K), TOP_K);
-
-        // c) Trouver les influenceurs, c'est a dire les personnes avec le plus grand nombre de tweets dans les triplets que l'on a trouvé.
-        //process.displayResult(process.getInfluencers(), 100);
-
-        // d) Trouver les faux influencer, personnes avec beaucoup de followers dont les tweets ne sont jamais retweeté.
-   //   process.displayResult(process.getFakeInfluencers(), 100);
-
-        // g) Trouver les k users les plus Retweetés (k entre 1 et 1000)
-//        process.displayResult(process.getUserRtCount(TOP_K), TOP_K);
+        switch (args[0]) {
+            case "top-hashtag":
+                Display.displayResult(process.getTopHashtags(saveValues), Config.DISPLAY);
+                break;
+            case "user-hashtag":
+                Display.displayResult(process.getUserHashtags(saveValues), Config.DISPLAY);
+                break;
+            case "triplet-hashtag":
+                Display.displayResult(process.getTripletHashtagsAndUsers(saveValues), Config.DISPLAY);
+                break;
+            case "tweet-by-hashtag-nb":
+                Display.displayResult(process.getHashtagByTweet(saveValues), Config.DISPLAY);
+                break;
+            case "tweet-by-language":
+                Display.displayResult(process.getNbTweetByLang(saveValues), Config.DISPLAY);
+                break;
+            case "tweet-by-day":
+                Display.displayResult(process.getNbTweetByDay(saveValues), Config.DISPLAY);
+                break;
+            case "top-followed-user":
+                Display.displayResult(process.getTopUsers(saveValues, "followed"), Config.DISPLAY);
+                break;
+            case "top-retweeted-user":
+                Display.displayResult(process.getTopUsers(saveValues, "retweeted"), Config.DISPLAY);
+                break;
+            case "top-tweeting-user":
+                Display.displayResult(process.getTopUsers(saveValues, "tweeting"), Config.DISPLAY);
+                break;
+            case "influencers":
+                Display.displayResult(process.getInfluencers(saveValues), Config.DISPLAY);
+                break;
+            case "fake-influencers":
+                Display.displayResult(process.getFakeInfluencers(saveValues), Config.DISPLAY);
+                break;
+            default:
+                process.close();
+                usage("wrong function argument");
+        }
 
         process.close();
 

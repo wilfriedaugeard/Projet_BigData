@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Save {
 
-    public static final <T,U> void apply(Configuration hConf, String tableName, String[] families, String[] columns, List<Tuple2<T, U>> values) throws Exception {
+    public static final <T, U> void apply(Configuration hConf, String tableName, String[] families, String[] columns, JavaPairRDD<T, U> rdd) throws Exception {
         try {
             BuilderTable.createTable(
                     hConf,
@@ -20,12 +20,25 @@ public class Save {
                     families[1]
             );
 
+            List<Tuple2<T, U>> values;
+            if (rdd.count() > Config.TOP_K) {
+                values = new ArrayList<>();
+                int index = 0;
+                rdd.foreach(item -> {
+                    list.add(index, item);
+                    index++;
+                });
+
+            } else {
+                values = rdd.collect();
+            }
+
             InsertValues.insert(
                     hConf,
                     values,
                     tableName,
-                    columns[0],
-                    columns[1]
+                    families,
+                    columns
             );
         } catch (Exception e) {
             e.printStackTrace();

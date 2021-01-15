@@ -55,7 +55,7 @@ public class BuilderRDDUser {
     // User dont le pourcentage de tweet contenant les triplets sur le nombre total de tweet est le plus grand
     public static final JavaPairRDD<User, Long> influencer(JavaRDD<Tweet> tweetRDD) {
 
-         JavaPairRDD<User, Long> tripletTweetByUser = userByTripletHashtags(tweetRDD)
+        JavaPairRDD<User, Long> tripletTweetByUser = userByTripletHashtags(tweetRDD)
                 .flatMapToPair(pair -> {
                     Set<Tuple2<User, Long>> list = new HashSet();
                     Iterator<User> it = pair._2().iterator();
@@ -66,8 +66,8 @@ public class BuilderRDDUser {
                     return list.iterator();
                 })
                 .reduceByKey((a, b) -> a + b);
-	
-        return tripletTweetByUser 
+
+        return tripletTweetByUser
                 .mapToPair(item -> new Tuple2<Long, User>(item._2, item._1))
                 .sortByKey(false)
                 .mapToPair(item -> new Tuple2<User, Long>(item._2, item._1));
@@ -91,11 +91,11 @@ public class BuilderRDDUser {
 
         @Override
         public int compare(Tuple2<Long, Long> v1, Tuple2<Long, Long> v2) {
-		if(v1._2().compareTo(v2._2()) == 0){
-			return   v1._1().compareTo(v2._1());
-		}
-		return v2._1().compareTo(v1._1());
-  	}
+            if (v1._2().compareTo(v2._2()) == 0) {
+                return v1._1().compareTo(v2._1());
+            }
+            return v2._1().compareTo(v1._1());
+        }
     }
 
     //User avec beaucoup de followers et peu de RT

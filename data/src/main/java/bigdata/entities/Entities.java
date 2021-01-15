@@ -12,4 +12,8 @@ public class Entities extends BigDataObject {
     public List<Hashtag> getHashtags() {
         return (!this.hashtags.isEmpty() && this.hashtags != null) ? this.hashtags : new ArrayList<>();
     }
+
+    public int getNbHashtags(){
+        return (this.hashtags != null) ? this.hashtags.size() : 0;
+    }
 } 
