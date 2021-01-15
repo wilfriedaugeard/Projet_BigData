@@ -1,6 +1,5 @@
 const hbase = require("../models/hbase")
 
-
 async function init(app) {
     const topk_hashtag = await hbase.getTopKHashtag()
     app.get("/topk/hashtag_simple", async (req, res) => {
