@@ -9,6 +9,7 @@ const USER_VALUE    = 'User:user'
 const TRIPLET_VALUE = 'Triplet:value'
 const LANG_VALUE    = 'String:language'
 const NB_VALUE      = 'Long:count'
+const NB_TRIPLET    = 'Long:top-triplet-tweet'
 
 const K_MAX = 1000
 
@@ -25,5 +26,6 @@ module.exports = {
     USER_VALUE,
     LANG_VALUE,
     NB_VALUE,
+    NB_TRIPLET,
     K_MAX
 }
