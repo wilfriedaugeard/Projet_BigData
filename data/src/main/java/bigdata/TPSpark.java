@@ -6,13 +6,13 @@ import bigdata.util.Config;
 
 public class TPSpark {
 
-    public static final Integer TOP_K = 10000;
+    public static final Integer TOP_K = 1000;
     public static final Integer ALL = Integer.MAX_VALUE;
     public static final String HASHTAG = "ATINfourSB19";
     public static final String USER_ID = "1870597914";
 
     public static void main(String[] args) throws Exception {
-        Process process = new Process(Config.APP_NAME, Config.ALL_FILES_PATH);
+        Process process = new Process(Config.APP_NAME, Config.ONE_FILE_PATH);
 
         // EXEMPLE D'ANALYSE DES HASHTAGS
 
@@ -23,7 +23,7 @@ public class TPSpark {
         //process.displayResult(process.getTopHashtags(), 10);
 
         // d) Récupérer tous les utilisateurs qui ont utilisé un hashtag.
-        process.displayResult(process.getUserHashtags(TOP_K), 10);
+        //process.displayResult(process.getUserHashtags(TOP_K), 10);
 
 
         // EXEMPLE D'ANALYSE DES USERS
@@ -32,10 +32,10 @@ public class TPSpark {
         // process.displayResult(process.getUserHashtags(), 10);
 
         // b) Permettre de savoir le nombre de tweet d’un utilisateur.
-        // process.displayResult(process.getTopUsers(TOP_K), 10);
+//         process.displayResult(process.getTopUsers(TOP_K), 10);
 
         // c) Nombre de tweet par pays ou par langue
-        //process.displayResult(process.getNbTweetByLang(), 10);
+       process.displayResult(process.getNbTweetByLang(), 100);
 
 
         // EXEMPLE D'ANALYSE DES INFLUENCEURS
