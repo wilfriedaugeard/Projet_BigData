@@ -7,7 +7,7 @@ import bigdata.util.Config;
 public class ProjetTwitter {
 
     private static void usage(String error){
-        Sytem.out.println("Usage: "+ error);
+        System.out.println("Usage: "+ error);
         System.exit(0);
     }
 
@@ -16,21 +16,22 @@ public class ProjetTwitter {
         if(args.length != 3) {
             usage("wrong number of arguments");
         }
-        String file;
-        Switch(args[1]){
+        String file = "";
+        switch(args[1]){
             case "small":
-                file = Congig.SMALL_FILE_PATH;
+                file = Config.SMALL_FILE_PATH;
                 break;
             case "one":
                 file = Config.ONE_FILE_PATH;
                 break;
             case "all":
                 file = Config.ALL_FILES_PATH;
-                break
+                break;
             default :
-                usage("wrong file arguments ")
+                usage("wrong file arguments ");
+		break;
         }
-
+	System.out.println(file);
         Process process = new Process(Config.APP_NAME, file);
 
         // EXEMPLE D'ANALYSE DES HASHTAGS
@@ -54,7 +55,7 @@ public class ProjetTwitter {
 //         process.displayResult(process.getTopUsers(TOP_K), 10);
 
         // c) Nombre de tweet par pays ou par langue
-       process.displayResult(process.getNbTweetByLang(), 100);
+//       process.displayResult(process.getNbTweetByLang(), 100);
 
 
         // EXEMPLE D'ANALYSE DES INFLUENCEURS
