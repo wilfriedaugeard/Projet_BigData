@@ -53,13 +53,53 @@ async function country(){
             resolve(ranking.reverse()) 
         })
         
+    }) 
+} 
+
+async function getTopKUserByTweet(){
+    let ranking = []
+    const scanner = await client.table(config.TABLE_NAME_TOPK_USER_BY_TWEET).scan({
+        startRow: '0',
+        maxVersions: 1
     })
-    
+    return new Promise((resolve, reject) => {
+        scanner.on('readable', async function(){
+            while(data = scanner.read()){
+                console.log(data)
+            }
+            resolve(ranking.reverse()) 
+        })
+        
+    }) 
+} 
+
+async function getTripletInfluencers(){
+    let ranking = []
+    let user_id, userName, nbTweet
+    const scanner = await client.table(config.TABLE_NAME_TRIPLET_INFLUENCER).scan({
+        startRow: '0',
+        maxVersions: 1
+    })
+    return new Promise((resolve, reject) => {
+        scanner.on('readable', async function(){
+            while(data = scanner.read()){
+                nbTweet = JSON.parse(data.$)
+                data = scanner.read()
+                user_id = JSON.parse(data.$).id_str
+                userName = JSON.parse(data.$).name
+                ranking.push([user_id, userName, nbTweet])
+            }
+            resolve(ranking) 
+        })
+        
+    }) 
 } 
 
 
 
 module.exports = {
     getTopKHashtag,
+    getTopKUserByTweet,
+    getTripletInfluencers,
     country
 }
