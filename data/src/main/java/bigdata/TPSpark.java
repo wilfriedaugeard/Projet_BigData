@@ -32,7 +32,7 @@ public class TPSpark {
         // process.displayResult(process.getUserHashtags(), 10);
 
         // b) Permettre de savoir le nombre de tweet d’un utilisateur.
-        // process.displayResult(process.getTopUsers(), 10);
+        // process.displayResult(process.getTopUsers(TOP_K), 10);
 
         // c) Nombre de tweet par pays ou par langue
         //process.displayResult(process.getNbTweetByLang(), 10);
