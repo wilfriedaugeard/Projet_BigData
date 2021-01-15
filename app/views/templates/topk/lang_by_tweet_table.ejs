@@ -9,36 +9,24 @@
                 <thead>
                     <tr>
                         <th>Classement</th>
+                        <th>Drapeau</th>
                         <th>Langues</th>
                         <th>Nombre de Tweets</th>
+                        <th>Fréquence</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Fr</td>
-                        <td>2546985</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Usa</td>
-                        <td>2540985</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Be</td>
-                        <td>2546985</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Pl</td>
-                        <td>1246985</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>Fr</td>
-                        <td>2546985</td>
-                    </tr>
+                    <% for(let i=0; i<lang.length; i++){%> 
+                        <tr>
+                            <td><%=i+1%></td>
+                            <td><span class="flag flag-<%=lang[i][1]%>"></span></td>
+                            <td><%=lang[i][0]%></td>
+                            <td><%=lang[i][2]%></td>
+                            <td>
+                                <div class="sparkline-bar-stats1">50,20,30,75,63,35,49,47,65,32,57,65,15,63,29,45</div>
+                            </td>
+                        </tr>
+                    <%}%>
                    
                     
                 </tbody>
