@@ -20,6 +20,13 @@
                             <div class="col-xl-12">
                                 <%- include("../templates/search_hashtag_form")%>
                             </div>
+                            <div class="col-xl-12">
+                                <% if (list != null){%>
+                                    <%- include("../templates/search_hashtag_result")%>
+                                <%}else{%>
+                                    Aucun résultat.
+                                <%}%> 
+                            </div>
 
                         </div>
                     </main>

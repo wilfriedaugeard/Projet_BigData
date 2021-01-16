@@ -25,7 +25,7 @@ c) Afin de planifier nos achats de matériels futurs, calculez le nombre de mach
 |           Nombre de tweet par pays ou par langue.            | DONE  | TODO | TODO  | DONE  |   50%   |
 | Récupérer tous les triplets de hashtags ainsi que les utilisateurs qui les ont utilisés. | TODO  | TODO | TODO  | DONE  |   25%   |
 | Donner k triplets de hashtags les plus utilisés (k entre 1 et 1000). | DONE  | TODO | TODO  | DONE  |   50%   |
-| Trouver les influencers c.a.d les personnes avec le plus grand nombre de tweets dans les triplets que l’on a trouvé. | TODO  | TODO | TODO  | TODO  |   0%    |
+| Trouver les influencers c.a.d les personnes avec le plus grand nombre de tweets dans les triplets que l’on a trouvé. | DONE  | DONE | DONE  | DONE  |   100%    |
 | Trouver les faux influencer, personnes avec beaucoup de followers dont les tweets ne sont jamais retweeté. | TODO  | TODO | TODO  | TODO  |   0%    |
 | Trouvez les sujets (hashtag) qui permettent d’avoir le plus de followers. | TODO  | TODO | TODO  | TODO  |   0%    |
 | Avoir le pourcentage de tweet ou il y a 0 hashtags, entre 1 et 3, entre 4 et 10, et 10+. | DONE  | TODO | TODO  | TODO  |   25%   |
