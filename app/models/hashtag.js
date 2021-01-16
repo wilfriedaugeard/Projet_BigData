@@ -34,7 +34,25 @@ async function getTopKTriplet() {
     }) 
 }
 
+
+async function getHashtagInfo(hashtagName){
+    return new Promise(async (resolve, reject) => { 
+        let ranking = []
+        let hashtag, count
+        const data = await hbase.getElement(config.TABLE_NAME_TOPK_HASHTAG, hashtagName)
+        let n = (data.length < 100) ? data.length : 100
+        for (let i=0; i<n; i++){
+            hashtag = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, data[i], config.HASHTAG_VALUE)
+            count = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, data[i], config.NB_VALUE)
+            ranking.push([JSON.parse(hashtag).text,count])
+        } 
+        resolve(ranking) 
+    }) 
+} 
+
+
 module.exports = {
     getTopKHashtag,
-    getTopKTriplet
+    getTopKTriplet,
+    getHashtagInfo
 }

@@ -24,11 +24,8 @@ async function getTableLength(tableName){
     
     return new Promise(async (resolve, reject) =>{
         scanner.on('readable', async function(){
-            console.log("==== "+tableName+" ====")
             while(data = scanner.read()){
-                if(n == 0) console.log(data)
                 data = scanner.read()
-                if(n == 0) console.log(data)
                 n++
             }
         })
@@ -39,8 +36,43 @@ async function getTableLength(tableName){
 } 
 
 
+function buildRegex(element){
+    const word = element.split('')
+    let regex = ''
+    word.forEach(element => {
+        regex+="["+element.toUpperCase()+element.toLowerCase()+"]"
+    });
+    return regex
+} 
+
+
+async function getElement(tableName, element){
+    let rows = [] 
+    const scanner = await client.table(tableName).scan({
+        filter:{
+            "op":"MUST_PASS_ALL", "type":"FilterList","filters":[
+                {
+                "op":"EQUAL",
+                "type":"ValueFilter",
+                "comparator":{"value":buildRegex(element), "type":"RegexStringComparator"} 
+            }]
+        } 
+    })
+    return new Promise(async (resolve, reject) =>{
+        scanner.on('readable', async function(){
+            while(data = scanner.read()){
+                rows.push(data.key)
+            }
+        })
+        scanner.on('end', function (){
+            resolve(rows)
+        })
+    })
+
+} 
 
 module.exports = {
     getHbaseValue,
-    getTableLength
+    getTableLength,
+    getElement
 }
