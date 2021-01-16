@@ -19,6 +19,7 @@ const top_k_hashtag_simple  = require("./routes/top_k_hashtag_simple.js")
 const top_k_hashtag_triplet = require("./routes/top_k_hashtag_triplet.js")
 const user                  = require("./routes/user.js")
 const hashtag               = require("./routes/hashtag.js")
+const convert               = require("./routes/convert.js")
 
 default_path.init(app);
 dashboard.init(app);
@@ -28,6 +29,7 @@ top_k_hashtag_simple.init(app)
 top_k_hashtag_triplet.init(app)
 user.init(app)
 hashtag.init(app)
+convert.init(app)
 
 app.listen(port, function () {
     console.log("listening on "+port)
