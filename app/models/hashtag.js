@@ -5,18 +5,21 @@ const hbase  = require(path.resolve('./models/hbase.js'))
 let HASHTAG_LIST = [] 
 let RANKING = [] 
 
+
 async function getTopKHashtag() {
     HASHTAG_LIST = [] 
     let ranking = []
     let hashtag, count
-    for (let i = 0; i < config.K_MAX; i++) {
-        hashtag = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, i.toString(), config.HASHTAG_VALUE)
-        count = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, i.toString(), config.NB_VALUE)
-        ranking.push([JSON.parse(hashtag).text, count])
-        HASHTAG_LIST.push(JSON.parse(hashtag).text)
-    }
-    RANKING = ranking
-    return ranking
+    return new Promise(async (resolve, reject) => { 
+        for (let i = 0; i < config.K_MAX; i++) {
+            hashtag = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, i.toString(), config.HASHTAG_VALUE)
+            count = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, i.toString(), config.NB_VALUE)
+            ranking.push([JSON.parse(hashtag).text, count])
+            HASHTAG_LIST.push(JSON.parse(hashtag).text)
+        }
+        RANKING = ranking
+        resolve(ranking)
+    })
 }
 
 
@@ -40,19 +43,21 @@ async function getTopKTriplet() {
 }
 
 
-async function getHashtagInfo(hashtagName){
-    return new Promise(async (resolve, reject) => { 
-        let ranking = []
-        let hashtag, count
-        const data = await hbase.getElement(config.TABLE_NAME_TOPK_HASHTAG, hashtagName)
-        let n = (data.length < 100) ? data.length : 100
-        for (let i=0; i<n; i++){
-            hashtag = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, data[i], config.HASHTAG_VALUE)
-            count = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, data[i], config.NB_VALUE)
-            ranking.push([JSON.parse(hashtag).text,count])
+function getHashtagInfo(hashtagName){
+    let list = []  
+    let regex = hbase.buildRegex(hashtagName)
+    regex += ".*"
+    HASHTAG_LIST.filter(function(word, index){
+        if(word.match(regex)){
+            if(list.length > 30) return false
+            list.push(RANKING[index])
+            return true
+        }else{
+            return false
         } 
-        resolve(ranking) 
-    }) 
+    })
+    return list
+
 } 
 
 
@@ -77,10 +82,15 @@ function convert(tweet){
     return [splittedTweet, nbHashtag] 
 } 
 
+function getRanking(){
+    return RANKING
+} 
+
 
 module.exports = {
     getTopKHashtag,
     getTopKTriplet,
     getHashtagInfo,
-    convert
+    convert,
+    getRanking
 }

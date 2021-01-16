@@ -24,7 +24,11 @@
                                 <% if (tweet != null){%>
                                     <%- include("../templates/search_tweet_result")%>
                                 <%}else{%>
-                                    Aucun résultat.
+                                    <% if (waiting) {%>
+                                        <%- include("../templates/waiting")%>
+                                    <%}else{%>
+                                        Aucun résultat.
+                                    <%}%> 
                                 <%}%> 
                             </div>
 

@@ -24,7 +24,11 @@
                                 <% if (list != null){%>
                                     <%- include("../templates/search_hashtag_result")%>
                                 <%}else{%>
-                                    Aucun résultat.
+                                    <% if(waiting){ %>
+                                        <%- include("../templates/waiting")%>
+                                    <%}else{%>
+                                        Aucun résultat.
+                                    <%} %>
                                 <%}%> 
                             </div>
 
