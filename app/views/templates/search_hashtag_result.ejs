@@ -4,6 +4,9 @@
         Résultats de la recherche pour: <%=word%>
     </div>
     <div class="card-body">
+        <%if (list.length == 0){%>
+            Aucune donnée pour ce hashtag.
+        <%}else{%>  
         <div class="table-responsive">
             <table class="table table-bordered text-center align-center dataTable"  width="100%" cellspacing="0">
                 <thead>
@@ -22,9 +25,10 @@
                             <div class="sparkline-bar-stats1">50,20,30,75,63,35,49,47,65,32,57,65,15,63,29,45</div>
                         </td>
                     </tr>
-                    <%}%>
+                    <%}%>   
                 </tbody>
             </table>
         </div>
+        <%}%>
     </div>
 </div>

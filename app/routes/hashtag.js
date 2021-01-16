@@ -1,13 +1,27 @@
 const hashtag = require("../models/hashtag")
 
-async function init(app) {
-    let data = null;
+let data = [] 
+let request = null
+async function load(){
+    await hashtag.getTopKHashtag()
+} 
+
+async function init(app, flag) {
+  
     app.get("/hashtag", async (req, res) => {
-        res.render("pages/hashtag.ejs", {list: data} )
+        res.render("pages/hashtag.ejs", {list: null, waiting: false} )
     })
     app.post("/hashtag", async (req, res) => {
-        data = await hashtag.getHashtagInfo(req.body.hashtag)
-        res.render("pages/hashtag.ejs", {list: data, word:req.body.hashtag} )
+        request = req.body.hashtag
+        res.render("pages/hashtag.ejs", {list: null, word:request, waiting: true} )
+    })
+    app.get("/hashtag/load", async (req, res) => {
+        if(!flag.LOADED_FLAG){
+            await load()
+            flag.collectEnd()
+        } 
+        data = hashtag.getHashtagInfo(request)
+        res.render("pages/hashtag.ejs", {list: data, word:request, waiting: false} )
     })
 }
 

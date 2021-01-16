@@ -74,5 +74,6 @@ async function getElement(tableName, element){
 module.exports = {
     getHbaseValue,
     getTableLength,
-    getElement
+    getElement,
+    buildRegex
 }

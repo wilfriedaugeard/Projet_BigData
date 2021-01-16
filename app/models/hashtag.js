@@ -2,16 +2,24 @@ const path   = require('path')
 const config = require(path.resolve('./models/hbase_config.js'))
 const hbase  = require(path.resolve('./models/hbase.js'))
 
+let HASHTAG_LIST = [] 
+let RANKING = [] 
+
 
 async function getTopKHashtag() {
+    HASHTAG_LIST = [] 
     let ranking = []
     let hashtag, count
-    for (let i = 0; i < config.K_MAX; i++) {
-        hashtag = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, i.toString(), config.HASHTAG_VALUE)
-        count = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, i.toString(), config.NB_VALUE)
-        ranking.push([JSON.parse(hashtag).text, count])
-    }
-    return ranking
+    return new Promise(async (resolve, reject) => { 
+        for (let i = 0; i < config.K_MAX; i++) {
+            hashtag = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, i.toString(), config.HASHTAG_VALUE)
+            count = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, i.toString(), config.NB_VALUE)
+            ranking.push([JSON.parse(hashtag).text, count])
+            HASHTAG_LIST.push(JSON.parse(hashtag).text)
+        }
+        RANKING = ranking
+        resolve(ranking)
+    })
 }
 
 
@@ -35,24 +43,54 @@ async function getTopKTriplet() {
 }
 
 
-async function getHashtagInfo(hashtagName){
-    return new Promise(async (resolve, reject) => { 
-        let ranking = []
-        let hashtag, count
-        const data = await hbase.getElement(config.TABLE_NAME_TOPK_HASHTAG, hashtagName)
-        let n = (data.length < 100) ? data.length : 100
-        for (let i=0; i<n; i++){
-            hashtag = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, data[i], config.HASHTAG_VALUE)
-            count = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, data[i], config.NB_VALUE)
-            ranking.push([JSON.parse(hashtag).text,count])
+function getHashtagInfo(hashtagName){
+    let list = []  
+    let regex = hbase.buildRegex(hashtagName)
+    regex += ".*"
+    HASHTAG_LIST.filter(function(word, index){
+        if(word.match(regex)){
+            if(list.length > 30) return false
+            list.push(RANKING[index])
+            return true
+        }else{
+            return false
         } 
-        resolve(ranking) 
-    }) 
+    })
+    return list
+
+} 
+
+
+function convert(tweet){
+    let splittedTweet = tweet.split(/[\s\n\r]+/)
+    let nbHashtag = [] 
+    nbHashtag = nbHashtag.fill(null, 0,splittedTweet.length)
+    for(let i=0; i<splittedTweet.length; i++){
+        HASHTAG_LIST.filter(function(word, index){
+            let regex = hbase.buildRegex(splittedTweet[i])
+            if(word.match(regex)){
+                if(HASHTAG_LIST[index].length == splittedTweet[i].length){
+                    splittedTweet[i] = '#'+splittedTweet[i]  
+                    nbHashtag[i] = RANKING[index][1]
+                } 
+                return true
+            }else{
+                return false
+            } 
+        })
+    } 
+    return [splittedTweet, nbHashtag] 
+} 
+
+function getRanking(){
+    return RANKING
 } 
 
 
 module.exports = {
     getTopKHashtag,
     getTopKTriplet,
-    getHashtagInfo
+    getHashtagInfo,
+    convert,
+    getRanking
 }

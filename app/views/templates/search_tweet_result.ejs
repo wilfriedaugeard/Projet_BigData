@@ -1,0 +1,19 @@
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        Nouveau Tweet:
+    </div>
+    <div class="card-body">
+        <p>
+            <% for(let i=0; i<tweet.length; i++){%> 
+                <%if (nbHashtag[i] != null){ %>
+                    <span class="tooltipHashtag"><%= tweet[i]%>
+                        <span class="tooltipHashtagText">utilisé <%= nbHashtag[i]%> fois</span>
+                    </span>
+                <%}else{%> 
+                    <%= tweet[i]%>
+                <%}%>
+            <%}%>
+        </p>
+    </div>
+</div>
