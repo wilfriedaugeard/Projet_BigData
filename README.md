@@ -17,22 +17,23 @@ c) Afin de planifier nos achats de matériels futurs, calculez le nombre de mach
 
 |                         Description                          | Front | API  | HBase | Spark | Globale |
 | :----------------------------------------------------------: | :---: | :--: | :---: | :---: | :-----: |
-| Permettre de récupérer pour un jour donné la liste des khashtags les plus utilisés ainsi que leur nombre d’apparition (k entre 1 et 1000). | DONE  | TODO | TODO  | DONE  |   50%   |
 | Permettre de récupérer les k hashtags les plus utilisés (k entre 1 et 1000) sur toutes les données. | DONE  | DONE | DONE  | DONE  |   100%   |
-| Permettre de récupérer le nombre d’apparition d’un hashtag donné. | DONE  | TODO | TODO  | DONE  |   50%   |
+| Permettre de récupérer le nombre d’apparition d’un hashtag donné. | DONE  | DONE | DONE  | DONE  |   100%   |
+|           Nombre de tweet par pays ou par langue.            | DONE  | DONE | DONE  | DONE  |   100%   |
+| Donner k triplets de hashtags les plus utilisés (k entre 1 et 1000). | DONE  | DONE | DONE  | DONE  |   100%   |
+| Trouver les influencers c.a.d les personnes avec le plus grand nombre de tweets dans les triplets que l’on a trouvé. | DONE  | DONE | DONE  | DONE  |   100%    |
+| Retagger un tweet en cherchant les hashtags connus dans le texte des tweets. | DONE  | DONE | DONE  | DONE  |   100%    |
+| Permettre de récupérer pour un jour donné la liste des khashtags les plus utilisés ainsi que leur nombre d’apparition (k entre 1 et 1000). | DONE  | TODO | TODO  | DONE  |   50%   |
 | Récupérer tous les utilisateurs qui ont utilisé un hashtag.  | TODO  | TODO | TODO  | DONE  |   25%   |
 | Permettre de récupérer pour un utilisateur la liste de ses hashtags sans doublon. | TODO  | TODO | TODO  | DONE  |   25%   |
-|           Nombre de tweet par pays ou par langue.            | DONE  | TODO | TODO  | DONE  |   50%   |
 | Récupérer tous les triplets de hashtags ainsi que les utilisateurs qui les ont utilisés. | TODO  | TODO | TODO  | DONE  |   25%   |
-| Donner k triplets de hashtags les plus utilisés (k entre 1 et 1000). | DONE  | TODO | TODO  | DONE  |   50%   |
-| Trouver les influencers c.a.d les personnes avec le plus grand nombre de tweets dans les triplets que l’on a trouvé. | DONE  | DONE | DONE  | DONE  |   100%    |
-| Trouver les faux influencer, personnes avec beaucoup de followers dont les tweets ne sont jamais retweeté. | TODO  | TODO | TODO  | TODO  |   0%    |
-| Trouvez les sujets (hashtag) qui permettent d’avoir le plus de followers. | TODO  | TODO | TODO  | TODO  |   0%    |
 | Avoir le pourcentage de tweet ou il y a 0 hashtags, entre 1 et 3, entre 4 et 10, et 10+. | DONE  | TODO | TODO  | TODO  |   25%   |
 |             Avoir le nombre de tweets par jour.              | DONE  | TODO | TODO  | TODO  |   25%   |
 |            Avoir le nombre de hashtags par jour.             | DONE  | TODO | TODO  | TODO  |   25%   |
 | Top K Users par nb followers. (on peut surement regrouper topk_tweet et topk_follower en regranpant les infos (1 seul rdd de deux tuples)) | DONE  | TODO | TODO  | TODO  |   25%   |
 | Pour un hashtag, avoir le nb d'utilisation par jour (mais ca parait gros a stocker) | TODO  | TODO | TODO  | TODO  |   0%    |
+| Trouvez les sujets (hashtag) qui permettent d’avoir le plus de followers. | TODO  | TODO | TODO  | TODO  |   0%    |
+| Trouver les faux influencer, personnes avec beaucoup de followers dont les tweets ne sont jamais retweeté. | TODO  | TODO | TODO  | TODO  |   0%    |
 
 
 
@@ -56,7 +57,7 @@ c) Afin de planifier nos achats de matériels futurs, calculez le nombre de mach
 - [ ] c) Trouver les influencers c.a.d les personnes avec le plus grand nombre de tweets dans les triplets que l’on a trouvé. 
 - [ ] d) Trouver les faux influencer, personnes avec beaucoup de followers dont les tweets ne sont jamais retweeté.
 - [ ] e) Trouvez les sujets (hashtag) qui permettent d’avoir le plus de followers. 
-- [ ] f) Retagger les tweet en cherchant les hashtags connus dans le texte des tweets. 
+- [x] f) Retagger les tweet en cherchant les hashtags connus dans le texte des tweets. 
 - [ ] g) Trouver les k users les plus Retweetés (k entre 1 et 1000)
 
 
