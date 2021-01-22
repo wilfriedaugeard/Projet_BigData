@@ -93,14 +93,17 @@ public class BuilderRDDHashtags {
                 .mapToPair(tweet -> {
                     Triplet triplet = new Triplet();
                     tweet.getEntities().getHashtags().forEach(item -> triplet.add(item));
-                    Set<User> user = new HashSet();
+                    Set<User> user = new HashSet<User>();
                     user.add(tweet.getUser());
-                    return new Tuple2<Triplet, Tuple2<Long, Set<User>>>(
+                    Set<Tuple2<Triplet, Tuple2<Long, Set<User>>>> list = new Hashset<Tuple2<Triplet, Tuple2<Long, Set<User>>>>();
+
+                    list.add(Tuple2<Triplet, Tuple2<Long, Set<User>>>>(
                             triplet,
                             new Tuple2<Long, Set<User>>(
                                     new Long(1),
                                     user.iterator())
-                    );
+                    ));
+                    return list.iterator();
                 });
 
         return tripletRDD
