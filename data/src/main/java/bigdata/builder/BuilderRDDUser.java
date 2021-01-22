@@ -115,4 +115,5 @@ public class BuilderRDDUser {
                 .mapToPair(item -> new Tuple2<User, Tuple2<Long, Long>>(item._2, item._1))
                 .take(Config.TOP_K);
     }
+}
 
