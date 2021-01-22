@@ -77,9 +77,7 @@ public class BuilderRDDHashtags {
                     return a;
                 });
         return rdd
-                .mapToPair(item -> new Tuple2<Tuple2<Set<Hashtag>, User>, Triplet>(item._2, item._1))
                 .sortByKey(new HashtagComparator(), false, 1)
-                .mapToPair(item -> new Tuple2<User, Set<Hashtag>>(item._2, item._1));
     }
 
 
@@ -93,7 +91,7 @@ public class BuilderRDDHashtags {
         JavaPairRDD<Triplet, Long> top = tweetRDD
                 .filter(tweet -> tweet.getEntities().getHashtags().size() == 3)
                 .mapToPair(tweet -> {
-                    Triplet ttriplet = new Triplet();
+                    Triplet triplet = new Triplet();
                     tweet.getEntities().getHashtags().forEach(hashtag -> triplet.add(hashtag));
                     return new Tuple2<Triplet, Long>(triplet, new Long(1));
                 });
