@@ -47,12 +47,12 @@ public class BuilderRDDHashtags {
      * Private class to implement the comporator of userHashtags to sorted the rdd
      * by length of the hashtag list of each user
      */
-    private static class HashtagComparator implements Comparator<Tuple2<Set<Hashtag>,User>>, Serializable {
+    private static class HashtagComparator implements Comparator<Set<Hashtag>>, Serializable {
         private static final long serialVersionUID = 1L;
 
         @Override
-        public int compare(Tuple2<Set<Hashtag>,User> v1, Tuple2<Set<Hashtag>,User> v2) {
-            return (v1._1.size() > v2._1.size())? 1:0;
+        public int compare(Set<Hashtag> v1, Set<Hashtag> v2) {
+            return (v1.size() > v2.size())? 1:0;
         }
     }
 
