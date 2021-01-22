@@ -26,7 +26,11 @@
                             </div>
 
                             <div class="col-xl-12">
-                                 <%- include("../templates/topk/influencer_table")%>
+                                <% if(waiting){ %>
+                                    <%- include("../templates/waiting")%>
+                                <%}else{%>
+                                    <%- include("../templates/topk/influencer_table")%>
+                                <%} %>
                             </div>
 
                             <div class="col-xl-12">

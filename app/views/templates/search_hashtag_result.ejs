@@ -1,0 +1,36 @@
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        Résultats de la recherche pour: <%=word%>
+    </div>
+    <div class="card-body">
+        <%if (list.length == 0){%>
+            Aucune donnée pour ce hashtag.
+        <%}else{%>  
+        <div class="table-responsive">
+            <table class="table table-bordered text-center align-center dataTable"  width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Hashtag</th>
+                        <th>Nombre de fois utilisé</th>
+                        <th>Fréquence d'utilisation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let i=0; i<list.length; i++){%> 
+                    <tr>
+                        <td><%= list[i][0]%> </td>
+                        <td><%= list[i][1]%> </td>
+                        <td>
+                            <div class="sparkline-bar-stats1">
+                                36,41,30,75,63,35,49,47,65,32,57,65,15,63,29,45
+                            </div>
+                        </td>
+                    </tr>
+                    <%}%>   
+                </tbody>
+            </table>
+        </div>
+        <%}%>
+    </div>
+</div>

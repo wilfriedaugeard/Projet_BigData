@@ -1,6 +1,6 @@
-function init(app) {
+async function init(app) {
     app.get("/user", async (req, res) => {
-        res.render("pages/user.ejs")
+        res.render("pages/user.ejs",{waiting: false} )
     })
 }
 

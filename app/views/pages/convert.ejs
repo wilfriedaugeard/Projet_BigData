@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("../templates/header")%>
+</head>
+
+<body class="sb-nav-fixed">
+    <%- include("../templates/top_navbar")%>
+        <div id="layoutSidenav">
+            <%- include("../templates/side_navbar")%>
+                <div id="layoutSidenav_content">
+                    <main>
+                        <div class="container-fluid">
+                            <h1 class="mt-4">Améliorateur - Tweet</h1>
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item active">Améliorer un Tweet en convertissant les mots clés en hashtags</li>
+                            </ol>
+
+                            <div class="col-xl-12">
+                                <%- include("../templates/convert_tweet_form")%>
+                            </div>
+                            <div class="col-xl-12">
+                                <% if (tweet != null){%>
+                                    <%- include("../templates/search_tweet_result")%>
+                                <%}else{%>
+                                    <% if (waiting) {%>
+                                        <%- include("../templates/waiting")%>
+                                    <%}else{%>
+                                        Aucun résultat.
+                                    <%}%> 
+                                <%}%> 
+                            </div>
+
+                        </div>
+                    </main>
+                    <footer class="py-4 bg-light mt-auto">
+                        <%- include("../templates/footer")%>
+                    </footer>
+                </div>
+        </div>
+</body>
+
+</html>

@@ -10247,3 +10247,45 @@ body {
 .sb-sidenav-light .sb-sidenav-footer {
   background-color: #e9ecef;
 }
+
+
+.tooltipHashtag {
+  position: relative;
+  display: inline-block;
+  color: #1DA1F2;
+  font-weight: bold;
+}
+
+.tooltipHashtag .tooltipHashtagText {
+  visibility: hidden;
+  width: 120px;
+  font-weight: normal;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.tooltipHashtag .tooltipHashtagText::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltipHashtag:hover .tooltipHashtagText {
+  visibility: visible;
+  opacity: 1;
+}

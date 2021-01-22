@@ -1,10 +1,18 @@
 const countryLanguage = require("country-language")
 
+/**
+ * @namespace Model_countryProcess
+ */
 
+/**
+ * Get a country name from its country code
+ * @param {string} lang language code
+ * @memberof Model_countryProcess 
+ */
 async function getCountry(lang){
-    if(lang === 'en') return 'us'
-    if(lang === 'ja') return 'jp'
-    if(lang === 'fr') return 'fr'
+    if(lang === "en") return "us"
+    if(lang === "ja") return "jp"
+    if(lang === "fr") return "fr"
     return new Promise((resolve, reject) =>{
         countryLanguage.getLanguage(lang, function(err, value){
             if(err){
@@ -22,8 +30,13 @@ async function getCountry(lang){
     }) 
 } 
 
+/**
+ * Get a language name from its short name
+ * @param {string} lang language short name
+ * @memberof Model_countryProcess 
+ */
 async function getLanguageName(lang){
-    if(lang === 'und') return 'other'
+    if(lang === "und") return "other"
     return new Promise((resolve, reject) =>{
         countryLanguage.getLanguage(lang, function(err, value){
             if(err){
@@ -35,14 +48,7 @@ async function getLanguageName(lang){
     }) 
 } 
 
-function getFlagImg(language){
-    let link = "https://lipis.github.io/flag-icon-css/flags/4x3/"
-    let ext = ".svg"
-    return link+language+ext
-} 
-
 module.exports = {
-    getFlagImg,
     getLanguageName,
     getCountry
 } 
