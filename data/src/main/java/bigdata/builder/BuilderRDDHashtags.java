@@ -52,7 +52,7 @@ public class BuilderRDDHashtags {
 
         @Override
         public int compare(Tuple2<User, Set<Hashtag>> v1, Tuple2<User, Set<Hashtag>> v2) {
-            return v1._2.length.compareTo(v2._2.length);
+            return v1._2.size().compareTo(v2._2.size());
         }
     }
 
