@@ -72,8 +72,8 @@ public class Process {
     }
 
 
-    public JavaPairRDD<Triplet, Tuple2<Long, Set<User>>> getTripletHashtagsAndUsers(Boolean saveValues) throws Exception {
-        JavaPairRDD<Triplet, Tuple2<Long, Set<User>>> rdd = BuilderRDDHashtags.userByTripletHashtags(this.tweetRDD);
+    public JavaPairRDD<Triplet, Tuple2<Long, Set<User>>> getTripletHashtags(Boolean saveValues) throws Exception {
+        JavaPairRDD<Triplet, Tuple2<Long, Set<User>>> rdd = BuilderRDDHashtags.topTripletHashtag(this.tweetRDD);
 
         if (saveValues) {
             String[] families = {Triplet.class.getSimpleName(), Tuple2.class.getSimpleName()};

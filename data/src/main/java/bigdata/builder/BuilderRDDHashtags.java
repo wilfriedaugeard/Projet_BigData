@@ -44,6 +44,19 @@ public class BuilderRDDHashtags {
     }
 
     /**
+     * Private class to implement the comporator of userHashtags to sorted the rdd
+     * by length of the hashtag list of each user
+     */
+    private static class HashtagComparator implements Comparator<Tuple2<User, Set<Hashtag>>>, Serializable {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public int compare(Tuple2<User, Set<Hashtag>> v1, Tuple2<User, Set<Hashtag>> v2) {
+            return v1._2.length.compareTo(v2._2.length);
+        }
+    }
+
+    /**
      * Create the RDD containing for each user the list of hashtags they have used
      *
      * @param tweetRDD
@@ -63,53 +76,29 @@ public class BuilderRDDHashtags {
                     a.addAll(b);
                     return a;
                 });
-        return rdd;
+        return rdd
+                .mapToPair(item -> new Tuple2<Tuple2<Set<Hashtag>, User>, Triplet>(item._2, item._1))
+                .sortByKey(new HashtagComparator(), false, 1)
+                .mapToPair(item -> new Tuple2<User, Set<Hashtag>>(item._2, item._1));
     }
 
-    /**
-     * Private class to implement the comporator of userByTripletHashtags to sorted the rdd
-     * by number of tweet using this triplet
-     */
-    private static class TripletComparator implements Comparator<Tuple2<Long, Set<User>>>, Serializable {
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public int compare(Tuple2<Long, Set<User>> v1, Tuple2<Long, Set<User>> v2) {
-            return v1._1.compareTo(v2._1);
-        }
-    }
 
     /**
-     * Create the rdd containing for every triplet the number of tweets that used it and the list of users
-     * that tweeted them
+     * Create the rdd containing for every triplet the number of tweets that used it
      *
      * @param tweetRDD
      * @return the complet rdd
      */
-    public static final JavaPairRDD<Triplet, Tuple2<Long, Set<User>>> userByTripletHashtags(JavaRDD<Tweet> tweetRDD) {
-        JavaPairRDD<Triplet, Tuple2<Long, Set<User>>> tripletRDD = tweetRDD
-                .filter(tweet -> tweet.getEntities().getHashtags().size() == 3)
-                .flatMapToPair(tweet -> {
-                    Triplet triplet = new Triplet();
-                    tweet.getEntities().getHashtags().forEach(item -> triplet.add(item));
-                    Set<User> user = new HashSet<User>();
-                    user.add(tweet.getUser());
-                    Set<Tuple2<Triplet, Tuple2<Long, Set<User>>>> list = new HashSet<Tuple2<Triplet, Tuple2<Long, Set<User>>>>();
-
-                    list.add(new Tuple2<Triplet, Tuple2<Long, Set<User>>>(
-                            triplet,
-                            new Tuple2<Long, Set<User>>(
-                                    new Long(1),
-                                    user)
-                    ));
-                    return list.iterator();
-                })
-		        .reduceByKey((a, b) -> { b._2.forEach(item -> a._2.add(item)) ; return new Tuple2<Long, Set<User>>(a._1 + b._1, a._2);});
-
-        return tripletRDD
-               .mapToPair(item -> new Tuple2<Tuple2<Long,Set<User>>, Triplet>(item._2, item._1))
-                .sortByKey(new TripletComparator(), false, 1)
-                .mapToPair(item -> new Tuple2<Triplet, Tuple2<Long,Set<User>>>(item._2, item._1));
-
+    public static final JavaPairRDD<Triplet, Long> topTripletHashtag(JavaRDD<Tweet> tweetRDD) {
+        JavaPairRDD<Triplet, Long> top = tripletHashtags(tweetRDD)
+                .mapToPair(tweet -> {
+                    return new Tuple2<Triplet, Long>(tweet, new Long(1));
+                });
+        return top
+                .reduceByKey((a, b) -> a + b)
+                .mapToPair(item -> new Tuple2<Long, Triplet>(item._2, item._1))
+                .sortByKey(false)
+                .mapToPair(item -> new Tuple2<Triplet, Long>(item._2, item._1));
     }
+
 }

@@ -44,12 +44,16 @@ public class BuilderRDDTweet {
             String range = "";
             if (nbHashtag == 0) {
                 range = "0";
-            } else if (1 <= nbHashtag && nbHashtag <= 2) {
-                range = "[1,2]";
-            } else if (3 <= nbHashtag && nbHashtag <= 4) {
-                range = "[3-4]";
+            } else if (nbHashtag == 1) {
+                range = "1";
+            } else if (nbHashtag == 2) {
+                range = "2";
+            } else if (nbHashtag == 3) {
+                range = "3";
+            } else if (4 <= nbHashtag && nbHashtag <= 7) {
+                range = "[4-7]";
             } else {
-                range = "5+";
+                range = "8+";
             }
             return new Tuple2<String, Long>(range, new Long(1));
         });

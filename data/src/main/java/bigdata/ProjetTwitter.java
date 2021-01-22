@@ -46,7 +46,7 @@ public class ProjetTwitter {
                 DisplayResult.displayResult(process.getUserHashtags(saveValues), Config.DISPLAY);
                 break;
             case "triplet-hashtag":
-                DisplayResult.displayResult(process.getTripletHashtagsAndUsers(saveValues), Config.DISPLAY);
+                DisplayResult.displayResult(process.getTripletHashtags(saveValues), Config.DISPLAY);
                 break;
             case "tweet-by-hashtag-nb":
                 DisplayResult.displayResult(process.getHashtagByTweet(saveValues), Config.DISPLAY);
