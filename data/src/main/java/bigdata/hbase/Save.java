@@ -24,9 +24,8 @@ public class Save {
                     families[1]
             );
 
-            List<Tuple2<T, U>> values;
+            List<Tuple2<T, U>> values = new ArrayList<Tuple2<T,U>>();
             if (rdd.count() > Config.TOP_K) {
-                values = new ArrayList<>();
                 int index = 0;
                 rdd.foreach(item -> {
                     values.add(index, item);
@@ -34,7 +33,7 @@ public class Save {
                 });
 
             } else {
-                values = rdd.collect();
+                values.addAll(rdd.collect());
             }
 
             InsertValues.insert(

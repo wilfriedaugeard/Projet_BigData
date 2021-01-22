@@ -105,7 +105,7 @@ public class BuilderRDDHashtags {
                     ));
                     return list.iterator();
                 })
-		        .reduceByKey((a, b) -> { b._2.forEach(item -> a._2.add(item)) ; return new Tuple2<Long, Set<User>>(a._1 + b._1, a._2)});
+		        .reduceByKey((a, b) -> { b._2.forEach(item -> a._2.add(item)) ; return new Tuple2<Long, Set<User>>(a._1 + b._1, a._2);});
 
         return tripletRDD
                .mapToPair(item -> new Tuple2<Tuple2<Long,Set<User>>, Triplet>(item._2, item._1))
