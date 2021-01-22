@@ -43,7 +43,7 @@ public class InsertValues {
 
                 put.add(
                         Bytes.toBytes(families[1]),
-                        Bytes.toBytes(columns[1)],
+                        Bytes.toBytes(columns[1]),
                         Bytes.toBytes(tuple._2.toString())
                 );
 
