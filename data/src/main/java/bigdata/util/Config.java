@@ -1,6 +1,5 @@
 package bigdata.util;
 
-
 public class Config {
 
     public static final Integer TOP_K = 1000;
