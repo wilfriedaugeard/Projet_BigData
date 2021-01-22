@@ -6,10 +6,12 @@ import org.apache.spark.api.java.JavaPairRDD;
 
 import bigdata.entities.*;
 import bigdata.builder.BuilderTable;
+import bigdata.util.Config;
 
 import scala.Tuple2;
 
 import java.util.List;
+import java.util.ArrayLsit;
 
 public class Save {
 
@@ -27,7 +29,7 @@ public class Save {
                 values = new ArrayList<>();
                 int index = 0;
                 rdd.foreach(item -> {
-                    list.add(index, item);
+                    values.add(index, item);
                     index++;
                 });
 

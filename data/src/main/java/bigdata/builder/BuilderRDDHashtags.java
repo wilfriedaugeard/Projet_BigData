@@ -40,8 +40,8 @@ public class BuilderRDDHashtags {
                 .reduceByKey((a, b) -> a + b)
                 .mapToPair(item -> new Tuple2<Long, Hashtag>(item._2, item._1))
                 .sortByKey(false)
-                .mapToPair(item -> new Tuple2<Hashtag, Long>(item._2, item._1))
-                .take(Config.TOP_K);
+                .mapToPair(item -> new Tuple2<Hashtag, Long>(item._2, item._1));
+                //.take(Config.TOP_K);
     }
 
     /**
@@ -75,7 +75,7 @@ public class BuilderRDDHashtags {
         private static final long serialVersionUID = 1L;
 
         @Override
-        public int compare(Tuple2<Long, Long> v1, Tuple2<Long, Set<User>> v2) {
+        public int compare(Tuple2<Long, Set<User>> v1, Tuple2<Long, Set<User>> v2) {
             return v1._1.compareTo(v2._1);
         }
     }
@@ -88,7 +88,7 @@ public class BuilderRDDHashtags {
      * @return the complet rdd
      */
     public static final JavaPairRDD<Triplet, Tuple2<Long, Set<User>>> userByTripletHashtags(JavaRDD<Tweet> tweetRDD) {
-        JavaRDD<Triplet> triplet = tweetRDD
+        JavaRDD<Triplet, Tuple2<Long, Set<User>>> tripletRDD = tweetRDD
                 .filter(tweet -> tweet.getEntities().getHashtags().size() == 3)
                 .mapToPair(tweet -> {
                     Triplet triplet = new Triplet();
@@ -103,7 +103,7 @@ public class BuilderRDDHashtags {
                     );
                 });
 
-        return triplet
+        return tripletRDD
                 .reduceByKey((a, b) -> new Tuple2<Long, Set<User>>(a._1 + b._1, a._2.addAll(b._2)))
                 .mapToPair(item -> new Tuple2<Long, Triplet>(item._2, item._1))
                 .sortByKey(new TripletComparator(), false, 1)

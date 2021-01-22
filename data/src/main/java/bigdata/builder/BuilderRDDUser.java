@@ -31,7 +31,7 @@ public class BuilderRDDUser {
                         return new Tuple2<User, Long>(tweet.getUser(), new Long(1));
                     } else if (category.equals("followed")) {
                         return new Tuple2<User, Long>(tweet.getUser(), tweet.getUser().getFollowers());
-                    } else if (category.equals("retweeted")) {
+                    } else {
                         return new Tuple2<User, Long>(tweet.getUser(), tweet.getRetweet_count());
                     }
                 });
@@ -57,7 +57,7 @@ public class BuilderRDDUser {
      */
     public static final JavaPairRDD<User, Long> influencer(JavaRDD<Tweet> tweetRDD) {
 
-        JavaPairRDD<Triplet> influencer = tweetRDD
+        JavaPairRDD<Triplet,Long> influencer = tweetRDD
                 .filter(tweet -> tweet.getEntities().getHashtags().size() == 3)
                 .mapToPair(tweet -> {
                     return new Tuple2<User, Long>(tweet.getUser(), new Long(1));
