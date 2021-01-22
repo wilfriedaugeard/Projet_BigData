@@ -11,7 +11,7 @@ import bigdata.util.Config;
 import scala.Tuple2;
 
 import java.util.List;
-import java.util.ArrayLsit;
+import java.util.ArrayList;
 
 public class Save {
 

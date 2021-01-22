@@ -57,7 +57,7 @@ public class BuilderRDDUser {
      */
     public static final JavaPairRDD<User, Long> influencer(JavaRDD<Tweet> tweetRDD) {
 
-        JavaPairRDD<Triplet,Long> influencer = tweetRDD
+        JavaPairRDD<User,Long> influencer = tweetRDD
                 .filter(tweet -> tweet.getEntities().getHashtags().size() == 3)
                 .mapToPair(tweet -> {
                     return new Tuple2<User, Long>(tweet.getUser(), new Long(1));
@@ -114,7 +114,6 @@ public class BuilderRDDUser {
                 .mapToPair(item -> new Tuple2<Tuple2<Long, Long>, User>(item._2, item._1))
                 .sortByKey(new RtFollowersComparator(), false, 1)
                 .mapToPair(item -> new Tuple2<User, Tuple2<Long, Long>>(item._2, item._1))
-                .take(Config.TOP_K);
     }
 }
 
