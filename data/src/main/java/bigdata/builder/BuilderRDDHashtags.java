@@ -90,7 +90,7 @@ public class BuilderRDDHashtags {
     public static final JavaPairRDD<Triplet, Tuple2<Long, Set<User>>> userByTripletHashtags(JavaRDD<Tweet> tweetRDD) {
         JavaPairRDD<Triplet, Tuple2<Long, Set<User>>> tripletRDD = tweetRDD
                 .filter(tweet -> tweet.getEntities().getHashtags().size() == 3)
-                .mapToPair(tweet -> {
+                .flatMap(tweet -> {
                     Triplet triplet = new Triplet();
                     tweet.getEntities().getHashtags().forEach(item -> triplet.add(item));
                     Set<User> user = new HashSet<User>();

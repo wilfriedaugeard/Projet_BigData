@@ -65,8 +65,7 @@ public class BuilderRDDUser {
                 .reduceByKey((a, b) -> a + b)
                 .mapToPair(item -> new Tuple2<Long, User>(item._2, item._1))
                 .sortByKey(false)
-                .mapToPair(item -> new Tuple2<User, Long>(item._2, item._1))
-                .take(Config.TOP_K);
+                .mapToPair(item -> new Tuple2<User, Long>(item._2, item._1));
     }
 
     /**
@@ -100,7 +99,7 @@ public class BuilderRDDUser {
                                     tweet.getUser().getFollowers(),
                                     tweet.getRetweet_count()));
                 })
-                .reduceByKey((a, b) -> new Tuple2<Long, Long>(a._1 + b._1, a._2 + b._2));
+                .reduceByKey((a, b) -> {new Tuple2<Long, Long>(a._1 + b._1, a._2 + b._2)});
 
         return ratioRdd
                 .mapToPair(item -> new Tuple2<User, Tuple2<Long, Long>>(
