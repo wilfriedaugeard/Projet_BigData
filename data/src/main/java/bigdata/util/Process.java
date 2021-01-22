@@ -108,7 +108,7 @@ public class Process {
 
     public JavaPairRDD<String, Long> getNbTweetByDay(Boolean saveValues) throws Exception {
 
-        JavaPairRDD<String, Long> rdd = BuilderRDDTweet.nbTweetByLang(this.tweetRDD);
+        JavaPairRDD<String, Long> rdd = BuilderRDDTweet.getNbTweetByDay(this.tweetRDD);
 
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
