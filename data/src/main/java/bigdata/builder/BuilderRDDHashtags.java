@@ -105,9 +105,9 @@ public class BuilderRDDHashtags {
 
         return tripletRDD
                 .reduceByKey((a, b) -> new Tuple2<Long, Set<User>>(a._1 + b._1, a._2.addAll(b._2)))
-                .mapToPair(item -> new Tuple2<Long, Triplet>(item._2, item._1))
+                .mapToPair(item -> new Tuple2<Tuple2<Long,Set<User>>, Triplet>(item._2, item._1))
                 .sortByKey(new TripletComparator(), false, 1)
-                .mapToPair(item -> new Tuple2<Triplet, Long>(item._2, item._1));
+                .mapToPair(item -> new Tuple2<Triplet, Tuple2<Long,Set<User>>>(item._2, item._1));
 
     }
 }
