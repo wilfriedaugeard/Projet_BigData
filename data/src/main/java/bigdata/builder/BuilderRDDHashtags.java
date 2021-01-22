@@ -52,7 +52,7 @@ public class BuilderRDDHashtags {
 
         @Override
         public int compare(Tuple2<User, Set<Hashtag>> v1, Tuple2<User, Set<Hashtag>> v2) {
-            return v1._2.size() > v2._2.size();
+            return (v1._2.size() > v2._2.size())? 1:0;
         }
     }
 
@@ -90,9 +90,12 @@ public class BuilderRDDHashtags {
      * @return the complet rdd
      */
     public static final JavaPairRDD<Triplet, Long> topTripletHashtag(JavaRDD<Tweet> tweetRDD) {
-        JavaPairRDD<Triplet, Long> top = tripletHashtags(tweetRDD)
+        JavaPairRDD<Triplet, Long> top = tweetRDD
+                .filter(tweet -> tweet.getEntities().getHashtags().size() == 3)
                 .mapToPair(tweet -> {
-                    return new Tuple2<Triplet, Long>(tweet, new Long(1));
+                    Triplet ttriplet = new Triplet();
+                    tweet.getEntities().getHashtags().forEach(hashtag -> triplet.add(hashtag));
+                    return new Tuple2<Triplet, Long>(triplet, new Long(1));
                 });
         return top
                 .reduceByKey((a, b) -> a + b)
