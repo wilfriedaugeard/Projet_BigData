@@ -14,7 +14,19 @@ import java.util.ArrayList;
 
 public class Save {
 
-    public static final <T, U> void apply(Configuration hConf, String tableName, String[] families, String[] columns, List<Tuple2<T,U>> values) throws Exception {
+    /**
+     * Call the function needed to create a specific table and insert values into the table
+     *
+     * @param hConf     : the Hbase configuration
+     * @param tableName : the name of the table to create and fill
+     * @param families  : array containing the class of the two values
+     * @param columns   : array containing the "type" of the two values
+     * @param values    :  the list of values to insert
+     * @param <T>       : the class of the first value of the tuple
+     * @param <U>       : the class of the second value of the tuple
+     * @throws Exception
+     */
+    public static final <T, U> void apply(Configuration hConf, String tableName, String[] families, String[] columns, List<Tuple2<T, U>> values) throws Exception {
         try {
             BuilderTable.createTable(
                     hConf,

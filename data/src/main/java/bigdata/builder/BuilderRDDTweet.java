@@ -11,6 +11,12 @@ import bigdata.entities.Hashtag;
 
 public class BuilderRDDTweet {
 
+    /**
+     * Create the RDD containing all the tweets
+     *
+     * @param tweetsRDD
+     * @return the complete RDD
+     */
     public static final JavaRDD<Tweet> getAllTweet(JavaRDD<String> tweetsRDD) {
         return tweetsRDD
                 .map(line -> {

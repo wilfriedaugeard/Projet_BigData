@@ -25,7 +25,7 @@ public class BuilderRDDHashtags {
      * Create the RDD containing the ranking of the most used hashtags
      *
      * @param tweetRDD
-     * @return the rdd with the TOP_K values
+     * @return the complet RDD
      */
     public final static JavaPairRDD<Hashtag, Long> topHastag(JavaRDD<Tweet> tweetRDD) {
         JavaPairRDD<Hashtag, Long> tuple = tweetRDD.flatMapToPair(t -> {
@@ -41,7 +41,6 @@ public class BuilderRDDHashtags {
                 .mapToPair(item -> new Tuple2<Long, Hashtag>(item._2, item._1))
                 .sortByKey(false)
                 .mapToPair(item -> new Tuple2<Hashtag, Long>(item._2, item._1));
-                //.take(Config.TOP_K);
     }
 
     /**

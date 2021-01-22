@@ -25,12 +25,21 @@ import java.io.IOException;
 
 public class InsertValues {
 
-    public static final <T, U> List<Tuple2<T, U>> convert(JavaPairRDD<T, U> rdd) throws Exception{
+    /**
+     * Create the List of values of a Pair RDD
+     *
+     * @param rdd : the RDD to convert into list
+     * @param <T> : the class of the first value of the tuple
+     * @param <U> : the class of the second value of the tuple
+     * @return : the new list of values
+     * @throws Exception
+     */
+    public static final <T, U> List<Tuple2<T, U>> convert(JavaPairRDD<T, U> rdd) throws Exception {
         List<Tuple2<T, U>> values = new ArrayList<>();
-            
-	try {
+
+        try {
             if (rdd.count() > Config.TOP_K) {
-                int index = 0;
+                final int index = 0;
                 rdd.foreach(item -> {
                     values.add(index, item);
                     index++;
@@ -40,14 +49,26 @@ public class InsertValues {
                 values.addAll(rdd.collect());
 
             }
-         }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
-	   
+
         }
-	return values;
+        return values;
     }
 
+    /**
+     * Insert the values of a list (representing the RDD) into a table in Hbase
+     *
+     * @param config
+     * @param values    : the list of values
+     * @param tableName : the name of the table in which we need to insert the values
+     * @param families  : array containing the class of the two values
+     * @param columns   : array containing the "type" of the two values
+     * @param <T>       : the class of the first value of the tuple
+     * @param <U>       : the class of the second value of the tuple
+     * @throws IOException
+     */
     public static final <T, U> void insert(Configuration config, List<Tuple2<T, U>> values, String tableName, String[] families, String[] columns) throws IOException {
 
         try (Connection connection = ConnectionFactory.createConnection(config);) {

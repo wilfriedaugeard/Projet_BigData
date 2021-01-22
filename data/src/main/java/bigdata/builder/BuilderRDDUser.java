@@ -22,7 +22,7 @@ public class BuilderRDDUser {
      * Create the RDD the sorted users by number of {tweet, followers or RT}
      *
      * @param tweetRDD
-     * @return the RDD with the TOP_K values
+     * @return the complet RDD
      */
     public static final JavaPairRDD<User, Long> topUser(JavaRDD<Tweet> tweetRDD, String category) {
         JavaPairRDD<User, Long> top = tweetRDD
@@ -51,7 +51,7 @@ public class BuilderRDDUser {
      * number of tweet containing triplet of hashtags
      *
      * @param tweetRDD
-     * @return the RDD containing the TOP_K influencers
+     * @return the complet RDD
      */
     public static final JavaPairRDD<User, Long> influencer(JavaRDD<Tweet> tweetRDD) {
 
@@ -88,7 +88,7 @@ public class BuilderRDDUser {
      * Create the RDD of fake influencer. Users with the most followers and the less number of average RT
      *
      * @param tweetRDD
-     * @return the RDD with TOP_K fake influencers
+     * @return the complet RDD
      */
     public static final JavaPairRDD<User, Tuple2<Long, Long>> fakeInfluencer(JavaRDD<Tweet> tweetRDD) {
         JavaPairRDD<User, Tuple2<Long,Long>> ratioRdd = tweetRDD

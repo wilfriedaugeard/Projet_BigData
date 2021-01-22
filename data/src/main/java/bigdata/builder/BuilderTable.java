@@ -16,6 +16,15 @@ public class BuilderTable {
 
     private static final String TABLE_PREFIX = "augeard-tarmil-";
 
+    /**
+     * Create the new table in Hbase
+     *
+     * @param config
+     * @param tableName   : the name of the table to create
+     * @param familyName1 : the class of the first value
+     * @param familyName2 : the class of the second value
+     * @throws IOException
+     */
     public static final void createTable(Configuration config, String tableName, String familyName1, String familyName2) throws IOException {
         Connection connection = ConnectionFactory.createConnection(config);
         try (Admin admin = connection.getAdmin()) {
@@ -38,6 +47,5 @@ public class BuilderTable {
             System.exit(-1);
         }
     }
-
 
 }
