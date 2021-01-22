@@ -5,8 +5,8 @@ public class Config {
     public static final Integer TOP_K = 1000;
     public static final Integer DISPLAY = 10;
 
-    private static final int MAX_LIST_SIZE = 100;
-    private static final String tablePrefix = "augeard-tarmil-";
+    public static final int MAX_LIST_SIZE = 100;
+    public static final String tablePrefix = "augeard-tarmil-";
 
     public static final String APP_NAME = "Projet Twitter";
     public static final String ONE_FILE_PATH = "/raw_data/tweet_01_03_2020.nljson";

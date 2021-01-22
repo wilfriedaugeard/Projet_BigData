@@ -4,6 +4,7 @@ import bigdata.entities.User;
 import bigdata.entities.Tweet;
 import bigdata.entities.Hashtag;
 import bigdata.entities.Triplet;
+import bigdata.util.Config;
 
 
 import java.util.Comparator;

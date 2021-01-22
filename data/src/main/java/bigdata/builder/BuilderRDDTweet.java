@@ -11,6 +11,21 @@ import bigdata.entities.Hashtag;
 
 public class BuilderRDDTweet {
 
+    public static final JavaRDD<Tweet> getAllTweet(JavaRDD<String> tweetsRDD) {
+        return tweetsRDD
+                .map(line -> {
+                    Tweet t = new Tweet();
+                    try {
+                        t = GsonFactory.create().fromJson(line, Tweet.class);
+                    } catch (Exception e) {
+                        //TODO: handle exception
+                    } finally {
+                        return t;
+                    }
+                })
+                .filter(t -> t.isAvailable());
+    }
+
     /**
      * Create the RDD that contains for each value of hashtags contained in a tweet the number of tweets founded
      *
@@ -64,7 +79,7 @@ public class BuilderRDDTweet {
     public static final JavaPairRDD<String, Long> getNbTweetByDay(JavaRDD<Tweet> tweetRDD) {
         JavaPairRDD<String, Long> tuple = tweetRDD.mapToPair(tweet -> {
             String[] info = tweet.getCreated_at().toLowerCase().split(" ");
-            String data = info[0] + " " + info[1] + " " + info[2];
+            String date = info[0] + " " + info[1] + " " + info[2];
             return new Tuple2(date, new Long(1));
         });
         return tuple.reduceByKey((a, b) -> a + b)

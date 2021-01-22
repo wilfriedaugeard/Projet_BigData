@@ -27,7 +27,7 @@ public class InsertValues {
     public static final <T, U> void insert(Configuration config, List<Tuple2<T, U>> values, String tableName, String[] families, String[] columns) throws IOException {
 
         try (Connection connection = ConnectionFactory.createConnection(config);) {
-            Table table = connection.getTable(TableName.valueOf(Config.TABLE_PREFIX + tableName));
+            Table table = connection.getTable(TableName.valueOf(Config.tablePrefix + tableName));
             ArrayList<Put> list = new ArrayList<Put>();
             for (int row = 0; row < values.size(); row++) {
 

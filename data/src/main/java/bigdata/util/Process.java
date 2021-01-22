@@ -73,7 +73,7 @@ public class Process {
 
 
     public JavaPairRDD<Triplet, Tuple2<Long, Set<User>>> getTripletHashtagsAndUsers(Boolean saveValues) throws Exception {
-        JavaPairRDD<Triplet, Set<User>> rdd = BuilderRDDUser.userByTripletHashtags(this.tweetRDD);
+        JavaPairRDD<Triplet, Tuple2<Long, Set<User>>>rdd = BuilderRDDHashtags.userByTripletHashtags(this.tweetRDD);
 
         if (saveValues) {
             String[] families = {Triplet.class.getSimpleName(), Tuple2.class.getSimpleName()};
@@ -84,7 +84,7 @@ public class Process {
     }
 
     public JavaPairRDD<String, Long> getHashtagByTweet(Boolean saveValues) throws Exception {
-        JavaPairRDD<Long, String> rdd = BuilderRDDTweet.tweetByHashtagNb(this.tweetRDD);
+        JavaPairRDD<String,Long> rdd = BuilderRDDTweet.tweetByHashtagNb(this.tweetRDD);
 
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
