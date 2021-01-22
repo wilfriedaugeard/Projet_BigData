@@ -67,7 +67,7 @@ public class BuilderRDDHashtags {
     }
 
     /**
-     * Private class to implement the comporator userByTripletHashtags to sorted the rdd
+     * Private class to implement the comporator of userByTripletHashtags to sorted the rdd
      * by number of tweet using this triplet
      */
     private static class TripletComparator implements Comparator<Tuple2<Long, Set<User>>>, Serializable {
