@@ -2,9 +2,9 @@ const countryLanguage = require("country-language")
 
 
 async function getCountry(lang){
-    if(lang === 'en') return 'us'
-    if(lang === 'ja') return 'jp'
-    if(lang === 'fr') return 'fr'
+    if(lang === "en") return "us"
+    if(lang === "ja") return "jp"
+    if(lang === "fr") return "fr"
     return new Promise((resolve, reject) =>{
         countryLanguage.getLanguage(lang, function(err, value){
             if(err){
@@ -23,7 +23,7 @@ async function getCountry(lang){
 } 
 
 async function getLanguageName(lang){
-    if(lang === 'und') return 'other'
+    if(lang === "und") return "other"
     return new Promise((resolve, reject) =>{
         countryLanguage.getLanguage(lang, function(err, value){
             if(err){

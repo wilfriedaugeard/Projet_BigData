@@ -8,7 +8,7 @@ async function load(){
 
 async function init(app, flag) {
     app.get("/convert", async (req, res) => {
-        res.render("pages/convert.ejs", {tweet: null, oldTweet:'', waiting: false} )
+        res.render("pages/convert.ejs", {tweet: null, oldTweet:"", waiting: false} )
     })
     app.post("/convert", async (req, res) => {
         request = req.body.tweet

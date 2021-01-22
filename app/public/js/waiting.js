@@ -1,6 +1,6 @@
 (function ($) {
     let path = window.location.pathname
-    path += (path[path.length-1] == '/') ? '' : '/'
+    path += (path[path.length-1] == "/") ? "" : "/"
     path += "load"
     $.ajax({
         url: path,
@@ -8,9 +8,10 @@
         dataType: "json"
     
     }).done(function(data){
-        $('body').html(e.responseText)
+        // eslint-disable-next-line no-undef
+        $("body").html(e.responseText)
     }).fail(function(e){
-        $('body').html(e.responseText)
+        $("body").html(e.responseText)
         console.log("fail")
         console.log(e.responseText)
     } )

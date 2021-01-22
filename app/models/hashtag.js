@@ -1,6 +1,7 @@
-const path   = require('path')
-const config = require(path.resolve('./models/hbase_config.js'))
-const hbase  = require(path.resolve('./models/hbase.js'))
+/* eslint-disable no-async-promise-executor */
+const path   = require("path")
+const config = require(path.resolve("./models/hbase_config.js"))
+const hbase  = require(path.resolve("./models/hbase.js"))
 
 let HASHTAG_LIST = [] 
 let RANKING = [] 
@@ -25,18 +26,18 @@ async function getTopKHashtag() {
 
 async function getTopKTriplet() {
     let ranking = []
-    let triplet = ''
+    let triplet = ""
     let n = await hbase.getTableLength(config.TABLE_NAME_TOPK_TRIPLET)
-    let array, count;
+    let array, count
     return new Promise(async (resolve, reject) => { 
         for (let i = 0; i < 1000; i++) {
             count = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_TRIPLET, i.toString(), config.NB_VALUE)
             array = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_TRIPLET, i.toString(), config.TRIPLET_VALUE)
             JSON.parse(array).triplet.forEach(element => {
-                triplet+=', '+element.text
+                triplet+=", "+element.text
             })
             ranking.push([triplet.substring(1), count])
-            triplet = ''
+            triplet = ""
         }
         resolve(ranking) 
     }) 
@@ -70,7 +71,7 @@ function convert(tweet){
             let regex = hbase.buildRegex(splittedTweet[i])
             if(word.match(regex)){
                 if(HASHTAG_LIST[index].length == splittedTweet[i].length){
-                    splittedTweet[i] = '#'+splittedTweet[i]  
+                    splittedTweet[i] = "#"+splittedTweet[i]  
                     nbHashtag[i] = RANKING[index][1]
                 } 
                 return true

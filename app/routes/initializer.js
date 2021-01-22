@@ -1,4 +1,5 @@
-const path   = require('path')
+/* eslint-disable camelcase */
+const path   = require("path")
 
 
 // URI Path
@@ -18,8 +19,8 @@ function init(app){
     const flagModel = require("../models/flag")
     let flag = new flagModel.Flag()
 
-    default_path.init(app);
-    dashboard.init(app);
+    default_path.init(app)
+    dashboard.init(app)
     top_k_user.init(app)
     top_k_lang.init(app)
     top_k_hashtag_simple.init(app, flag)

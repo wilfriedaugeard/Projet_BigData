@@ -1,6 +1,8 @@
-const path   = require('path')
-const config = require(path.resolve('./models/hbase_config.js'))
-const hbase  = require(path.resolve('./models/hbase.js'))
+/* eslint-disable no-async-promise-executor */
+/* eslint-disable camelcase */
+const path   = require("path")
+const config = require(path.resolve("./models/hbase_config.js"))
+const hbase  = require(path.resolve("./models/hbase.js"))
 
 
 
@@ -10,7 +12,7 @@ async function getTopKUserByTweet(){
 
 async function getTripletInfluencers(){
     let ranking = []
-    let user_id, userName, nbTweet
+    let user_id, userName, nbTweet, user
     let n = await hbase.getTableLength(config.TABLE_NAME_TRIPLET_INFLUENCER)
     return new Promise(async (resolve, reject) => {
         for (let i = 0; i < 1000; i++) {
