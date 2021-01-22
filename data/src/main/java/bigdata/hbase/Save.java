@@ -1,7 +1,6 @@
 package bigdata.hbase;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaPairRDD;
 
 import bigdata.entities.*;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 
 public class Save {
 
-    public static final <T, U> void apply(Configuration hConf, String tableName, String[] families, String[] columns, JavaPairRDD<T, U> rdd) throws Exception {
+    public static final <T, U> void apply(Configuration hConf, String tableName, String[] families, String[] columns, List<Tuple2<T,U>> values) throws Exception {
         try {
             BuilderTable.createTable(
                     hConf,
@@ -23,18 +22,6 @@ public class Save {
                     families[0],
                     families[1]
             );
-
-            List<Tuple2<T, U>> values = new ArrayList<Tuple2<T,U>>();
-            if (rdd.count() > Config.TOP_K) {
-                int index = 0;
-                rdd.foreach(item -> {
-                    values.add(index, item);
-                    index++;
-                });
-
-            } else {
-                values.addAll(rdd.collect());
-            }
 
             InsertValues.insert(
                     hConf,
