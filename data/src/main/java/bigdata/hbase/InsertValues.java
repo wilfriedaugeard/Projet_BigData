@@ -39,11 +39,10 @@ public class InsertValues {
 
         try {
             if (rdd.count() > Config.TOP_K) {
-                final int index = 0;
+		
                 rdd.foreach(item -> {
-                    values.add(index, item);
-                    index++;
-                });
+                    values.add(item);
+                 });
 
             } else {
                 values.addAll(rdd.collect());
