@@ -1,6 +1,8 @@
 package bigdata.hbase;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaPairRDD;
 
 import bigdata.entities.*;
 import bigdata.builder.BuilderTable;

@@ -4,7 +4,7 @@ import bigdata.entities.*;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaPairRDD;
 
-public class Display {
+public class DisplayResult {
 
     public static void displayResult(Object o, int k) {
         switch (o.getClass().getSimpleName()) {

@@ -2,7 +2,7 @@ package bigdata;
 
 import bigdata.util.Process;
 import bigdata.util.Config;
-import bigdata.util.Display;
+import bigdata.util.DisplayResult;
 
 
 public class ProjetTwitter {
@@ -40,37 +40,37 @@ public class ProjetTwitter {
 
         switch (args[0]) {
             case "top-hashtag":
-                Display.displayResult(process.getTopHashtags(saveValues), Config.DISPLAY);
+                DisplayResult.displayResult(process.getTopHashtags(saveValues), Config.DISPLAY);
                 break;
             case "user-hashtag":
-                Display.displayResult(process.getUserHashtags(saveValues), Config.DISPLAY);
+                DisplayResult.displayResult(process.getUserHashtags(saveValues), Config.DISPLAY);
                 break;
             case "triplet-hashtag":
-                Display.displayResult(process.getTripletHashtagsAndUsers(saveValues), Config.DISPLAY);
+                DisplayResult.displayResult(process.getTripletHashtagsAndUsers(saveValues), Config.DISPLAY);
                 break;
             case "tweet-by-hashtag-nb":
-                Display.displayResult(process.getHashtagByTweet(saveValues), Config.DISPLAY);
+                DisplayResult.displayResult(process.getHashtagByTweet(saveValues), Config.DISPLAY);
                 break;
             case "tweet-by-language":
-                Display.displayResult(process.getNbTweetByLang(saveValues), Config.DISPLAY);
+                DisplayResult.displayResult(process.getNbTweetByLang(saveValues), Config.DISPLAY);
                 break;
             case "tweet-by-day":
-                Display.displayResult(process.getNbTweetByDay(saveValues), Config.DISPLAY);
+                DisplayResult.displayResult(process.getNbTweetByDay(saveValues), Config.DISPLAY);
                 break;
             case "top-followed-user":
-                Display.displayResult(process.getTopUsers(saveValues, "followed"), Config.DISPLAY);
+                DisplayResult.displayResult(process.getTopUsers(saveValues, "followed"), Config.DISPLAY);
                 break;
             case "top-retweeted-user":
-                Display.displayResult(process.getTopUsers(saveValues, "retweeted"), Config.DISPLAY);
+                DisplayResult.displayResult(process.getTopUsers(saveValues, "retweeted"), Config.DISPLAY);
                 break;
             case "top-tweeting-user":
-                Display.displayResult(process.getTopUsers(saveValues, "tweeting"), Config.DISPLAY);
+                DisplayResult.displayResult(process.getTopUsers(saveValues, "tweeting"), Config.DISPLAY);
                 break;
             case "influencers":
-                Display.displayResult(process.getInfluencers(saveValues), Config.DISPLAY);
+                DisplayResult.displayResult(process.getInfluencers(saveValues), Config.DISPLAY);
                 break;
             case "fake-influencers":
-                Display.displayResult(process.getFakeInfluencers(saveValues), Config.DISPLAY);
+                DisplayResult.displayResult(process.getFakeInfluencers(saveValues), Config.DISPLAY);
                 break;
             default:
                 process.close();
