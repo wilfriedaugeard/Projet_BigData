@@ -56,7 +56,7 @@ public class Process {
             String[] columns = {"value", "count"};
             Save.apply(this.hConf, "top-hashtag", families, columns, rdd.take(Config.TOP_K));
         }
-        return rdd.take(Config.TOP_K);
+        return rdd;
     }
 
 
@@ -125,7 +125,7 @@ public class Process {
             String[] columns = {"user", "count"};
             Save.apply(this.hConf, "top-" + category + "-user", families, columns, rdd.take(Config.TOP_K));
         }
-        return rdd.take(Config.TOP_K);
+        return rdd;
     }
 
 
@@ -136,7 +136,7 @@ public class Process {
             String[] columns = {"user", "top-triplet-tweet"};
             Save.apply(this.hConf, "influencers", families, columns, rdd.take(Config.TOP_K));
         }
-        return rdd.take(Config.TOP_K);
+        return rdd;
     }
 
     public JavaPairRDD<User, Tuple2<Long, Long>> getFakeInfluencers(Boolean saveValues) throws Exception {
@@ -146,7 +146,7 @@ public class Process {
             String[] columns = {"user", "followers-averageRT"};
             Save.apply(this.hConf, "fake-influencers", families, columns, rdd.take(Config.TOP_K));
         }
-        return rdd.take(Config.TOP_K);
+        return rdd;
 
     }
 
