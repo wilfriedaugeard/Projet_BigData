@@ -101,7 +101,7 @@ public class BuilderRDDHashtags {
                             triplet,
                             new Tuple2<Long, Set<User>>(
                                     new Long(1),
-                                    user.iterator())
+                                    user)
                     ));
                     return list.iterator();
                 });
