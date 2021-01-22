@@ -77,7 +77,7 @@ public class BuilderRDDHashtags {
                     return a;
                 });
         return rdd
-                .mapToPair(item -> new Tuple2<Tuple2<Set<Hashtag>, User>, Triplet>(item._2, item._1))
+                .mapToPair(item -> new Tuple2<Set<Hashtag>, User>(item._2, item._1))
                 .sortByKey(new HashtagComparator(), false, 1)
                 .mapToPair(item -> new Tuple2<User, Set<Hashtag>>(item._2, item._1));
     }
