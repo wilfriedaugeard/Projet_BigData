@@ -95,7 +95,7 @@ public class BuilderRDDHashtags {
                     tweet.getEntities().getHashtags().forEach(item -> triplet.add(item));
                     Set<User> user = new HashSet<User>();
                     user.add(tweet.getUser());
-                    Set<Tuple2<Triplet, Tuple2<Long, Set<User>>>> list = new Hashset<Tuple2<Triplet, Tuple2<Long, Set<User>>>>();
+                    Set<Tuple2<Triplet, Tuple2<Long, Set<User>>>> list = new HashSet<Tuple2<Triplet, Tuple2<Long, Set<User>>>>();
 
                     list.add(new Tuple2<Triplet, Tuple2<Long, Set<User>>>(
                             triplet,
