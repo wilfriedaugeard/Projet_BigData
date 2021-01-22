@@ -43,9 +43,7 @@ public class BuilderRDDUser {
         return top
                 .mapToPair(item -> new Tuple2<Long, User>(item._2, item._1))
                 .sortByKey(false)
-                .mapToPair(item -> new Tuple2<User, Long>(item._2, item._1))
-                .take(Config.TOP_K);
-
+                .mapToPair(item -> new Tuple2<User, Long>(item._2, item._1));
     }
 
     /**
