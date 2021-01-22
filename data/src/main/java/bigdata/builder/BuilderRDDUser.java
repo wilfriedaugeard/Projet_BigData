@@ -111,7 +111,7 @@ public class BuilderRDDUser {
 
                 .mapToPair(item -> new Tuple2<Tuple2<Long, Long>, User>(item._2, item._1))
                 .sortByKey(new RtFollowersComparator(), false, 1)
-                .mapToPair(item -> new Tuple2<User, Tuple2<Long, Long>>(item._2, item._1))
+                .mapToPair(item -> new Tuple2<User, Tuple2<Long, Long>>(item._2, item._1));
     }
 }
 
