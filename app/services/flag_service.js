@@ -1,3 +1,11 @@
+/**
+ * @namespace Service_flag
+ */
+/**
+ * Load data from hbase
+ * @class Flag 
+ * @memberof Service_flag 
+ */
 class Flag {
     constructor(){
         this.LOADED_FLAG = false
