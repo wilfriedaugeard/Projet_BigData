@@ -22,11 +22,13 @@ import bigdata.util.Config;
 
 import java.io.IOException;
 
+
 public class InsertValues {
 
     public static final <T, U> List<Tuple2<T, U>> convert(JavaPairRDD<T, U> rdd) throws Exception{
-        try {
-            List<Tuple2<T, U>> values = new ArrayList<Tuple2<T, U>>();
+        List<Tuple2<T, U>> values = new ArrayList<>();
+            
+	try {
             if (rdd.count() > Config.TOP_K) {
                 int index = 0;
                 rdd.foreach(item -> {
@@ -36,12 +38,14 @@ public class InsertValues {
 
             } else {
                 values.addAll(rdd.collect());
+
             }
-            return values;
-        }catch(exception e){
-            ioe.printStackTrace();
+         }catch(Exception e){
+            e.printStackTrace();
             System.exit(-1);
+	   
         }
+	return values;
     }
 
     public static final <T, U> void insert(Configuration config, List<Tuple2<T, U>> values, String tableName, String[] families, String[] columns) throws IOException {
