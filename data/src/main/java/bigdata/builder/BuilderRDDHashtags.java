@@ -90,7 +90,7 @@ public class BuilderRDDHashtags {
     public static final JavaPairRDD<Triplet, Tuple2<Long, Set<User>>> userByTripletHashtags(JavaRDD<Tweet> tweetRDD) {
         JavaPairRDD<Triplet, Tuple2<Long, Set<User>>> tripletRDD = tweetRDD
                 .filter(tweet -> tweet.getEntities().getHashtags().size() == 3)
-                .flatMap(tweet -> {
+                .flatMapToPair(tweet -> {
                     Triplet triplet = new Triplet();
                     tweet.getEntities().getHashtags().forEach(item -> triplet.add(item));
                     Set<User> user = new HashSet<User>();
@@ -104,11 +104,12 @@ public class BuilderRDDHashtags {
                                     user)
                     ));
                     return list.iterator();
-                });
+                })
+		 .reduceByKey((a, b) -> new Tuple2<Long, Set<User>>(a._1 + b._1, a._2.addAll(b._2)));
+		
 
         return tripletRDD
-                .reduceByKey((a, b) -> new Tuple2<Long, Set<User>>(a._1 + b._1, a._2.addAll(b._2)))
-                .mapToPair(item -> new Tuple2<Tuple2<Long,Set<User>>, Triplet>(item._2, item._1))
+               .mapToPair(item -> new Tuple2<Tuple2<Long,Set<User>>, Triplet>(item._2, item._1))
                 .sortByKey(new TripletComparator(), false, 1)
                 .mapToPair(item -> new Tuple2<Triplet, Tuple2<Long,Set<User>>>(item._2, item._1));
 
