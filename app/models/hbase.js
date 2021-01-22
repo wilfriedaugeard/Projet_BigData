@@ -4,6 +4,17 @@
 const hbase  = require("hbase")
 const client = hbase({ host: "localhost", port: 8080 })
 
+/**
+ * @namespace Model_hbase
+ */
+
+/**
+ * Get row content on a hbase table
+ * @param {string} tableName Name of the table
+ * @param {string} i Row position 
+ * @param {string} columnName Name of the column 
+ * @memberof Model_hbase 
+ */
 async function getHbaseValue(tableName, i, columnName) {
     return new Promise((resolve, reject) =>{
         try{
@@ -18,6 +29,11 @@ async function getHbaseValue(tableName, i, columnName) {
     
 }
 
+/**
+ * Compute the table length
+ * @param {string} tableName Name of the table 
+ * @memberof Model_hbase 
+ */
 async function getTableLength(tableName){
     let n = 0
     const scanner = await client.table(tableName).scan({
@@ -38,7 +54,11 @@ async function getTableLength(tableName){
     })
 } 
 
-
+/**
+ * Build a regex from a string as: ab => [Aa][Bb]  
+ * @param {string} element build regex from element
+ * @memberof Model_hbase 
+ */
 function buildRegex(element){
     const word = element.split("")
     let regex = ""
@@ -48,7 +68,12 @@ function buildRegex(element){
     return regex
 } 
 
-
+/**
+ * Get element informations from hbase table
+ * @param {string} tableName Name of the table
+ * @param {string} element element to get 
+ * @memberof Model_hbase 
+ */
 async function getElement(tableName, element){
     let rows = [] 
     const scanner = await client.table(tableName).scan({

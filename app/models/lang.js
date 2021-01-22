@@ -3,7 +3,14 @@ const config = require(path.resolve("./models/hbase_config.js"))
 const hbase  = require(path.resolve("./models/hbase.js"))
 const countryLanguage = require(path.resolve("./models/countryProcess.js"))
 
+/**
+ * @namespace Model_lang
+ */
 
+/**
+ * Get top k of language
+ * @memberof Model_lang 
+ */
 async function getTopKLang(){
     let ranking = []
     let fullName, lang, count, countryCode

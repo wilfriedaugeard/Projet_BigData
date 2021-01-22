@@ -6,7 +6,13 @@ const hbase  = require(path.resolve("./models/hbase.js"))
 let HASHTAG_LIST = [] 
 let RANKING = [] 
 
-
+/**
+ * @namespace Model_hashtag
+ */
+/**
+ * Get top k hashtags
+ * @memberof Model_hashtag 
+ */
 async function getTopKHashtag() {
     HASHTAG_LIST = [] 
     let ranking = []
@@ -23,7 +29,10 @@ async function getTopKHashtag() {
     })
 }
 
-
+/**
+ * Get top k triplet hashtags
+ * @memberof Model_hashtag 
+ */
 async function getTopKTriplet() {
     let ranking = []
     let triplet = ""
@@ -43,7 +52,11 @@ async function getTopKTriplet() {
     }) 
 }
 
-
+/**
+ * Get hashtag info (name with nb)
+ * @param {string} hashtagName hashtag name
+ * @memberof Model_hashtag 
+ */
 function getHashtagInfo(hashtagName){
     let list = []  
     let regex = hbase.buildRegex(hashtagName)
@@ -61,7 +74,11 @@ function getHashtagInfo(hashtagName){
 
 } 
 
-
+/**
+ * Convert famous word of a tweet on hashtag
+ * @param {string} tweet tweet to convert
+ * @memberof Model_hashtag 
+ */
 function convert(tweet){
     let splittedTweet = tweet.split(/[\s\n\r]+/)
     let nbHashtag = [] 

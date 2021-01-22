@@ -1,4 +1,5 @@
 const hashtag = require("../models/hashtag")
+const loadService = require("../services/loader_service") 
 /**
  * @namespace Route_convert
  */
@@ -6,9 +7,6 @@ const hashtag = require("../models/hashtag")
 let data = [] 
 let request = null
 
-async function load(){
-    await hashtag.getTopKHashtag()
-} 
 /**
  * Manage roots about convert tweet page
  * @param {Object} app Express app
@@ -25,7 +23,7 @@ async function init(app, flag) {
     })
     app.get("/convert/load", async (req, res) => {
         if(!flag.LOADED_FLAG){
-            await load()
+            data = await loadService.load(hashtag.getTopKHashtag)
             flag.collectEnd()
         } 
         data = hashtag.convert(request)

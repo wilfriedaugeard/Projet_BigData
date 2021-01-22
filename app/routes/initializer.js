@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const path   = require("path")
+const path        = require("path")
 /**
  * @namespace Route_initializer
  */
@@ -23,8 +23,8 @@ const convert               = require(path.resolve("./routes/convert.js"))
  * @memberof Route_initializer
  */
 function init(app){
-    const flagModel = require("../models/flag")
-    let flag = new flagModel.Flag()
+    const flagService = require("../services/flag_service")
+    let flag = new flagService.Flag()
 
     default_path.init(app)
     dashboard.init(app)

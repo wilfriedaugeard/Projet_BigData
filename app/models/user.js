@@ -4,12 +4,18 @@ const path   = require("path")
 const config = require(path.resolve("./models/hbase_config.js"))
 const hbase  = require(path.resolve("./models/hbase.js"))
 
+/**
+ * @namespace Model_user
+ */
 
 
 async function getTopKUserByTweet(){
     let ranking = []
 } 
-
+/**
+ * Get top k of users who use mostly triplet hashtags 
+ * @memberof Model_user 
+ */
 async function getTripletInfluencers(){
     let ranking = []
     let user_id, userName, nbTweet, user
