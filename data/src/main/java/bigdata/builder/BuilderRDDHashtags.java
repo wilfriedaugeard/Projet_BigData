@@ -95,7 +95,7 @@ public class BuilderRDDHashtags {
                     Set<User> user = new HashSet();
                     user.add(tweet.getUser());
                     return new Tuple2<Triplet, U>(triplet, new Tuple2<Long, Set<User>>(new Long(1), user.iterator()));
-                })
+                });
 
         return triplet
                 .reduceBykey((a, b) -> new Tuple2<Long, Set<User>>(a._1 + b._1, a._2.addAll(b._2)))
