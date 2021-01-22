@@ -54,11 +54,11 @@ c) Afin de planifier nos achats de matériels futurs, calculez le nombre de mach
 
 - [x] a) Récupérer tous les triplets de hashtags ainsi que les utilisateurs qui les ont utilisés.  
 - [x] b) Donner k triplets de hashtags les plus utilisés (k entre 1 et 1000)
-- [ ] c) Trouver les influencers c.a.d les personnes avec le plus grand nombre de tweets dans les triplets que l’on a trouvé. 
-- [ ] d) Trouver les faux influencer, personnes avec beaucoup de followers dont les tweets ne sont jamais retweeté.
+- [x] c) Trouver les influencers c.a.d les personnes avec le plus grand nombre de tweets dans les triplets que l’on a trouvé. 
+- [x] d) Trouver les faux influencer, personnes avec beaucoup de followers dont les tweets ne sont jamais retweeté.
 - [ ] e) Trouvez les sujets (hashtag) qui permettent d’avoir le plus de followers. 
 - [x] f) Retagger les tweet en cherchant les hashtags connus dans le texte des tweets. 
-- [ ] g) Trouver les k users les plus Retweetés (k entre 1 et 1000)
+- [x] g) Trouver les k users les plus Retweetés (k entre 1 et 1000)
 
 
 
@@ -76,10 +76,33 @@ mvn package
 
 Pour lancer spark en local
 ```
-spark-submit target/TPSpark-0.0.1.jar
+spark-submit target/ProjetTwitter-0.0.1.jar fct file save
+
+Avec pour fct :
+	- top-hashtag : topK des hashtags utilisés et le nombre d'utilisation
+	- user-hashtag : classement des user par quantité d'hashtag utilisé et la liste des hashtags correspondant 
+	- triplet-hashtag : topK des triplets de hashtag utilisé et leur nombre d'utilisation
+	- tweet-by-hashtag-nb : nombre de tweet ayant 0, 1, 2, 3, 4-7 et 8+ hashtag
+	- tweet-by-language : classement des languages les plus utilisés et le nombre de tweets associés
+	-tweet-by-day : nombre de tweet pour un jour donné
+	- top-followed-user : topK des users par nombre de followers
+	- top-retweeted-user : topK des users par nombre de RT total
+	- top-tweeting-user : topK des users par nombre de tweets total
+	- influencers : topK des users ayant utilisé le plus de triplet d'hashtag
+	- fake-influencers : topK des users avec le plus de followers et le nombre de RT moyen le plus bas
+	
+Avec pour file :
+	- small : petit fichier de 10k tweets
+	- one : fichier contenant les données d'un jour de tweets
+	- all : tous les tweets sur la période annalysée
+
+Avec pour save :
+	- true : sauvegarde valeurs du RDD dans Hbase et affiche les DISPLAY premier résultats
+	- false : calcul le RDD et se contente d'afficher les DISPLAY premiers résultats
 ```
 
 Pour lancer spark sur le cluster
+
 ```
-spark-submit --master yarn target/TPSpark-0.0.1.jar
+spark-submit --master yarn --num-executors 10 target/ProjetTwitter-0.0.1.jar fct file save
 ```
