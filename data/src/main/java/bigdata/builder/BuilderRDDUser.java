@@ -14,6 +14,7 @@ import bigdata.entities.User;
 import bigdata.entities.Tweet;
 import bigdata.entities.Triplet;
 import bigdata.entities.Hashtag;
+import bigdata.util.Config;
 
 public class BuilderRDDUser {
 
@@ -56,7 +57,7 @@ public class BuilderRDDUser {
      */
     public static final JavaPairRDD<User, Long> influencer(JavaRDD<Tweet> tweetRDD) {
 
-        JavaRDD<Triplet> influencer = tweetRDD
+        JavaPairRDD<Triplet> influencer = tweetRDD
                 .filter(tweet -> tweet.getEntities().getHashtags().size() == 3)
                 .mapToPair(tweet -> {
                     return new Tuple2<User, Long>(tweet.getUser(), new Long(1));
@@ -93,7 +94,7 @@ public class BuilderRDDUser {
      * @return the RDD with TOP_K fake influencers
      */
     public static final JavaPairRDD<User, Tuple2<Long, Long>> fakeInfluencer(JavaRDD<Tweet> tweetRDD) {
-        JavaPairRDD<User, Long> ratioRdd = tweetRDD
+        JavaPairRDD<User, Tuple2<Long,Long>> ratioRdd = tweetRDD
                 .mapToPair(tweet -> {
                     return new Tuple2<User, Tuple2<Long, Long>>(
                             tweet.getUser(),
