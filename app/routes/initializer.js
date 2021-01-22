@@ -1,5 +1,8 @@
 /* eslint-disable camelcase */
 const path   = require("path")
+/**
+ * @namespace Route_initializer
+ */
 
 
 // URI Path
@@ -14,7 +17,11 @@ const hashtag               = require(path.resolve("./routes/hashtag.js"))
 const convert               = require(path.resolve("./routes/convert.js"))
 
 
-
+/**
+ * Initialize all roots
+ * @param {Object} app Express app
+ * @memberof Route_initializer
+ */
 function init(app){
     const flagModel = require("../models/flag")
     let flag = new flagModel.Flag()

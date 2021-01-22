@@ -1,11 +1,18 @@
 const lang = require("../models/lang")
+/**
+ * @namespace Route_topk_lang 
+ */
 
 let data = null
 
 async function load(){
     data = await lang.getTopKLang()
 } 
-
+/**
+ * Manage roots about language top K
+ * @param {Object} app Express app
+ * @memberof Route_topk_lang
+ */
 async function init(app) {
     load()
     let wait = (data == null)

@@ -1,11 +1,19 @@
 const hashtag = require("../models/hashtag")
+/**
+ * @namespace Route_topk_hashtag 
+ */
 
 let data = null
 
 async function load(){
     data = await hashtag.getTopKHashtag()
 } 
-
+/**
+ * Manage roots about hashtags top K
+ * @param {Object} app Express app
+ * @param {Object} flag Flag instance 
+ * @memberof Route_topk_hashtag
+ */
 async function init(app, flag) {
     app.get("/topk/hashtag_simple", async (req, res) => {
         let wait = (!flag.LOADED_FLAG)
