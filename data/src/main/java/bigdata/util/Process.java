@@ -80,7 +80,7 @@ public class Process {
         if (saveValues) {
             String[] families = {Triplet.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"value", "count"};
-            Save.apply(this.hConf, "triplet-hashtags", families, columns, InsertValues.convert(rdd));
+            Save.apply(this.hConf, "triplet-hashtags", families, columns, rdd.take(50000));
         }
         return rdd;
     }

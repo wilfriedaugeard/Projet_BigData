@@ -39,7 +39,7 @@ public class InsertValues {
         List<Tuple2<T, U>> values = new ArrayList<>();
 
         try {
-            /*if (rdd.count() > Config.TOP_K) {
+            if (rdd.count() > Config.TOP_K) {
 		
                 rdd.foreach(item -> {
                     values.add(item);
@@ -47,15 +47,15 @@ public class InsertValues {
 
             } else {
                 values.addAll(rdd.collect());
+}
+            
 
-            }*/
-
-            rdd.foreachPartition(iter -> {
+/*            rdd.foreachPartition(iter -> {
                     while(iter.hasNext()){
                         values.add(iter.next());
                     }
             });
-
+*/
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
@@ -81,13 +81,13 @@ public class InsertValues {
         try (Connection connection = ConnectionFactory.createConnection(config);) {
             Table table = connection.getTable(TableName.valueOf(Config.tablePrefix + tableName));
             ArrayList<Put> list = new ArrayList<Put>();
-        	Iterator<Tuple2<T,U>> iter =values.iterator();
-	int row =0  ;
-	  //for (int row = 0; row < values.size(); row++)
-		while(iter.hasNext()) {
+  //      	Iterator<Tuple2<T,U>> iter =values.iterator();
+//	int row =0  ;
+for (int row = 0; row < values.size(); row++){
+//		while(iter.hasNext()) {
 
-//                Tuple2<T, U> tuple = values.get(row);
-Tuple2<T, U> tuple = iter.next();
+                Tuple2<T, U> tuple = values.get(row);
+//Tuple2<T, U> tuple = iter.next();
                 Put put = new Put(Bytes.toBytes(Integer.toString(row)));
 
                 put.add(
@@ -107,7 +107,7 @@ Tuple2<T, U> tuple = iter.next();
                     table.put(list);
                     list.clear();
                 }
-		row ++;
+//		row ++;
             }
             table.put(list);
 
