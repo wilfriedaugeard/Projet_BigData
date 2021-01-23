@@ -67,10 +67,9 @@ public class BuilderRDDHashtags {
             while (iter2.hasNext()) {
                 Tuple2<String, Long> val = iter2.next();
                 count2 = count2 + val._2;
-            }
-            console.log("v1 " + count1 + " v2 "+ count2);
-
-            return (count1 > count2) ? 1 : 0;
+		}
+          
+            return (new Long(count1)).compareTo(new Long(count2));
         }
     }
 
