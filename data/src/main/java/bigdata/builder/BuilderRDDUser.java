@@ -36,7 +36,13 @@ public class BuilderRDDUser {
                     }
                 });
         if (category.equals("followed")) {
-            top = top.distinct();
+            top = top.reduceByKey((a, b) -> {
+                if (a > b) {
+                    return a;
+                } else {
+                    return b;
+                }
+            });
         } else {
             top = top.reduceByKey((a, b) -> a + b);
         }
