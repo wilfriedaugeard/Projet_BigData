@@ -3,6 +3,7 @@ package bigdata.util;
 public class Config {
 
     public static final Integer TOP_K = 1000;
+    public static final Integer MAX_RDD_VALUES = 50000;
     public static final Integer DISPLAY = 10;
 
     public static final int MAX_LIST_SIZE = 100;

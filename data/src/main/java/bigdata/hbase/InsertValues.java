@@ -16,6 +16,7 @@ import org.apache.spark.api.java.JavaRDD;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Iterator;
 
 import bigdata.entities.IBigDataObject;
 import bigdata.util.Config;
@@ -24,44 +25,6 @@ import java.io.IOException;
 
 
 public class InsertValues {
-
-    /**
-     * Create the List of values of a Pair RDD
-     *
-     * @param rdd : the RDD to convert into list
-     * @param <T> : the class of the first value of the tuple
-     * @param <U> : the class of the second value of the tuple
-     * @return : the new list of values
-     * @throws Exception
-     */
-    public static final <T, U> List<Tuple2<T, U>> convert(JavaPairRDD<T, U> rdd) throws Exception {
-        List<Tuple2<T, U>> values = new ArrayList<>();
-
-        try {
-            /*if (rdd.count() > Config.TOP_K) {
-		
-                rdd.foreach(item -> {
-                    values.add(item);
-                 });
-
-            } else {
-                values.addAll(rdd.collect());
-
-            }*/
-
-            rdd.foreachPartition(iter -> {
-                while (iter.hasNext()) {
-                    list.add(iter.next());
-                }
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(-1);
-
-        }
-        return values;
-    }
 
     /**
      * Insert the values of a list (representing the RDD) into a table in Hbase
@@ -80,12 +43,9 @@ public class InsertValues {
         try (Connection connection = ConnectionFactory.createConnection(config);) {
             Table table = connection.getTable(TableName.valueOf(Config.tablePrefix + tableName));
             ArrayList<Put> list = new ArrayList<Put>();
-            Iterator<Tuple2<T, U>> iter = values.iterator();
-            int row = 0;
-            //for (int row = 0; row < values.size(); row++) {
-            while (iter.hasNext()) {
-                //Tuple2<T, U> tuple = values.get(row);
-                Tuple2<T, U> tuple = iter.next();
+
+            for (int row = 0; row < values.size(); row++) {
+                Tuple2<T, U> tuple = values.get(row);
                 Put put = new Put(Bytes.toBytes(Integer.toString(row)));
 
                 put.add(
@@ -101,13 +61,12 @@ public class InsertValues {
                 );
 
                 list.add(put);
-                if (row == Config.MAX_LIST_SIZE) {
+                if (row % Config.MAX_LIST_SIZE == 0) {
                     table.put(list);
                     list.clear();
                 }
             }
             table.put(list);
-            row ++;
 
         } catch (IOException ioe) {
             ioe.printStackTrace();

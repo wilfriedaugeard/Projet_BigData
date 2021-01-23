@@ -66,7 +66,7 @@ public class Process {
         if (saveValues) {
             String[] families = {User.class.getSimpleName(), HashSet.class.getSimpleName()};
             String[] columns = {"user", "hashtags"};
-            Save.apply(this.hConf, "user-hashtag", families, columns, InsertValues.convert(rdd));
+            Save.apply(this.hConf, "user-hashtag", families, columns, rdd.take(Config.MAX_RDD_VALUES));
         }
         return rdd;
     }
@@ -78,7 +78,7 @@ public class Process {
         if (saveValues) {
             String[] families = {Triplet.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"value", "count"};
-            Save.apply(this.hConf, "triplet-hashtags", families, columns, InsertValues.convert(rdd));
+            Save.apply(this.hConf, "triplet-hashtags", families, columns, rdd.take(Config.TOP_K));
         }
         return rdd;
     }
@@ -89,7 +89,7 @@ public class Process {
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"nb-hashtag", "count"};
-            Save.apply(this.hConf, "tweet-by-hashtag-nb", families, columns, InsertValues.convert(rdd));
+            Save.apply(this.hConf, "tweet-by-hashtag-nb", families, columns, rdd.collect());
         }
         return rdd;
     }
@@ -101,7 +101,7 @@ public class Process {
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"language", "count"};
-            Save.apply(this.hConf, "tweet-by-language", families, columns, InsertValues.convert(rdd));
+            Save.apply(this.hConf, "tweet-by-language", families, columns, rdd.collect());
         }
         return rdd;
     }
@@ -113,7 +113,7 @@ public class Process {
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"date", "count"};
-            Save.apply(this.hConf, "tweet-by-day", families, columns, InsertValues.convert(rdd));
+            Save.apply(this.hConf, "tweet-by-day", families, columns, rdd.collect());
         }
         return rdd;
     }

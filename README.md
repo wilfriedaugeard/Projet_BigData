@@ -43,9 +43,9 @@ c) Afin de planifier nos achats de matériels futurs, calculez le nombre de mach
 - augeard-tarmil-tweet-by-language                        <String, Long>
 - augeard-tarmil-top-followed-user                         <User, Long>
 - augeard-tarmil-top-tweeting-user                         <User, Long>
-- 
-
-
+- augeard-tarmil-influencers                                     <User, Long>
+- augeard-tarmil-triplet-hashtags                            <Triplet, Long>
+- augeard-tarmil-user-hashtag                                 <User, Set<'Hashtag>>
 
 
 
@@ -94,7 +94,7 @@ Avec pour fct :
 	- top-hashtag : topK des hashtags utilisés et le nombre d'utilisation
 	- user-hashtag : classement des user par quantité d'hashtag utilisé et la liste des hashtags correspondant 
 	- triplet-hashtag : topK des triplets de hashtag utilisé et leur nombre d'utilisation
-	- tweet-by-hashtag-nb : nombre de tweet ayant 0, 1, 2, 3, 4-7 et 8+ hashtag
+	- tweet-by-hashtag-nb : nombre de tweet ayant 0, 1-3, 4-7 et 8+ hashtag
 	- tweet-by-language : classement des languages les plus utilisés et le nombre de tweets associés
 	-tweet-by-day : nombre de tweet pour un jour donné
 	- top-followed-user : topK des users par nombre de followers
