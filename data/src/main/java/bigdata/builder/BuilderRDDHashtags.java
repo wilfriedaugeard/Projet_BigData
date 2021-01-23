@@ -28,20 +28,20 @@ public class BuilderRDDHashtags {
      * @param tweetRDD
      * @return the complet RDD
      */
-    public final static JavaPairRDD<Hashtag, Long> topHastag(JavaRDD<Tweet> tweetRDD) {
+    public final static JavaPairRDD<String, Long> topHastag(JavaRDD<Tweet> tweetRDD) {
         JavaPairRDD<Hashtag, Long> tuple = tweetRDD.flatMapToPair(tweet -> {
             Set<Tuple2<Hashtag, Long>> list = new HashSet();
             tweet.getEntities().getHashtags().forEach(hashtag -> {
-                list.add(new Tuple2<Hashtag, Long>(hashtag, new Long(1)));
+                list.add(new Tuple2<String, Long>(hashtag.getText().toLowerCase(), new Long(1)));
             });
             return list.iterator();
         });
 
         return tuple
                 .reduceByKey((a, b) -> a + b)
-                .mapToPair(item -> new Tuple2<Long, Hashtag>(item._2, item._1))
+                .mapToPair(item -> new Tuple2<Long, String>(item._2, item._1))
                 .sortByKey(false)
-                .mapToPair(item -> new Tuple2<Hashtag, Long>(item._2, item._1));
+                .mapToPair(item -> new Tuple2<String, Long>(item._2, item._1));
     }
 
     /**
@@ -124,14 +124,14 @@ public class BuilderRDDHashtags {
      * @param tweetRDD
      * @return the rdd with all results
      */
-    public static final JavaPairRDD<User, Set<Hashtag>> userHashtags(JavaRDD<Tweet> tweetRDD) {
-        JavaPairRDD<User, Set<Hashtag>> rdd = tweetRDD
+    public static final JavaPairRDD<User, Set<String>> userHashtags(JavaRDD<Tweet> tweetRDD) {
+        JavaPairRDD<User, Set<String>> rdd = tweetRDD
                 .mapToPair(tweet -> {
                     Set<Hashtag> hashtagSet = new HashSet<Hashtag>();
-                    tweet.getEntities().getHashtags().forEach(h -> {
-                        hashtagSet.add(h);
+                    tweet.getEntities().getHashtags().forEach(hashtag -> {
+                        hashtagSet.add(hashtag.getText().toLowerCase());
                     });
-                    return new Tuple2<User, Set<Hashtag>>(tweet.getUser(), hashtagSet);
+                    return new Tuple2<User, Set<String>>(tweet.getUser(), hashtagSet);
                 })
                 .filter(tuple -> !tuple._2.isEmpty())
                 .reduceByKey((a, b) -> {
@@ -139,9 +139,9 @@ public class BuilderRDDHashtags {
                     return a;
                 });
         return rdd
-                .mapToPair(item -> new Tuple2<Set<Hashtag>, User>(item._2, item._1))
+                .mapToPair(item -> new Tuple2<Set<String>, User>(item._2, item._1))
                 .sortByKey(new HashtagComparator(), false, 1)
-                .mapToPair(item -> new Tuple2<User, Set<Hashtag>>(item._2, item._1));
+                .mapToPair(item -> new Tuple2<User, Set<String>>(item._2, item._1));
     }
 
 

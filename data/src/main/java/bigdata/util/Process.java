@@ -47,12 +47,12 @@ public class Process {
         this.context.close();
     }
 
-    public JavaPairRDD<Hashtag, Long> getTopHashtags(Boolean saveValues) throws Exception {
+    public JavaPairRDD<String, Long> getTopHashtags(Boolean saveValues) throws Exception {
 
-        JavaPairRDD<Hashtag, Long> rdd = BuilderRDDHashtags.topHastag(this.tweetRDD);
+        JavaPairRDD<String, Long> rdd = BuilderRDDHashtags.topHastag(this.tweetRDD);
 
         if (saveValues) {
-            String[] families = {Hashtag.class.getSimpleName(), Long.class.getSimpleName()};
+            String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"value", "count"};
             Save.apply(this.hConf, "top-hashtag", families, columns, rdd.take(Config.TOP_K));
         }
@@ -68,13 +68,11 @@ public class Process {
         }
         return rdd;
 
-
     }
 
+    public JavaPairRDD<User, Set<String>> getUserHashtags(Boolean saveValues) throws Exception {
 
-    public JavaPairRDD<User, Set<Hashtag>> getUserHashtags(Boolean saveValues) throws Exception {
-
-        JavaPairRDD<User, Set<Hashtag>> rdd = BuilderRDDHashtags.userHashtags(this.tweetRDD);
+        JavaPairRDD<User, Set<String>> rdd = BuilderRDDHashtags.userHashtags(this.tweetRDD);
         if (saveValues) {
             String[] families = {User.class.getSimpleName(), HashSet.class.getSimpleName()};
             String[] columns = {"user", "hashtags"};
