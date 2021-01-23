@@ -109,11 +109,11 @@ public class BuilderRDDHashtags {
      * Private class to implement the comporator of userHashtags to sorted the rdd
      * by length of the hashtag list of each user
      */
-    private static class HashtagComparator implements Comparator<Set<Hashtag>>, Serializable {
+    private static class HashtagComparator implements Comparator<Set<String>>, Serializable {
         private static final long serialVersionUID = 1L;
 
         @Override
-        public int compare(Set<Hashtag> v1, Set<Hashtag> v2) {
+        public int compare(Set<String> v1, Set<String> v2) {
             return (v1.size() > v2.size()) ? 1 : 0;
         }
     }
@@ -127,7 +127,7 @@ public class BuilderRDDHashtags {
     public static final JavaPairRDD<User, Set<String>> userHashtags(JavaRDD<Tweet> tweetRDD) {
         JavaPairRDD<User, Set<String>> rdd = tweetRDD
                 .mapToPair(tweet -> {
-                    Set<Hashtag> hashtagSet = new HashSet<Hashtag>();
+                    Set<String> hashtagSet = new HashSet<String>();
                     tweet.getEntities().getHashtags().forEach(hashtag -> {
                         hashtagSet.add(hashtag.getText().toLowerCase());
                     });
