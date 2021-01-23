@@ -35,6 +35,18 @@ c) Afin de planifier nos achats de matériels futurs, calculez le nombre de mach
 | Trouvez les sujets (hashtag) qui permettent d’avoir le plus de followers. | TODO  | TODO | TODO  | TODO  |   0%    |
 | Trouver les faux influencer, personnes avec beaucoup de followers dont les tweets ne sont jamais retweeté. | TODO  | TODO | TODO  | TODO  |   0%    |
 
+**TABLES DANS HBASE**
+
+- augeard-tarmil-top-hashtag									<Hashtag,Long>
+- augeard-tarmil-tweet-by-day 								 <String,Long>
+- augeard-tarmil-tweet-by-hashtag-nb                    <String, Long>
+- augeard-tarmil-tweet-by-language                        <String, Long>
+- augeard-tarmil-top-followed-user                         <User, Long>
+- augeard-tarmil-top-tweeting-user                         <User, Long>
+- 
+
+
+
 
 
 ## Exemple d’analyse des hashtags

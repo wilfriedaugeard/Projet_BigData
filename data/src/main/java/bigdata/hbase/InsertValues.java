@@ -38,7 +38,7 @@ public class InsertValues {
         List<Tuple2<T, U>> values = new ArrayList<>();
 
         try {
-            if (rdd.count() > Config.TOP_K) {
+            /*if (rdd.count() > Config.TOP_K) {
 		
                 rdd.foreach(item -> {
                     values.add(item);
@@ -47,7 +47,14 @@ public class InsertValues {
             } else {
                 values.addAll(rdd.collect());
 
-            }
+            }*/
+
+            rdd.foreachPartition(iter -> {
+                    while(iter.hasNext()){
+                        list.add(iter.next());
+                    }
+            });
+
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
