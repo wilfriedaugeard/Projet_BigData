@@ -43,7 +43,6 @@ public class BuilderRDDHashtags {
                 .sortByKey(false)
                 .mapToPair(item -> new Tuple2<Hashtag, Long>(item._2, item._1));
     }
-/////////////////////////////////////////////
 
     /**
      * Private class to implement the comporator of topHastagByDay to sorted the rdd
@@ -69,6 +68,8 @@ public class BuilderRDDHashtags {
                 Tuple2<String, Long> val = iter2.next();
                 count2 = count2 + val._2;
             }
+            console.log("v1 " + count1 + " v2 "+ count2);
+
             return (count1 > count2) ? 1 : 0;
         }
     }
