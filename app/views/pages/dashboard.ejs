@@ -2,6 +2,14 @@
 <html lang="en">
     <head>
         <%- include("../templates/header")%>
+        <% if(!waitingNbTweet){ %>
+            <script src="/js/chart-area-demo.js" defer></script>
+        <%}%>
+        <% if(!waitingRep){ %>
+            <script src="/js/chart-pie-demo.js" defer></script>
+        <%}%>
+           
+        
     </head>
     <body class="sb-nav-fixed">
         <%- include("../templates/top_navbar")%>
@@ -16,18 +24,27 @@
                         </ol>
                         <div class="row">
                             <div class="col-xl-6">
-                                <%- include("../templates/cards/nb_tweet_card")%>
+                                <% if(waitingNbTweet){ %>
+                                    <%- include("../templates/waiting")%>
+                                <%}else{%>
+                                    <%- include("../templates/cards/nb_tweet_card")%>
+                                <%} %>
                             </div>
-                            <div class="col-xl-6">
+                            <!-- <div class="col-xl-6">
                                 <%- include("../templates/cards/nb_hashtag_card")%>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="row">
-                            <div class="col-xl-8">
+                            <!-- <div class="col-xl-8">
                                 <%- include("../templates/cards/best_user_card")%>
-                            </div>
+                            </div> -->
                             <div class="col-xl-4">
-                                <%- include("../templates/cards/repartition_hashtag_card")%>
+                                <% if(waitingRep){ %>
+                                    <%- include("../templates/waiting")%>
+                                <%}else{%>
+                                    <%- include("../templates/cards/repartition_hashtag_card")%>
+                                <%} %>
+                                
                             </div>
                         </div>
                         

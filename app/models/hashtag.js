@@ -100,6 +100,28 @@ function convert(tweet){
     return [splittedTweet, nbHashtag] 
 } 
 
+
+/**
+ * Get repartition of hashtags
+ * @memberof Model_hashtag 
+ */
+function getHashtagRepartition(){
+    let name = []
+    let countArray = []  
+    let rep, count
+    return new Promise(async (resolve, reject) => { 
+        let n = await hbase.getTableLength(config.TABLE_NAME_REPARTITION_HASHTAGS)
+        for (let i = 0; i < n; i++) {
+            rep = await hbase.getHbaseValue(config.TABLE_NAME_REPARTITION_HASHTAGS, i.toString(), config.REPARTITION_VALUE)
+            count = await hbase.getHbaseValue(config.TABLE_NAME_REPARTITION_HASHTAGS, i.toString(), config.NB_VALUE)
+            name.push(rep)
+            countArray.push(count)
+        }
+        resolve([name.join(), countArray.join()])
+    })
+} 
+
+
 function getRanking(){
     return RANKING
 } 
@@ -109,6 +131,7 @@ module.exports = {
     getTopKHashtag,
     getTopKTriplet,
     getHashtagInfo,
+    getHashtagRepartition,
     convert,
     getRanking
 }

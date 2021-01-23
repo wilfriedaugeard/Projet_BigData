@@ -4,11 +4,11 @@ Chart.defaults.global.defaultFontColor = "#292b2c"
 
 
 // Area Chart Example
-let ctx = document.getElementById("myAreaChart")
+let ctxChartArea = document.getElementById("myAreaChart")
 let dataStr = document.getElementById("dataAreaChart").innerHTML
 let data = new Array()
 dataStr.split(",").map(v => data.push(parseInt(v)))
-let myLineChart = new Chart(ctx, {
+let myLineChart = new Chart(ctxChartArea, {
     type: "line",
     data: {
         labels: ["1 Mars", "2 Mars", "3 Mars", "4 Mars", "5 Mars", "6 Mars", "7 Mars", "8 Mars", "9 Mars", "10 Mars", "11 Mars", "12 Mars", "13 Mars","14 Mars", "15 Mars", "16 Mars","17 Mars", "18 Mars", "19 Mars","20 Mars", "21 Mars"],
@@ -43,8 +43,11 @@ let myLineChart = new Chart(ctx, {
             yAxes: [{
                 ticks: {
                     min: 0,
-                    max: 40000,
-                    maxTicksLimit: 5
+                    max: 5000000,
+                    maxTicksLimit: 5,
+                    callback: function(value, index, values){
+                        return value/(1000000)+" M"
+                    } 
                 },
                 gridLines: {
                     color: "rgba(0, 0, 0, .125)",
