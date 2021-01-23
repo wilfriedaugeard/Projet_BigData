@@ -128,10 +128,10 @@ public class Process {
         return rdd;
     }
 
-    public JavaPairRDD<User, Long> getTopUsers(Boolean saveValues, String category) throws Exception {
-        JavaPairRDD<User, Long> rdd = BuilderRDDUser.topUser(this.tweetRDD, category);
+    public JavaPairRDD<String, Long> getTopUsers(Boolean saveValues, String category) throws Exception {
+        JavaPairRDD<String, Long> rdd = BuilderRDDUser.topUser(this.tweetRDD, category);
         if (saveValues) {
-            String[] families = {User.class.getSimpleName(), Long.class.getSimpleName()};
+            String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"user", "count"};
             Save.apply(this.hConf, "top-" + category + "-user", families, columns, rdd.take(Config.TOP_K));
         }
@@ -139,20 +139,20 @@ public class Process {
     }
 
 
-    public JavaPairRDD<User, Long> getInfluencers(Boolean saveValues) throws Exception {
-        JavaPairRDD<User, Long> rdd = BuilderRDDUser.influencer(this.tweetRDD);
+    public JavaPairRDD<String, Long> getInfluencers(Boolean saveValues) throws Exception {
+        JavaPairRDD<String, Long> rdd = BuilderRDDUser.influencer(this.tweetRDD);
         if (saveValues) {
-            String[] families = {User.class.getSimpleName(), Long.class.getSimpleName()};
+            String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"user", "top-triplet-tweet"};
             Save.apply(this.hConf, "influencers", families, columns, rdd.take(Config.TOP_K));
         }
         return rdd;
     }
 
-    public JavaPairRDD<User, Tuple2<Long, Long>> getFakeInfluencers(Boolean saveValues) throws Exception {
-        JavaPairRDD<User, Tuple2<Long, Long>> rdd = BuilderRDDUser.fakeInfluencer(this.tweetRDD);
+    public JavaPairRDD<String, Tuple2<Long, Long>> getFakeInfluencers(Boolean saveValues) throws Exception {
+        JavaPairRDD<String, Tuple2<Long, Long>> rdd = BuilderRDDUser.fakeInfluencer(this.tweetRDD);
         if (saveValues) {
-            String[] families = {User.class.getSimpleName(), Tuple2.class.getSimpleName()};
+            String[] families = {String.class.getSimpleName(), Tuple2.class.getSimpleName()};
             String[] columns = {"user", "followers-averageRT"};
             Save.apply(this.hConf, "fake-influencers", families, columns, rdd.take(Config.TOP_K));
         }

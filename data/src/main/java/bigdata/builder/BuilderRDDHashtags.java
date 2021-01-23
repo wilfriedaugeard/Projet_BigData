@@ -67,14 +67,15 @@ public class BuilderRDDHashtags {
             while (iter2.hasNext()) {
                 Tuple2<String, Long> val = iter2.next();
                 count2 = count2 + val._2;
-		}
-          
+            }
+
             return (new Long(count1)).compareTo(new Long(count2));
         }
     }
 
     /**
      * Create the RDD containing the classement of hashtag with the number of appearance each day
+     *
      * @param tweetRDD
      * @return the complet RDD
      */
@@ -98,7 +99,10 @@ public class BuilderRDDHashtags {
                 });
 
         return top
-		.reduceByKey((a,b) -> { a.addAll(b); return a;})
+                .reduceByKey((a, b) -> {
+                    a.addAll(b);
+                    return a;
+                })
                 .mapToPair(item -> new Tuple2<Set<Tuple2<String, Long>>, String>(item._2, item._1))
                 .sortByKey(new TopByDayHashtagComparator(), false, 1)
                 .mapToPair(item -> new Tuple2<String, Set<Tuple2<String, Long>>>(item._2, item._1));
@@ -114,7 +118,7 @@ public class BuilderRDDHashtags {
 
         @Override
         public int compare(Set<String> v1, Set<String> v2) {
-         return (new Long(v1.size())).compareTo(new Long(v2.size()));
+            return (new Long(v1.size())).compareTo(new Long(v2.size()));
         }
     }
 

@@ -8,7 +8,7 @@ public class User extends BigDataObject implements IBigDataObject {
     private String screen_name;
     private String location;
     private String verified;
-    private String created_at; 
+    private String created_at;
     private long followers_count;
     private long friends_count;
     private long reply_count;
@@ -21,6 +21,10 @@ public class User extends BigDataObject implements IBigDataObject {
 
     public long getFollowers() {
         return this.followers_count;
+    }
+
+    public String getUserInfo() {
+        return "id : " this.id_str + ", name : " + this.name + ", screen_name : " + this.screen_name;
     }
 
     @Override
