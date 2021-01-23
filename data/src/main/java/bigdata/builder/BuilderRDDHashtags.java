@@ -114,7 +114,7 @@ public class BuilderRDDHashtags {
 
         @Override
         public int compare(Set<String> v1, Set<String> v2) {
-            return (v1.size() > v2.size()) ? 1 : 0;
+         return (new Long(v1.size())).compareTo(new Long(v2.size()));
         }
     }
 
