@@ -50,9 +50,9 @@ public class InsertValues {
             }*/
 
             rdd.foreachPartition(iter -> {
-                    while(iter.hasNext()){
-                        list.add(iter.next());
-                    }
+                while (iter.hasNext()) {
+                    list.add(iter.next());
+                }
             });
 
         } catch (Exception e) {
@@ -80,10 +80,12 @@ public class InsertValues {
         try (Connection connection = ConnectionFactory.createConnection(config);) {
             Table table = connection.getTable(TableName.valueOf(Config.tablePrefix + tableName));
             ArrayList<Put> list = new ArrayList<Put>();
-            for (int row = 0; row < values.size(); row++) {
-
-                Tuple2<T, U> tuple = values.get(row);
-
+            Iterator<Tuple2<T, U>> iter = values.iterator();
+            int row = 0;
+            //for (int row = 0; row < values.size(); row++) {
+            while (iter.hasNext()) {
+                //Tuple2<T, U> tuple = values.get(row);
+                Tuple2<T, U> tuple = iter.next();
                 Put put = new Put(Bytes.toBytes(Integer.toString(row)));
 
                 put.add(
@@ -105,6 +107,7 @@ public class InsertValues {
                 }
             }
             table.put(list);
+            row ++;
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
