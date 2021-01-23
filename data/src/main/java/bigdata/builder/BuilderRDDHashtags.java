@@ -29,8 +29,8 @@ public class BuilderRDDHashtags {
      * @return the complet RDD
      */
     public final static JavaPairRDD<String, Long> topHastag(JavaRDD<Tweet> tweetRDD) {
-        JavaPairRDD<Hashtag, Long> tuple = tweetRDD.flatMapToPair(tweet -> {
-            Set<Tuple2<Hashtag, Long>> list = new HashSet();
+        JavaPairRDD<String, Long> tuple = tweetRDD.flatMapToPair(tweet -> {
+            Set<Tuple2<String, Long>> list = new HashSet();
             tweet.getEntities().getHashtags().forEach(hashtag -> {
                 list.add(new Tuple2<String, Long>(hashtag.getText().toLowerCase(), new Long(1)));
             });
