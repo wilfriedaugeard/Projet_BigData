@@ -11,8 +11,14 @@ import bigdata.entities.Hashtag;
 
 public class BuilderRDDTweet {
 
+    /**
+     * Create the RDD containing all the tweets
+     *
+     * @param tweetsRDD
+     * @return the complete RDD
+     */
     public static final JavaRDD<Tweet> getAllTweet(JavaRDD<String> tweetsRDD) {
-        JavaRDD<Tweet> tweets = tweetsRDD
+        return tweetsRDD
                 .map(line -> {
                     Tweet t = new Tweet();
                     try {
@@ -22,15 +28,51 @@ public class BuilderRDDTweet {
                     } finally {
                         return t;
                     }
-
                 })
                 .filter(t -> t.isAvailable());
-        return tweets;
     }
 
+    /**
+     * Create the RDD that contains for each value of hashtags contained in a tweet the number of tweets founded
+     *
+     * @param tweetJavaRDD
+     * @return the complet RDD of 4 rows
+     */
+    public static final JavaPairRDD<String, Long> tweetByHashtagNb(JavaRDD<Tweet> tweetJavaRDD) {
+        JavaPairRDD<String, Long> tuple = tweetJavaRDD.mapToPair(tweet -> {
+            int nbHashtag = tweet.getEntities().getNbHashtags();
+            String range = "";
+            if (nbHashtag == 0) {
+                range = "0";
+            } else if (nbHashtag == 1) {
+                range = "1";
+            } else if (nbHashtag == 2) {
+                range = "2";
+            } else if (nbHashtag == 3) {
+                range = "3";
+            } else if (4 <= nbHashtag && nbHashtag <= 7) {
+                range = "[4-7]";
+            } else {
+                range = "8+";
+            }
+            return new Tuple2<String, Long>(range, new Long(1));
+        });
+
+        return tuple.reduceByKey((a, b) -> a + b)
+                .mapToPair(item -> new Tuple2<Long, String>(item._2, item._1))
+                .sortByKey(false)
+                .mapToPair(item -> new Tuple2<String, Long>(item._2, item._1));
+    }
+
+    /**
+     * Create the RDD that contains for each languages the number of tweets founded
+     *
+     * @param tweetRDD
+     * @return the complet RDD
+     */
     public static final JavaPairRDD<String, Long> nbTweetByLang(JavaRDD<Tweet> tweetRDD) {
-        JavaPairRDD<String, Long> tuple = tweetRDD.mapToPair(t -> {
-            return new Tuple2(t.getLang().toLowerCase(), new Long(1));
+        JavaPairRDD<String, Long> tuple = tweetRDD.mapToPair(tweet -> {
+            return new Tuple2(tweet.getLang().toLowerCase(), new Long(1));
         });
         return tuple.reduceByKey((a, b) -> a + b)
                 .mapToPair(item -> new Tuple2<Long, String>(item._2, item._1))
@@ -38,5 +80,22 @@ public class BuilderRDDTweet {
                 .mapToPair(item -> new Tuple2<String, Long>(item._2, item._1));
     }
 
+    /**
+     * Create the RDD that contains for each day the number of tweets founded
+     *
+     * @param tweetRDD
+     * @return the complet RDD
+     */
+    public static final JavaPairRDD<String, Long> getNbTweetByDay(JavaRDD<Tweet> tweetRDD) {
+        JavaPairRDD<String, Long> tuple = tweetRDD.mapToPair(tweet -> {
+            String[] info = tweet.getCreated_at().toLowerCase().split(" ");
+            String date = info[0] + " " + info[1] + " " + info[2];
+            return new Tuple2(date, new Long(1));
+        });
+        return tuple.reduceByKey((a, b) -> a + b)
+                .mapToPair(item -> new Tuple2<Long, String>(item._2, item._1))
+                .sortByKey(false)
+                .mapToPair(item -> new Tuple2<String, Long>(item._2, item._1));
+    }
 
 }

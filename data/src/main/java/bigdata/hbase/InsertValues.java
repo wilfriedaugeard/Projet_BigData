@@ -18,27 +18,60 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import bigdata.entities.IBigDataObject;
+import bigdata.util.Config;
 
 import java.io.IOException;
 
+
 public class InsertValues {
-    private static final int MAX_LIST_SIZE = 100;
-    private static final String tablePrefix = "augeard-tarmil-";
 
-    public static final <U> List<Tuple2<Integer, U>> createFromJavaRDD(JavaRDD<U> rdd) {
-        JavaPairRDD<Integer, U> rddP = rdd.mapToPair(item -> new Tuple2<Integer, U>(new Integer(item.hashCode()), item));
-        return rddP.collect();
+    /**
+     * Create the List of values of a Pair RDD
+     *
+     * @param rdd : the RDD to convert into list
+     * @param <T> : the class of the first value of the tuple
+     * @param <U> : the class of the second value of the tuple
+     * @return : the new list of values
+     * @throws Exception
+     */
+    public static final <T, U> List<Tuple2<T, U>> convert(JavaPairRDD<T, U> rdd) throws Exception {
+        List<Tuple2<T, U>> values = new ArrayList<>();
+
+        try {
+            if (rdd.count() > Config.TOP_K) {
+		
+                rdd.foreach(item -> {
+                    values.add(item);
+                 });
+
+            } else {
+                values.addAll(rdd.collect());
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(-1);
+
+        }
+        return values;
     }
 
-    public static final <T, U> List<Tuple2<T, U>> createFromJavaPairRDD(JavaPairRDD<T, U> rdd, Optional<Integer> topK) {
-	if(topK.isPresent()) return rdd.take(topK.get());
-        return rdd.collect();
-    }
-
-    public static final <T, U> void insert(Configuration config, List<Tuple2<T, U>> values, String tableName, String column1, String column2) throws IOException {
+    /**
+     * Insert the values of a list (representing the RDD) into a table in Hbase
+     *
+     * @param config
+     * @param values    : the list of values
+     * @param tableName : the name of the table in which we need to insert the values
+     * @param families  : array containing the class of the two values
+     * @param columns   : array containing the "type" of the two values
+     * @param <T>       : the class of the first value of the tuple
+     * @param <U>       : the class of the second value of the tuple
+     * @throws IOException
+     */
+    public static final <T, U> void insert(Configuration config, List<Tuple2<T, U>> values, String tableName, String[] families, String[] columns) throws IOException {
 
         try (Connection connection = ConnectionFactory.createConnection(config);) {
-            Table table = connection.getTable(TableName.valueOf(tablePrefix + tableName));
+            Table table = connection.getTable(TableName.valueOf(Config.tablePrefix + tableName));
             ArrayList<Put> list = new ArrayList<Put>();
             for (int row = 0; row < values.size(); row++) {
 
@@ -47,19 +80,19 @@ public class InsertValues {
                 Put put = new Put(Bytes.toBytes(Integer.toString(row)));
 
                 put.add(
-                        Bytes.toBytes(tuple._1.getClass().getSimpleName()),
-                        Bytes.toBytes(column1),
+                        Bytes.toBytes(families[0]),
+                        Bytes.toBytes(columns[0]),
                         Bytes.toBytes(tuple._1.toString())
                 );
 
                 put.add(
-                        Bytes.toBytes(tuple._2.getClass().getSimpleName()),
-                        Bytes.toBytes(column2),
+                        Bytes.toBytes(families[1]),
+                        Bytes.toBytes(columns[1]),
                         Bytes.toBytes(tuple._2.toString())
                 );
 
                 list.add(put);
-                if (row == MAX_LIST_SIZE) {
+                if (row == Config.MAX_LIST_SIZE) {
                     table.put(list);
                     list.clear();
                 }
