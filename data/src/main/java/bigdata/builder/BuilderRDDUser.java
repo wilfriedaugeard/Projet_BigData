@@ -93,17 +93,17 @@ public class BuilderRDDUser {
     public static final JavaPairRDD<String, Tuple2<Long, Long>> fakeInfluencer(JavaRDD<Tweet> tweetRDD) {
         JavaPairRDD<User, Tuple2<Long, Long>> ratioRdd = tweetRDD
                 .mapToPair(tweet -> {
-                    return new Tuple2<String, Tuple2<Long, Long>>(
-                            tweet.getUser().getUserInfo(),
+                    return new Tuple2<User, Tuple2<Long, Long>>(
+                            tweet.getUser(),
                             new Tuple2<Long, Long>(
-                                    tweet.getUser().getFollowers(),
+                                    new Long(1),
                                     tweet.getRetweet_count()));
                 })
                 .reduceByKey((a, b) -> new Tuple2<Long, Long>(a._1 + b._1, a._2 + b._2));
 
         return ratioRdd
                 .mapToPair(item -> new Tuple2<String, Tuple2<Long, Long>>(
-                        item._1,
+                        item._1.getUserInfo(),
                         new Tuple2<Long, Long>(
                                 item._1.getFollowers(),
                                 (item._2._1 == 0) ? 0 : (item._2._2 / item._2._1))))
