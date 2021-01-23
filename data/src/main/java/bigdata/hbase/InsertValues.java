@@ -16,6 +16,7 @@ import org.apache.spark.api.java.JavaRDD;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Iterator;
 
 import bigdata.entities.IBigDataObject;
 import bigdata.util.Config;
@@ -51,7 +52,7 @@ public class InsertValues {
 
             rdd.foreachPartition(iter -> {
                     while(iter.hasNext()){
-                        list.add(iter.next());
+                        values.add(iter.next());
                     }
             });
 
@@ -80,10 +81,13 @@ public class InsertValues {
         try (Connection connection = ConnectionFactory.createConnection(config);) {
             Table table = connection.getTable(TableName.valueOf(Config.tablePrefix + tableName));
             ArrayList<Put> list = new ArrayList<Put>();
-            for (int row = 0; row < values.size(); row++) {
+        	Iterator<Tuple2<T,U>> iter =values.iterator();
+	int row =0  ;
+	  //for (int row = 0; row < values.size(); row++)
+		while(iter.hasNext()) {
 
-                Tuple2<T, U> tuple = values.get(row);
-
+//                Tuple2<T, U> tuple = values.get(row);
+Tuple2<T, U> tuple = iter.next();
                 Put put = new Put(Bytes.toBytes(Integer.toString(row)));
 
                 put.add(
@@ -99,12 +103,14 @@ public class InsertValues {
                 );
 
                 list.add(put);
-                if (row == Config.MAX_LIST_SIZE) {
+                if (row % Config.MAX_LIST_SIZE == 0 ){
                     table.put(list);
                     list.clear();
                 }
+		row ++;
             }
             table.put(list);
+
 
         } catch (IOException ioe) {
             ioe.printStackTrace();

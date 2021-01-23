@@ -66,8 +66,10 @@ public class Process {
         if (saveValues) {
             String[] families = {User.class.getSimpleName(), HashSet.class.getSimpleName()};
             String[] columns = {"user", "hashtags"};
-            Save.apply(this.hConf, "user-hashtag", families, columns, InsertValues.convert(rdd));
+            Save.apply(this.hConf, "user-hashtag", families, columns, rdd.take(50000));
         }
+
+	System.out.println("\n\n"+rdd.count()+"\n\n\n");
         return rdd;
     }
 
