@@ -82,7 +82,7 @@ public class BuilderRDDHashtags {
         JavaPairRDD<String, Long> tuple = tweetRDD.flatMapToPair(tweet -> {
             Set<Tuple2<String, Long>> list = new HashSet();
             tweet.getEntities().getHashtags().forEach(hashtag -> {
-                list.add(new Tuple2<String, Long>(hashtag + "," + tweet.getCreated_at(), new Long(1)));
+                list.add(new Tuple2<String, Long>(hashtag.getText().toLowerCase() + "," + tweet.getCreated_at(), new Long(1)));
             });
             return list.iterator();
         });
@@ -98,6 +98,7 @@ public class BuilderRDDHashtags {
                 });
 
         return top
+		.reduceByKey((a,b) -> { a.addAll(b); return a;})
                 .mapToPair(item -> new Tuple2<Set<Tuple2<String, Long>>, String>(item._2, item._1))
                 .sortByKey(new TopByDayHashtagComparator(), false, 1)
                 .mapToPair(item -> new Tuple2<String, Set<Tuple2<String, Long>>>(item._2, item._1));
