@@ -40,6 +40,8 @@ public class Tweet extends BigDataObject implements IBigDataObject {
     }
 
     public String getCreated_at() {
-        return this.created_at;
+        String[] info = this.created_at.toLowerCase().split(" ");
+        String date = info[0] + " " + info[1] + " " + info[2];
+        return date;
     }
 } 

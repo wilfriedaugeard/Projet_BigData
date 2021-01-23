@@ -59,6 +59,18 @@ public class Process {
         return rdd;
     }
 
+    public JavaPairRDD<String, Set<Tuple2<String, Long>>> getTopHashtagsByDay(Boolean saveValues) throws Exception {
+        JavaPairRDD<String, Set<Tuple2<String, Long>>> rdd = BuilderRDDHashtags.topHastagByDay(this.tweetRDD);
+        if (saveValues) {
+            String[] families = {String.class.getSimpleName(), Set.class.getSimpleName()};
+            String[] columns = {"value", "count"};
+            Save.apply(this.hConf, "top-hashtag-by-day", families, columns, rdd.take(Config.TOP_K));
+        }
+        return rdd;
+
+
+    }
+
 
     public JavaPairRDD<User, Set<Hashtag>> getUserHashtags(Boolean saveValues) throws Exception {
 

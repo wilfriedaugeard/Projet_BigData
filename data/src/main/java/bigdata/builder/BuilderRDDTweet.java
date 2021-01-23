@@ -84,9 +84,7 @@ public class BuilderRDDTweet {
      */
     public static final JavaPairRDD<String, Long> getNbTweetByDay(JavaRDD<Tweet> tweetRDD) {
         JavaPairRDD<String, Long> tuple = tweetRDD.mapToPair(tweet -> {
-            String[] info = tweet.getCreated_at().toLowerCase().split(" ");
-            String date = info[0] + " " + info[1] + " " + info[2];
-            return new Tuple2(date, new Long(1));
+            return new Tuple2(tweet.getCreated_at(), new Long(1));
         });
         return tuple.reduceByKey((a, b) -> a + b)
                 .mapToPair(item -> new Tuple2<Long, String>(item._2, item._1))

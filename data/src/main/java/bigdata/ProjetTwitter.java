@@ -42,6 +42,9 @@ public class ProjetTwitter {
             case "top-hashtag":
                 DisplayResult.displayResult(process.getTopHashtags(saveValues), Config.DISPLAY);
                 break;
+            case "top-hashtag-by-day":
+                DisplayResult.displayResult(process.getTopHashtagsByDay(saveValues), Config.DISPLAY);
+                break;
             case "user-hashtag":
                 DisplayResult.displayResult(process.getUserHashtags(saveValues), Config.DISPLAY);
                 break;
