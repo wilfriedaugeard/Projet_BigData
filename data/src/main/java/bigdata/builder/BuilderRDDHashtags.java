@@ -15,6 +15,7 @@ import scala.Tuple2;
 import java.util.Set;
 import java.util.List;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -56,8 +57,8 @@ public class BuilderRDDHashtags {
             Iterator<Tuple2<String, Long>> iter1 = v1.iterator();
             Iterator<Tuple2<String, Long>> iter2 = v2.iterator();
 
-            int count1 = 0;
-            int count2 = 0;
+            long count1 = 0;
+            long count2 = 0;
 
             while (iter1.hasNext()) {
                 Tuple2<String, Long> val = iter1.next();
