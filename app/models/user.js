@@ -18,15 +18,14 @@ async function getTopKUserByTweet(){
  */
 async function getTripletInfluencers(){
     let ranking = []
-    let user_id, userName, nbTweet, user
+    let nbTweet, user
     let n = await hbase.getTableLength(config.TABLE_NAME_TRIPLET_INFLUENCER)
     return new Promise(async (resolve, reject) => {
-        for (let i = 0; i < 1000; i++) {
+        for (let i = 0; i < n; i++) {
             nbTweet = await hbase.getHbaseValue(config.TABLE_NAME_TRIPLET_INFLUENCER, i.toString(), config.NB_TRIPLET)
             user = await hbase.getHbaseValue(config.TABLE_NAME_TRIPLET_INFLUENCER, i.toString(), config.USER_VALUE)
-            user_id = JSON.parse(user).id_str
-            userName = JSON.parse(user).name
-            ranking.push([user_id, userName, nbTweet])
+            user = JSON.parse(user)
+            ranking.push([user._1, user._2, nbTweet])
         }
         resolve(ranking) 
     }) 
