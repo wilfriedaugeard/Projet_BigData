@@ -1,6 +1,7 @@
 package bigdata.entities;
 
 import java.io.Serializable;
+
 import google.gson.Gson;
 
 public class User extends BigDataObject implements IBigDataObject {
@@ -25,8 +26,9 @@ public class User extends BigDataObject implements IBigDataObject {
     }
 
     public String getUserInfo() {
-	return (new Gson()).toJson(new Info(this.id_str, this.name, this.screen_name));
-	}
+        return (new Gson()).toJson(new Info(this.id_str, this.name, this.screen_name));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this) {
@@ -46,15 +48,16 @@ public class User extends BigDataObject implements IBigDataObject {
         return result;
     }
 
-	private static class Info{
-		private String id_str;
-		private String name;
-		private String screen_name;
-	private Info(String id, String name, String, screenName){
-		this.id_str = id;
-this.name =name;
-this.screen_name = screeName;		
-}
-	}
+    private class Info {
+        private String id_str;
+        private String name;
+        private String screen_name;
+
+        private Info(String id, String name, String, screenName) {
+            this.id_str = id;
+            this.name = name;
+            this.screen_name = screeName;
+        }
+    }
 
 } 
