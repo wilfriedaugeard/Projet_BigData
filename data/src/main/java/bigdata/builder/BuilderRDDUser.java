@@ -83,10 +83,7 @@ public class BuilderRDDUser {
 
         @Override
         public int compare(Tuple2<Long, Long> v1, Tuple2<Long, Long> v2) {
-            if (v1._2().compareTo(v2._2()) == 0) {
-                return v1._1().compareTo(v2._1());
-            }
-            return v2._1().compareTo(v1._1());
+            return v1._1.compareTo(v2._1) - v1._2.compareTo(v2._1);
         }
     }
 
