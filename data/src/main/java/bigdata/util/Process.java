@@ -123,7 +123,7 @@ public class Process {
 
     public JavaPairRDD<String, Long> getNbHashtagByDay(Boolean saveValues) throws Exception {
 
-        JavaPairRDD<String, Long> rdd = BuilderRDDTweet.getNbHashtagByDay(this.tweetRDD);
+        JavaPairRDD<String, Long> rdd = BuilderRDDHashtags.getNbHashtagByDay(this.tweetRDD);
 
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
