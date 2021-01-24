@@ -39,7 +39,11 @@
                             </div>
 
                             <div class="col-xl-12">
-                                  <%- include("../templates/topk/fake_influencer_table")%>
+                                <% if(waiting){ %>
+                                    <%- include("../templates/waiting")%>
+                                <%}else{%>
+                                    <%- include("../templates/topk/tweet_mostly")%>
+                                <%} %>
                             </div>
 
                         </div>

@@ -10,6 +10,7 @@ const TABLE_NAME_TOPK_TWEETING_USER = "augeard-tarmil-top-tweeting-user"
 const TABLE_NAME_TOPK_FOLLOWED_USER = "augeard-tarmil-top-followed-user" 
 const TABLE_NAME_HASHTAG_BY_DAY     = "augeard-tarmil-hashtag-by-day"
 const TABLE_NAME_USER_INFO          = "augeard-tarmil-user-hashtag"
+const TABLE_NAME_TOPK_RT_USER       = "augeard-tarmil-top-retweeted-user"
 
 const HASHTAG_VALUE = "String:value"
 const USER_VALUE    = "String:user"
@@ -39,6 +40,7 @@ module.exports = {
     TABLE_NAME_TOPK_FOLLOWED_USER,
     TABLE_NAME_HASHTAG_BY_DAY,
     TABLE_NAME_USER_INFO,
+    TABLE_NAME_TOPK_RT_USER,
     HASHTAG_VALUE,
     TRIPLET_VALUE,
     USER_VALUE,
