@@ -33,20 +33,19 @@ async function getTripletInfluencers(){
 } 
 
 /**
- * Get top k of users who tweet mostly
+ * Get top k of users who is mostly followed
  * @memberof Model_user 
  */
 async function getTopFollowedUser(){
     let ranking = []
-    let user_id, userName, nbTweet, user
-    let n = await hbase.getTableLength(config.TABLE_NAME_TOPK_TWEETING_USER)
+    let nbFollowers, user
+    let n = await hbase.getTableLength(config.TABLE_NAME_TOPK_FOLLOWED_USER)
     return new Promise(async (resolve, reject) => {
         for (let i = 0; i < n; i++) {
-            nbTweet = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_TWEETING_USER, i.toString(), config.NB_VALUE)
-            user = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_TWEETING_USER, i.toString(), config.USER_VALUE)
-            user_id = JSON.parse(user).id_str
-            userName = JSON.parse(user).name
-            ranking.push([user_id, userName, nbTweet])
+            nbFollowers = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_FOLLOWED_USER, i.toString(), config.NB_VALUE)
+            user = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_FOLLOWED_USER, i.toString(), config.USER_VALUE)
+            user = JSON.parse(user)
+            ranking.push([user._1, user._2, nbFollowers])
         }
         resolve(ranking) 
     }) 
@@ -79,5 +78,6 @@ async function getTopTweetingUser(){
 module.exports = {
     getTopKUserByTweet,
     getTripletInfluencers,
+    getTopFollowedUser,
     getTopTweetingUser
 } 

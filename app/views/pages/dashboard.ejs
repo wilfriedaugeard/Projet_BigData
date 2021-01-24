@@ -2,12 +2,12 @@
 <html lang="en">
     <head>
         <%- include("../templates/header")%>
+        <script src="/js/datatables-demo.js" defer></script>
         <% if(!waiting){ %>
             <script src="/js/chart-area-demo.js" defer></script>
-        <%}%>
-        <% if(!waiting){ %>
             <script src="/js/chart-pie-demo.js" defer></script>
             <script src="/js/chart-bar-demo.js" defer></script>
+            
         <%}%>
            
         
@@ -37,9 +37,9 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <!-- <div class="col-xl-8">
+                                <div class="col-xl-8">
                                     <%- include("../templates/cards/best_user_card")%>
-                                </div> -->
+                                </div>
                                 <div class="col-xl-4">
                                     <%- include("../templates/cards/repartition_hashtag_card")%>
                                 </div>
