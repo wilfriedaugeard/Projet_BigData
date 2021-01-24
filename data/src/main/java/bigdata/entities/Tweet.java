@@ -36,6 +36,7 @@ public class Tweet extends BigDataObject implements IBigDataObject {
     }
 
     public long getRetweet_count() {
+        System.out.println("RT ? "+this.retweeted +"Count ? "+ this.retweet_count)
         return this.retweet_count;
     }
 
