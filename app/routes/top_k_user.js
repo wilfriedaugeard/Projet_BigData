@@ -18,7 +18,7 @@ async function init(app) {
     })
     app.get("/topk/users/load", async (req, res) => {
         if(dataInfluencer == null) dataInfluencer = await loadService.load(user.getTripletInfluencers)
-        // if(dataTweetMostly == null) dataTweetMostly = await loadService.load(user.getTopTweetingUser)
+        if(dataTweetMostly == null) dataTweetMostly = await loadService.load(user.getTopTweetingUser)
         res.render("pages/top_k_user.ejs",{influencers: dataInfluencer, topTweet:dataTweetMostly,  waiting: false})
     })
 }
