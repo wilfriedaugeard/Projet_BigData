@@ -39,7 +39,7 @@ public class Tweet extends BigDataObject implements IBigDataObject {
         if (this.retweeted_status != null) {
             return this.retweeted_status.getRetweet_count();
         } else if (this.quoted_status != null) {
-            return this.quoted_status.getRetweet_coutn();
+            return this.quoted_status.getRetweet_count();
         } else {
             return 0;
         }
