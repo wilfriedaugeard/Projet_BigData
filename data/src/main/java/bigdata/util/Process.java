@@ -78,7 +78,7 @@ public class Process {
                 }
                 return new Tuple2<String,Set<String>>(item._1, newSet);
             });
-            Save.apply(this.hConf, "test", families, columns, rdd2.take(Config.TOP_K));
+            Save.apply(this.hConf, "top-hashtag-by-day", families, columns, rdd2.take(Config.TOP_K));
         }
         return rdd;
 
@@ -90,7 +90,7 @@ public class Process {
         if (saveValues) {
             String[] families = {User.class.getSimpleName(), HashSet.class.getSimpleName()};
             String[] columns = {"user", "hashtags"};
-            Save.apply(this.hConf, "user-hashtag", families, columns, rdd.take(Config.MAX_RDD_VALUES));
+	Save.apply(this.hConf, "user-hashtag-test", families, columns, rdd.take(Config.MAX_RDD_VALUES));
         }
         return rdd;
     }
