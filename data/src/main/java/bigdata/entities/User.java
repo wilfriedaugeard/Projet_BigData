@@ -1,6 +1,7 @@
 package bigdata.entities;
 
 import java.io.Serializable;
+import org.json.simple.JSONObject;
 
 public class User extends BigDataObject implements IBigDataObject {
     private String id_str;
@@ -24,7 +25,11 @@ public class User extends BigDataObject implements IBigDataObject {
     }
 
     public String getUserInfo() {
-        return "id : " this.id_str + ", name : " + this.name + ", screen_name : " + this.screen_name;
+        JSONObject json = new JSONObject();
+        json.put("id", this.id_str);
+        json.put("name", this.name);
+        json.put("screen_name", this.screen_name);
+        return json.toString();
     }
 
     @Override
