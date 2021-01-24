@@ -37,7 +37,7 @@ c) Afin de planifier nos achats de matériels futurs, calculez le nombre de mach
 
 **TABLES DANS HBASE**
 
-- augeard-tarmil-top-hashtag                     <String, Long>
+- augeard-tarmil-top-hashtag                     <String, Long>     
 - augeard-tarmil-tweet-by-day                   <String, Long>
 - augeard-tarmil-tweet-by-hashtag-nb     <String, Long>
 - augeard-tarmil-tweet-by-language         <String, Long>
@@ -47,6 +47,7 @@ c) Afin de planifier nos achats de matériels futurs, calculez le nombre de mach
 - augeard-tarmil-triplet-hashtags              <Triplet, Long>
 - augeard-tarmil-user-hashtag                   <User, Set<'Hashtag>>
 - augeard-tarmil-top-hashtag-by-day        <String, Set<Tuple2<String,Long>>>
+- augeard-tarmil-hashtag-by-day                <String,Long>
 
 
 

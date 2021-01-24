@@ -113,15 +113,9 @@ public class BuilderRDDUser {
                                 item._1.getFollowers(),
                                 item._2)))
 
-                .
-
-                        mapToPair(item -> new Tuple2<Tuple2<Long, Long>, String>(item._2, item._1))
-                .
-
-                        sortByKey(new RtFollowersComparator(), false, 1)
-                .
-
-                        mapToPair(item -> new Tuple2<String, Tuple2<Long, Long>>(item._2, item._1));
+                .mapToPair(item -> new Tuple2<Tuple2<Long, Long>, String>(item._2, item._1))
+                .sortByKey(new RtFollowersComparator(), false, 1)
+                .mapToPair(item -> new Tuple2<String, Tuple2<Long, Long>>(item._2, item._1));
     }
 }
 
