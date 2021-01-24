@@ -23,6 +23,9 @@ import bigdata.entities.Triplet;
 import bigdata.entities.IBigDataObject;
 import bigdata.hbase.*;
 
+import bigdata.util.GsonFactory;
+import java.util.Iterator;
+
 public class Process {
     private JavaSparkContext context;
     private JavaRDD<String> fileRDD;
@@ -34,6 +37,7 @@ public class Process {
     private JavaPairRDD<String, Integer> nbTweetByLang;
     private JavaPairRDD<Triplet, List<User>> triplet;
     private Configuration hConf;
+
 
     public Process(String app_name, String pathFile) {
         SparkConf conf = new SparkConf().setAppName(app_name);
@@ -64,6 +68,16 @@ public class Process {
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Set.class.getSimpleName()};
             String[] columns = {"value", "count"};
+
+            rdd = rdd.mapToPair(item -> {
+                Set<Tuple2<String,Long>> set = item._2;
+                Set<String> newSet = new HashSet<>();
+                Iterator<Tuple2<String, Long>> iter1 = set.iterator();
+                while(iter.hasNext()){
+                    newSet.add(GsonFactory.create().toJson(iter.Next()));
+                }
+                return new Tuple2<String,Set<String>>(item._1, newSet);
+            });
             Save.apply(this.hConf, "top-hashtag-by-day", families, columns, rdd.take(Config.TOP_K));
         }
         return rdd;
