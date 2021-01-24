@@ -17,7 +17,7 @@ public class Tweet extends BigDataObject implements IBigDataObject {
     private boolean retweeted;
     private Entities entities;
     private RetweetedStatus retweeted_status;
-
+    private RetweetedStatus quoted_status;
 
     public Entities getEntities() {
         return this.entities;
@@ -36,14 +36,16 @@ public class Tweet extends BigDataObject implements IBigDataObject {
     }
 
     public long getRetweet_count() {
-	if(this.retweeted_status != null){
-        	return this.retweeted_status.getRetweet_count();
-	}else{
-		return 0; 
-	}    
-   }
+        if (this.retweeted_status != null) {
+            return this.retweeted_status.getRetweet_count();
+        } else if (this.quoted_status != null) {
+            return this.quoted_status.getRetweet_coutn();
+        } else {
+            return 0;
+        }
+    }
 
-   public String getCreated_at() {
+    public String getCreated_at() {
         String[] info = this.created_at.toLowerCase().split(" ");
         String date = info[0] + " " + info[1] + " " + info[2];
         return date;
