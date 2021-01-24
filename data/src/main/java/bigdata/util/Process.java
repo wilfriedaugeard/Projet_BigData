@@ -24,6 +24,7 @@ import bigdata.entities.IBigDataObject;
 import bigdata.hbase.*;
 
 import bigdata.util.GsonFactory;
+
 import java.util.Iterator;
 
 public class Process {
@@ -65,18 +66,19 @@ public class Process {
 
     public JavaPairRDD<String, Set<Tuple2<String, Long>>> getTopHashtagsByDay(Boolean saveValues) throws Exception {
         JavaPairRDD<String, Set<Tuple2<String, Long>>> rdd = BuilderRDDHashtags.topHastagByDay(this.tweetRDD);
+
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Set.class.getSimpleName()};
             String[] columns = {"value", "count"};
 
             JavaPairRDD<String, Set<String>> rdd2 = rdd.mapToPair(item -> {
-                Set<Tuple2<String,Long>> set = item._2;
+                Set<Tuple2<String, Long>> set = item._2;
                 Set<String> newSet = new HashSet<>();
                 Iterator<Tuple2<String, Long>> iter = set.iterator();
-                while(iter.hasNext()){
+                while (iter.hasNext()) {
                     newSet.add(GsonFactory.create().toJson(iter.next()));
                 }
-                return new Tuple2<String,Set<String>>(item._1, newSet);
+                return new Tuple2<String, Set<String>>(item._1, newSet);
             });
             Save.apply(this.hConf, "top-hashtag-by-day", families, columns, rdd2.take(Config.TOP_K));
         }
@@ -87,10 +89,11 @@ public class Process {
     public JavaPairRDD<User, Set<String>> getUserHashtags(Boolean saveValues) throws Exception {
 
         JavaPairRDD<User, Set<String>> rdd = BuilderRDDHashtags.userHashtags(this.tweetRDD);
+
         if (saveValues) {
             String[] families = {User.class.getSimpleName(), HashSet.class.getSimpleName()};
             String[] columns = {"user", "hashtags"};
-	Save.apply(this.hConf, "user-hashtag-test", families, columns, rdd.take(Config.MAX_RDD_VALUES));
+            Save.apply(this.hConf, "user-hashtag", families, columns, rdd.take(Config.MAX_RDD_VALUES));
         }
         return rdd;
     }
@@ -118,6 +121,18 @@ public class Process {
         return rdd;
     }
 
+    public JavaPairRDD<String, Long> getNbHashtagByDay(Boolean saveValues) throws Exception {
+
+        JavaPairRDD<String, Long> rdd = BuilderRDDTweet.getNbHashtagByDay(this.tweetRDD);
+
+        if (saveValues) {
+            String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
+            String[] columns = {"date", "count"};
+            Save.apply(this.hConf, "hashtag-by-day", families, columns, rdd.collect());
+        }
+        return rdd;
+    }
+
     public JavaPairRDD<String, Long> getNbTweetByLang(Boolean saveValues) throws Exception {
 
         JavaPairRDD<String, Long> rdd = BuilderRDDTweet.nbTweetByLang(this.tweetRDD);
@@ -141,6 +156,7 @@ public class Process {
         }
         return rdd;
     }
+
 
     public JavaPairRDD<String, Long> getTopUsers(Boolean saveValues, String category) throws Exception {
         JavaPairRDD<String, Long> rdd = BuilderRDDUser.topUser(this.tweetRDD, category);
