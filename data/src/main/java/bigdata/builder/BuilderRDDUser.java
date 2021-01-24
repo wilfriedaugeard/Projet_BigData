@@ -84,10 +84,10 @@ public class BuilderRDDUser {
         @Override
         public int compare(Tuple2<Long, Long> v1, Tuple2<Long, Long> v2) {
             int compare = v1._1.compareTo(v2._1);
-            if( compare == 0 ){ 
-		return v2._2.compareTo(v1._2); 
-	    }
-            return  compare;
+            if (compare == 0) {
+                return v2._2.compareTo(v1._2);
+            }
+            return compare;
         }
     }
 
@@ -98,22 +98,20 @@ public class BuilderRDDUser {
      * @return the complet RDD
      */
     public static final JavaPairRDD<String, Tuple2<Long, Long>> fakeInfluencer(JavaRDD<Tweet> tweetRDD) {
-        JavaPairRDD<User, Tuple2<Long, Long>> ratioRdd = tweetRDD
+        JavaPairRDD<User, Long> ratioRdd = tweetRDD
                 .mapToPair(tweet -> {
-                    return new Tuple2<User, Tuple2<Long, Long>>(
+                    return new Tuple2<User, Long>(
                             tweet.getUser(),
-                            new Tuple2<Long, Long>(
-                                    new Long(1),
-                                    tweet.getRetweet_count()));
+                            tweet.getRetweet_count()));
                 })
-                .reduceByKey((a, b) -> new Tuple2<Long, Long>(a._1 + b._1, a._2 + b._2));
+                .reduceByKey((a, b) -> a + b);
 
         return ratioRdd
                 .mapToPair(item -> new Tuple2<String, Tuple2<Long, Long>>(
                         item._1.getUserInfo(),
                         new Tuple2<Long, Long>(
                                 item._1.getFollowers(),
-                                (item._2._1 == 0) ? 0 : (item._2._2 / item._2._1))))
+                                item._2)))
 
                 .mapToPair(item -> new Tuple2<Tuple2<Long, Long>, String>(item._2, item._1))
                 .sortByKey(new RtFollowersComparator(), false, 1)
