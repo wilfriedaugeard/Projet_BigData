@@ -26,7 +26,8 @@ public class User extends BigDataObject implements IBigDataObject {
     }
 
     public String getUserInfo() {
-        return (new Gson()).toJson(new Info(this.id_str, this.name, this.screen_name));
+        Gson gson = new Gson();
+	return gson.toJson(this.new Info(this.id_str, this.name, this.screen_name));
     }
 
     @Override
@@ -53,10 +54,10 @@ public class User extends BigDataObject implements IBigDataObject {
         private String name;
         private String screen_name;
 
-        private Info(String id, String name, String, screenName) {
-            this.id_str = id;
-            this.name = name;
-            this.screen_name = screeName;
+        public  Info(String id, String name, String, screenName) {
+            id_str = id;
+            name = name;
+            screen_name = screeName;
         }
     }
 
