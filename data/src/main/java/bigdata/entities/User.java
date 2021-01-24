@@ -3,7 +3,7 @@ package bigdata.entities;
 import java.io.Serializable;
 
 import bigdata.util.GsonFactory;
-
+import scala.Tuple3;
 
 public class User extends BigDataObject implements IBigDataObject {
     private String id_str;
@@ -27,10 +27,11 @@ public class User extends BigDataObject implements IBigDataObject {
     }
 
     public String getUserInfo() {
-        return gGsonFactory.create().toJson(new Info(this.id_str, this.name, this.screen_name));
-    }
+        Tuple3 tuple = new Tuple3(this.id_str, this.name, this.screen_name);
+	return GsonFactory.create().toJson(tuple);
+ }   
 
-    @Override
+@Override
     public boolean equals(Object o) {
         if (o == this) {
             return true;
@@ -48,17 +49,6 @@ public class User extends BigDataObject implements IBigDataObject {
         result = 31 * result + this.id_str.hashCode();
         return result;
     }
-}
 
-private class Info {
-    private String id_str;
-    private String name;
-    private String screen_name;
-
-    public Info(String id, String name, String, screenName) {
-        id_str = id;
-        name = name;
-        screen_name = screeName;
-    }
 }
 
