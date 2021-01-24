@@ -24,8 +24,9 @@ public class User extends BigDataObject implements IBigDataObject {
     }
 
     public String getUserInfo() {
-        return "id : " this.id_str + ", name : " + this.name + ", screen_name : " + this.screen_name;
-    }
+        String val = "id : "+ this.id_str + ", name : " + this.name + ", screen_name : " + this.screen_name;
+	return val;    
+}
 
     @Override
     public boolean equals(Object o) {
