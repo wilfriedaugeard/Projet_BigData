@@ -7,11 +7,6 @@ const hbase  = require(path.resolve("./models/hbase.js"))
 /**
  * @namespace Model_user
  */
-
-
-async function getTopKUserByTweet(){
-    let ranking = []
-} 
 /**
  * Get top k of users who use mostly triplet hashtags 
  * @memberof Model_user 
@@ -71,11 +66,26 @@ async function getTopTweetingUser(){
     }) 
 } 
 
+/**
+ * Get user info by id
+ * @param {string} user_id user id
+ * @memberof Model_user 
+ */
+async function getInfo(user_id){ 
+    let pos = await hbase.getElement(config.TABLE_NAME_USER_INFO, user_id.toString())
+    if(pos.length == 0 ) return null
+    for(let i=0; i<pos.length; i++){
+        let hashtagList = await hbase.getHbaseValue(config.TABLE_NAME_USER_INFO, pos[i], config.HASHTAG_LIST)
+        let user = await hbase.getHbaseValue(config.TABLE_NAME_USER_INFO, pos[i], config.USER_DETAILS)
+        if(user_id == JSON.parse(user).id_str) return [JSON.parse(user), hashtagList.split(", ").map(v => "#"+v).filter(v => v!= "[" && v!="]" ).join(", ")] 
+    } 
+    return null
+} 
 
 
 module.exports = {
-    getTopKUserByTweet,
     getTripletInfluencers,
     getTopFollowedUser,
-    getTopTweetingUser
+    getTopTweetingUser,
+    getInfo
 } 
