@@ -69,16 +69,16 @@ public class Process {
             String[] families = {String.class.getSimpleName(), Set.class.getSimpleName()};
             String[] columns = {"value", "count"};
 
-            rdd = rdd.mapToPair(item -> {
+            JavaPairRDD<String, Set<String>> rdd2 = rdd.mapToPair(item -> {
                 Set<Tuple2<String,Long>> set = item._2;
                 Set<String> newSet = new HashSet<>();
-                Iterator<Tuple2<String, Long>> iter1 = set.iterator();
+                Iterator<Tuple2<String, Long>> iter = set.iterator();
                 while(iter.hasNext()){
-                    newSet.add(GsonFactory.create().toJson(iter.Next()));
+                    newSet.add(GsonFactory.create().toJson(iter.next()));
                 }
                 return new Tuple2<String,Set<String>>(item._1, newSet);
             });
-            Save.apply(this.hConf, "top-hashtag-by-day", families, columns, rdd.take(Config.TOP_K));
+            Save.apply(this.hConf, "test", families, columns, rdd2.take(Config.TOP_K));
         }
         return rdd;
 
