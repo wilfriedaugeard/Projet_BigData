@@ -3,6 +3,7 @@
 
 <head>
     <%- include("../templates/header")%>
+    <script src="/js/datatables-demo.js" defer></script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -18,7 +19,11 @@
                             </ol>
 
                             <div class="col-xl-12">
-                                <%- include("../templates/topk/user_by_tweet_table")%>
+                                <% if(waiting){ %>
+                                    <%- include("../templates/waiting")%>
+                                <%}else{%>
+                                    <%- include("../templates/topk/user_by_tweet_table")%>
+                                <%} %>
                             </div>
 
                             <div class="col-xl-12">
@@ -34,7 +39,11 @@
                             </div>
 
                             <div class="col-xl-12">
-                                  <%- include("../templates/topk/fake_influencer_table")%>
+                                <% if(waiting){ %>
+                                    <%- include("../templates/waiting")%>
+                                <%}else{%>
+                                    <%- include("../templates/topk/tweet_mostly")%>
+                                <%} %>
                             </div>
 
                         </div>

@@ -2,7 +2,7 @@
 /* eslint-disable no-cond-assign */
 /* eslint-disable no-undef */
 const hbase  = require("hbase")
-const client = hbase({ host: "localhost", port: 8080 })
+const client = new hbase.Client()
 
 /**
  * @namespace Model_hbase
@@ -75,14 +75,14 @@ function buildRegex(element){
  * @memberof Model_hbase 
  */
 async function getElement(tableName, element){
-    let rows = [] 
+    let rows = new Array()
     const scanner = await client.table(tableName).scan({
         filter:{
             "op":"MUST_PASS_ALL", "type":"FilterList","filters":[
                 {
                     "op":"EQUAL",
                     "type":"ValueFilter",
-                    "comparator":{"value":buildRegex(element), "type":"RegexStringComparator"} 
+                    "comparator":{"value":element, "type":"RegexStringComparator"} 
                 }
             ]
         } 
@@ -97,8 +97,10 @@ async function getElement(tableName, element){
             resolve(rows)
         })
     })
-
 } 
+
+
+
 
 module.exports = {
     getHbaseValue,
