@@ -1,4 +1,5 @@
 /* eslint-disable no-async-promise-executor */
+const { join } = require("path")
 const path   = require("path")
 const config = require(path.resolve("./models/hbase_config.js"))
 const hbase  = require(path.resolve("./models/hbase.js"))
@@ -16,13 +17,20 @@ let RANKING = []
 async function getTopKHashtag() {
     HASHTAG_LIST = [] 
     let ranking = []
+    let formatted = [] 
     let hashtag, count
     return new Promise(async (resolve, reject) => { 
         for (let i = 0; i < config.K_MAX; i++) {
-            hashtag = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, i.toString(), config.HASHTAG_VALUE)
-            count = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, i.toString(), config.NB_VALUE)
-            ranking.push([hashtag, count])
+            hashtag = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG_DETAILS, i.toString(), config.HASHTAG_VALUE)
+            count = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG_DETAILS, i.toString(), config.HASHTAG_MONTH_DETAILS)
+            count = JSON.parse(count)
+            count.map(v => formatted.push([v._1.split(" ")[2],v._2]))
+            count = 0
+            formatted.map(v => count += v[1])
+            formatted = formatted.sort().map(v => v[1])
+            ranking.push([hashtag, count, formatted])
             HASHTAG_LIST.push(hashtag)
+            formatted = [] 
         }
         RANKING = ranking
         resolve(ranking)
