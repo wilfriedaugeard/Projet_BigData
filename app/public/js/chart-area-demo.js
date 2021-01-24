@@ -5,9 +5,9 @@ Chart.defaults.global.defaultFontColor = "#292b2c"
 
 // Area Chart Example
 let ctxChartArea = document.getElementById("myAreaChart")
-let dataStr = document.getElementById("dataAreaChart").innerHTML
-let data = new Array()
-dataStr.split(",").map(v => data.push(parseInt(v)))
+let dataStr1 = document.getElementById("dataAreaChart").innerHTML
+let data1 = new Array()
+dataStr1.split(",").map(v => data1.push(parseInt(v)))
 let myLineChart = new Chart(ctxChartArea, {
     type: "line",
     data: {
@@ -24,7 +24,7 @@ let myLineChart = new Chart(ctxChartArea, {
             pointHoverBackgroundColor: "rgba(2,117,216,1)",
             pointHitRadius: 50,
             pointBorderWidth: 2,
-            data: data,
+            data: data1,
         }],
     },
     options: {

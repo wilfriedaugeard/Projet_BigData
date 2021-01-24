@@ -130,6 +130,29 @@ function getHashtagRepartition(){
 } 
 
 
+/**
+ * @namespace Model_tweet
+ */
+/**
+ * Get number of tweet by day
+ * @memberof Model_tweet 
+ */
+async function getNbHashtagByDay() {
+    let tmp = []  
+    let date, count
+    return new Promise(async (resolve, reject) => { 
+        let n = await hbase.getTableLength(config.TABLE_NAME_HASHTAG_BY_DAY)
+        for (let i = 0; i < n; i++) {
+            date = await hbase.getHbaseValue(config.TABLE_NAME_HASHTAG_BY_DAY, i.toString(), config.DATE_VALUE)
+            count = await hbase.getHbaseValue(config.TABLE_NAME_HASHTAG_BY_DAY, i.toString(), config.NB_VALUE)
+            tmp.push([date.split(" ")[2], count])
+        }
+        tmp = tmp.sort().map(v => v[1]).join()
+        resolve(tmp)
+    })
+}
+
+
 function getRanking(){
     return RANKING
 } 
@@ -140,6 +163,7 @@ module.exports = {
     getTopKTriplet,
     getHashtagInfo,
     getHashtagRepartition,
+    getNbHashtagByDay,
     convert,
     getRanking
 }

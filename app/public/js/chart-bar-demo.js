@@ -3,15 +3,18 @@ Chart.defaults.global.defaultFontColor = "#292b2c"
 
 // Bar Chart Example
 let ctx1 = document.getElementById("myBarChart")
+let dataStr = document.getElementById("dataBarChart").innerHTML
+let data = new Array()
+dataStr.split(",").map(v => data.push(parseInt(v)))
 let myLineChart1 = new Chart(ctx1, {
     type: "bar",
     data: {
-        labels: ["Mar 1", "Mar 2", "Mar 3", "Mar 4", "Mar 5", "Mar 6", "Mar 7", "Mar 8", "Mar 9", "Mar 10", "Mar 11", "Mar 12", "Mar 13","Mar 14", "Mar 15", "Mar 16","Mar 17", "Mar 18", "Mar 19","Mar 20", "Mar 21"],
+        labels: ["1 Mars", "2 Mars", "3 Mars", "4 Mars", "5 Mars", "6 Mars", "7 Mars", "8 Mars", "9 Mars", "10 Mars", "11 Mars", "12 Mars", "13 Mars","14 Mars", "15 Mars", "16 Mars","17 Mars", "18 Mars", "19 Mars","20 Mars", "21 Mars"],
         datasets: [{
             label: "Nb Hashtags",
             backgroundColor: "rgba(2,117,216,1)",
             borderColor: "rgba(2,117,216,1)",
-            data: [4215, 5312, 6251, 7841, 9821, 14984, 5312, 6251, 7841, 9821, 2145, 8695, 5478, 7563, 2369, 5861, 4587, 6953, 12578, 18965, 16598],
+            data: data,
         }],
     },
     options: {
@@ -30,8 +33,11 @@ let myLineChart1 = new Chart(ctx1, {
             yAxes: [{
                 ticks: {
                     min: 0,
-                    max: 20000,
-                    maxTicksLimit: 5
+                    max: 1500000,
+                    maxTicksLimit: 5,
+                    callback: function(value, index, values){
+                        return value/(1000000)+" M"
+                    } 
                 },
                 gridLines: {
                     display: true
