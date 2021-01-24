@@ -17,13 +17,12 @@ async function init(app) {
         if(tweetData === ""){
             tweetData = await loadService.load(tweet.getNbTweetByDay)
             tweetDataWaiting = false
-            return res.render("pages/dashboard.ejs", {waitingNbTweet: tweetDataWaiting, waitingRep: hashtagRepDataWaiting, waiting: (tweetDataWaiting||hashtagRepDataWaiting), nbTweetList: tweetData, hashtagRepData: hashtagRepData} )
         } 
         if(hashtagRepData === ""){
             hashtagRepData = await loadService.load(hashtag.getHashtagRepartition)
             hashtagRepDataWaiting = false
-            return res.render("pages/dashboard.ejs", {waitingNbTweet: tweetDataWaiting, waitingRep: hashtagRepDataWaiting, waiting: (tweetDataWaiting||hashtagRepDataWaiting), nbTweetList: tweetData, hashtagRepData: hashtagRepData} )
         } 
+        return res.render("pages/dashboard.ejs", {waitingNbTweet: tweetDataWaiting, waitingRep: hashtagRepDataWaiting, waiting: false, nbTweetList: tweetData, hashtagRepData: hashtagRepData} )
     })
 }
 

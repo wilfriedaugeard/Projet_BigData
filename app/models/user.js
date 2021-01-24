@@ -32,8 +32,30 @@ async function getTripletInfluencers(){
     }) 
 } 
 
+/**
+ * Get top k of users who tweet mostly
+ * @memberof Model_user 
+ */
+async function getTopTweetingUser(){
+    let ranking = []
+    let user_id, userName, nbTweet, user
+    let n = await hbase.getTableLength(config.TABLE_NAME_TOPK_TWEETING_USER)
+    return new Promise(async (resolve, reject) => {
+        for (let i = 0; i < n; i++) {
+            nbTweet = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_TWEETING_USER, i.toString(), config.NB_VALUE)
+            user = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_TWEETING_USER, i.toString(), config.USER_VALUE)
+            user_id = JSON.parse(user).id_str
+            userName = JSON.parse(user).name
+            ranking.push([user_id, userName, nbTweet])
+        }
+        resolve(ranking) 
+    }) 
+} 
+
+
 
 module.exports = {
     getTopKUserByTweet,
-    getTripletInfluencers
+    getTripletInfluencers,
+    getTopTweetingUser
 } 

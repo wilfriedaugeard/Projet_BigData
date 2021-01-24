@@ -2,7 +2,7 @@
 /* eslint-disable no-cond-assign */
 /* eslint-disable no-undef */
 const hbase  = require("hbase")
-const client = hbase({ host: "localhost", port: 8080 })
+const client = new hbase.Client()
 
 /**
  * @namespace Model_hbase

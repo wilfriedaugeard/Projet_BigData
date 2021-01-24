@@ -21,8 +21,8 @@ async function getTopKHashtag() {
         for (let i = 0; i < config.K_MAX; i++) {
             hashtag = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, i.toString(), config.HASHTAG_VALUE)
             count = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, i.toString(), config.NB_VALUE)
-            ranking.push([JSON.parse(hashtag).text, count])
-            HASHTAG_LIST.push(JSON.parse(hashtag).text)
+            ranking.push([hashtag, count])
+            HASHTAG_LIST.push(hashtag)
         }
         RANKING = ranking
         resolve(ranking)

@@ -2,10 +2,10 @@
 <html lang="en">
     <head>
         <%- include("../templates/header")%>
-        <% if(!waitingNbTweet){ %>
+        <% if(!waiting){ %>
             <script src="/js/chart-area-demo.js" defer></script>
         <%}%>
-        <% if(!waitingRep){ %>
+        <% if(!waiting){ %>
             <script src="/js/chart-pie-demo.js" defer></script>
         <%}%>
            
@@ -22,31 +22,29 @@
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">Vue global - Mois de mars 2020</li>
                         </ol>
-                        <div class="row">
-                            <div class="col-xl-6">
-                                <% if(waitingNbTweet){ %>
-                                    <%- include("../templates/waiting")%>
-                                <%}else{%>
+                        <% if(waiting){ %>
+                            <div class="text-center">
+                                <%- include("../templates/waiting")%>
+                            </div>
+                        <%}else{%>
+                            <div class="row">
+                                <div class="col-xl-6">
                                     <%- include("../templates/cards/nb_tweet_card")%>
-                                <%} %>
+                                </div>
+                                <!-- <div class="col-xl-6">
+                                    <%- include("../templates/cards/nb_hashtag_card")%>
+                                </div> -->
                             </div>
-                            <!-- <div class="col-xl-6">
-                                <%- include("../templates/cards/nb_hashtag_card")%>
-                            </div> -->
-                        </div>
-                        <div class="row">
-                            <!-- <div class="col-xl-8">
-                                <%- include("../templates/cards/best_user_card")%>
-                            </div> -->
-                            <div class="col-xl-4">
-                                <% if(waitingRep){ %>
-                                    <%- include("../templates/waiting")%>
-                                <%}else{%>
+                            <div class="row">
+                                <!-- <div class="col-xl-8">
+                                    <%- include("../templates/cards/best_user_card")%>
+                                </div> -->
+                                <div class="col-xl-4">
                                     <%- include("../templates/cards/repartition_hashtag_card")%>
-                                <%} %>
-                                
+                                </div>
                             </div>
-                        </div>
+                            
+                        <%} %>   
                         
                     </div>
                 </main>

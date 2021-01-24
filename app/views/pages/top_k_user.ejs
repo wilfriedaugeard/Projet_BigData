@@ -18,7 +18,11 @@
                             </ol>
 
                             <div class="col-xl-12">
-                                <%- include("../templates/topk/user_by_tweet_table")%>
+                                <% if(waiting){ %>
+                                    <%- include("../templates/waiting")%>
+                                <%}else{%>
+                                    <%- include("../templates/topk/user_by_tweet_table")%>
+                                <%} %>
                             </div>
 
                             <div class="col-xl-12">
