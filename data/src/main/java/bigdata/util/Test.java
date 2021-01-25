@@ -6,16 +6,13 @@ import java.io.File;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaPairRDD;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import bigdata.builder.*;
 import bigdata.entities.Tweet;
 
 public class Test {
-    private JavaRDD<Tweet> tweetRDD;
-    private JavaPairRDD<T, U> rdd;
-    private long startTime;
-    private long endTime;
-
-
     /**
      * Create the file with all execution times for the creation of each RDD
      *
@@ -23,7 +20,7 @@ public class Test {
      * @param fileRDD  : the RDD with the initial data
      * @throws Exception
      */
-    public void apply(String fileName, JavaRDD<String> fileRDD) throws Exception {
+    public static <T,U> void apply(String fileName, JavaRDD<String> fileRDD) throws Exception {
         try {
             File file = new File("test-time-" + fileName + ".txt");
             if (!file.createNewFile()) {
@@ -31,94 +28,98 @@ public class Test {
                 file.createNewFile();
             }
             FileWriter timeFile = new FileWriter("test-time-" + fileName + ".txt");
+            JavaRDD<Tweet> tweetRDD;
+    	    JavaPairRDD<T, U> rdd;
+    	    long startTime = 0;
+            long endTime = 0;
 
             timeFile.write("******* Hashtag Builder  *******\n");
 
             timeFile.write(" - Top Hashtag : ");
-            this.startTime = new Date().getTime();
-            this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
-            this.rdd = BuilderRDDHashtags.topHastag(this.tweetRDD);
-            this.endTime = new Date().getTime();
-            timeFile.write((this.endTime - this.startTime) + " ms\n");
+            startTime = new Date().getTime();
+            tweetRDD = BuilderRDDTweet.getAllTweet(fileRDD);
+            rdd = (JavaPairRDD<T,U>) BuilderRDDHashtags.topHastag(tweetRDD);
+            endTime = new Date().getTime();
+            timeFile.write((endTime - startTime) + " ms\n");
 
             timeFile.write(" - Top Hashtag by day : ");
-            this.startTime = new Date().getTime();
-            this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
-            this.rdd = BuilderRDDHashtags.topHastagByDay(this.tweetRDD);
-            this.endTime = new Date().getTime();
-            timeFile.write((this.endTime - this.startTime) + " ms\n");
+            startTime = new Date().getTime();
+            tweetRDD = BuilderRDDTweet.getAllTweet(fileRDD);
+            rdd =(JavaPairRDD<T,U>) BuilderRDDHashtags.topHastagByDay(tweetRDD);
+            endTime = new Date().getTime();
+            timeFile.write((endTime - startTime) + " ms\n");
 
             timeFile.write(" - User Hashtag : ");
-            this.startTime = new Date().getTime();
-            this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
-            this.rdd = BuilderRDDHashtags.userHashtags(this.tweetRDD);
-            this.endTime = new Date().getTime();
-            timeFile.write((this.endTime - this.startTime) + " ms\n");
+            startTime = new Date().getTime();
+            tweetRDD = BuilderRDDTweet.getAllTweet(fileRDD);
+            rdd =(JavaPairRDD<T,U>) BuilderRDDHashtags.userHashtags(tweetRDD);
+            endTime = new Date().getTime();
+            timeFile.write((endTime - startTime) + " ms\n");
 
             timeFile.write(" - Top Triplet Hashtag : ");
-            this.startTime = new Date().getTime();
-            this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
-            this.rdd = BuilderRDDHashtags.topTripletHashtag(this.tweetRDD);
-            this.endTime = new Date().getTime();
-            timeFile.write((this.endTime - this.startTime) + " ms\n");
+            startTime = new Date().getTime();
+            tweetRDD = BuilderRDDTweet.getAllTweet(fileRDD);
+            rdd = (JavaPairRDD<T,U>) BuilderRDDHashtags.topTripletHashtag(tweetRDD);
+            endTime = new Date().getTime();
+            timeFile.write((endTime - startTime) + " ms\n");
 
             timeFile.write(" - Nb Hashtag by day : ");
-            this.startTime = new Date().getTime();
-            this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
-            this.rdd = BuilderRDDHashtags.getNbHashtagByDay(this.tweetRDD);
-            this.endTime = new Date().getTime();
-            timeFile.write((this.endTime - this.startTime) + " ms\n");
+            startTime = new Date().getTime();
+            tweetRDD = BuilderRDDTweet.getAllTweet(fileRDD);
+            rdd = (JavaPairRDD<T,U>) BuilderRDDHashtags.getNbHashtagByDay(tweetRDD);
+            endTime = new Date().getTime();
+            timeFile.write((endTime - startTime) + " ms\n");
 
-            timeFile.write("\n\n ******* Tweet Builder  *******\n");
+/*            timeFile.write("\n\n ******* Tweet Builder  *******\n");
 
             timeFile.write(" - Nb Tweet by hashtag number : ");
-            this.startTime = new Date().getTime();
-            this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
-            this.rdd = BuilderRDDTweet.tweetByHashtagNb(this.tweetRDD);
-            this.endTime = new Date().getTime();
-            timeFile.write((this.endTime - this.startTime) + " ms\n");
+            startTime = new Date().getTime();
+            tweetRDD = BuilderRDDTweet.getAllTweet(fileRDD);
+            rdd = (JavaPairRDD<T,U>) BuilderRDDTweet.tweetByHashtagNb(tweetRDD);
+            endTime = new Date().getTime();
+            timeFile.write((endTime - startTime) + " ms\n");
 
             timeFile.write(" - Nb Tweet by language: ");
-            this.startTime = new Date().getTime();
-            this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
-            this.rdd = BuilderRDDTweet.nbTweetByLang(this.tweetRDD);
-            this.endTime = new Date().getTime();
-            timeFile.write((this.endTime - this.startTime) + " ms\n");
+            startTime = new Date().getTime();
+            tweetRDD = BuilderRDDTweet.getAllTweet(fileRDD);
+            rdd = (JavaPairRDD<T,U>) BuilderRDDTweet.nbTweetByLang(tweetRDD);
+            endTime = new Date().getTime();
+            timeFile.write((endTime - startTime) + " ms\n");
 
             timeFile.write(" - Nb Tweet by day : ");
-            this.startTime = new Date().getTime();
-            this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
-            this.rdd = BuilderRDDTweet.getNbTweetByDay(this.tweetRDD);
-            this.endTime = new Date().getTime();
-            timeFile.write((this.endTime - this.startTime) + " ms\n");
+            startTime = new Date().getTime();
+            tweetRDD = BuilderRDDTweet.getAllTweet(fileRDD);
+            rdd = (JavaPairRDD<T,U>) BuilderRDDTweet.getNbTweetByDay(tweetRDD);
+            endTime = new Date().getTime();
+            timeFile.write((endTime - startTime) + " ms\n");
 
             timeFile.write("\n\n ******* User Builder  *******\n");
 
             timeFile.write(" - Top Tweeting User : ");
-            this.startTime = new Date().getTime();
-            this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
-            this.rdd = BuilderRDDUser.topUser(this.tweetRDD, "tweeting");
-            this.endTime = new Date().getTime();
-            timeFile.write((this.endTime - this.startTime) + " ms\n");
+            startTime = new Date().getTime();
+            tweetRDD = BuilderRDDTweet.getAllTweet(fileRDD);
+            rdd = (JavaPairRDD<T,U>) BuilderRDDUser.topUser(tweetRDD, "tweeting");
+            endTime = new Date().getTime();
+            timeFile.write((endTime - startTime) + " ms\n");
 
             timeFile.write(" - Top Followed User : ");
-            this.startTime = new Date().getTime();
-            this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
-            this.rdd = BuilderRDDUser.topUser(this.tweetRDD, "followed");
-            this.endTime = new Date().getTime();
-            timeFile.write((this.endTime - this.startTime) + " ms\n");
+            startTime = new Date().getTime();
+            tweetRDD = BuilderRDDTweet.getAllTweet(fileRDD);
+            rdd = (JavaPairRDD<T,U>) BuilderRDDUser.topUser(tweetRDD, "followed");
+            endTime = new Date().getTime();
+            timeFile.write((endTime - startTime) + " ms\n");
 
             timeFile.write(" - Influencers : ");
-            this.startTime = new Date().getTime();
-            this.tweetRDD = BuilderRDDTweet.getAllTweet(this.fileRDD);
-            this.rdd = BuilderRDDUser.influencers(this.tweetRDD);
-            this.endTime = new Date().getTime();
-            timeFile.write((this.endTime - this.startTime) + " ms\n");
-
-            timeFile.close()
+            startTime = new Date().getTime();
+            tweetRDD = BuilderRDDTweet.getAllTweet(fileRDD);
+            rdd = (JavaPairRDD<T,U>) BuilderRDDUser.influencer(tweetRDD);
+            endTime = new Date().getTime();
+            timeFile.write((endTime - startTime) + " ms\n");
+*/
+           try{ timeFile.close();}catch(Exception e){System.exit(-1);}
 
         } catch (Exception e) {
-            eprintStackTrace();
+            e.printStackTrace();
             System.exit(-1);
         }
 

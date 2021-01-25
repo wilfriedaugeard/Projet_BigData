@@ -190,7 +190,7 @@ public class Process {
 
     }
 
-    public void getTimes(String fileName) {
+    public void getTimes(String fileName) throws Exception{
         Test.apply(fileName, this.fileRDD);
     }
 
