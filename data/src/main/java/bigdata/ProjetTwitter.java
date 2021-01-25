@@ -78,6 +78,9 @@ public class ProjetTwitter {
             case "fake-influencers":
                 DisplayResult.displayResult(process.getFakeInfluencers(saveValues), Config.DISPLAY);
                 break;
+            case "time-test":
+                process.getTimes(args[1]);
+                break;
             default:
                 process.close();
                 usage("wrong function argument");

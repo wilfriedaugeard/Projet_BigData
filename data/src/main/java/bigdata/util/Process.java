@@ -190,5 +190,9 @@ public class Process {
 
     }
 
+    public void getTimes(String fileName) {
+        Test.apply(fileName, this.fileRDD);
+    }
+
 
 }
