@@ -20,6 +20,17 @@
                             <div class="col-xl-12">
                                 <%- include("../templates/search_user_form")%>
                             </div>
+                            <div class="col-xl-12">
+                                <% if (user != null){%>
+                                    <%- include("../templates/search_user_result")%>
+                                <%}else{%>
+                                    <% if (waiting) {%>
+                                        <%- include("../templates/waiting")%>
+                                    <%}else{%>
+                                        Aucun résultat.
+                                    <%}%> 
+                                <%}%> 
+                            </div>
 
                         </div>
                     </main>

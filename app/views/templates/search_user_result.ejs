@@ -1,0 +1,35 @@
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        Informations trouvées:
+    </div>
+    <div class="card-body">
+        <div class="container mt-3">
+            <div class="media border p-3">
+                <img src="https://w3schools.com/bootstrap4/img_avatar3.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                <div class="media-body">
+                    <h4><%=user.name%> <small><em>alias <%=user.screen_name%></em></small></h4>
+                    <pre>membre depuis le <%= user.created_at.split(" ")[2]%> <%= user.created_at.split(" ")[1]%> <%= user.created_at.split(" ")[5]%> <% if(user.verified){ %><i class="fas fa-check-circle text-success"></i><%}else{%><i class="fas fa-check-circle text-secondary"></i><%}%>
+                    </pre>
+                    <ul>
+                        <li>
+                            ID: <%=user.id_str%>
+                        </li>
+                        <li>
+                            Followers: <%=user.followers_count%>
+                        </li>
+                        <li>
+                            Amis: <%= user.friends_count %>
+                        </li>
+                        <li>
+                            hashtags utilisés: <span class="tooltipHashtag"><%= hashtagList %></span>
+                        </li>
+                    </ul>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+            
+        </p>
+    </div>
+</div>

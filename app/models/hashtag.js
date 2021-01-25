@@ -1,4 +1,5 @@
 /* eslint-disable no-async-promise-executor */
+const { join } = require("path")
 const path   = require("path")
 const config = require(path.resolve("./models/hbase_config.js"))
 const hbase  = require(path.resolve("./models/hbase.js"))
@@ -16,13 +17,20 @@ let RANKING = []
 async function getTopKHashtag() {
     HASHTAG_LIST = [] 
     let ranking = []
+    let formatted = [] 
     let hashtag, count
     return new Promise(async (resolve, reject) => { 
         for (let i = 0; i < config.K_MAX; i++) {
-            hashtag = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, i.toString(), config.HASHTAG_VALUE)
-            count = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG, i.toString(), config.NB_VALUE)
-            ranking.push([JSON.parse(hashtag).text, count])
-            HASHTAG_LIST.push(JSON.parse(hashtag).text)
+            hashtag = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG_DETAILS, i.toString(), config.HASHTAG_VALUE)
+            count = await hbase.getHbaseValue(config.TABLE_NAME_TOPK_HASHTAG_DETAILS, i.toString(), config.HASHTAG_MONTH_DETAILS)
+            count = JSON.parse(count)
+            count.map(v => formatted.push([v._1.split(" ")[2],v._2]))
+            count = 0
+            formatted.map(v => count += v[1])
+            formatted = formatted.sort().map(v => v[1])
+            ranking.push([hashtag, count, formatted])
+            HASHTAG_LIST.push(hashtag)
+            formatted = [] 
         }
         RANKING = ranking
         resolve(ranking)
@@ -100,6 +108,51 @@ function convert(tweet){
     return [splittedTweet, nbHashtag] 
 } 
 
+
+/**
+ * Get repartition of hashtags
+ * @memberof Model_hashtag 
+ */
+function getHashtagRepartition(){
+    let name = []
+    let countArray = []  
+    let rep, count
+    return new Promise(async (resolve, reject) => { 
+        let n = await hbase.getTableLength(config.TABLE_NAME_REPARTITION_HASHTAGS)
+        for (let i = 0; i < n; i++) {
+            rep = await hbase.getHbaseValue(config.TABLE_NAME_REPARTITION_HASHTAGS, i.toString(), config.REPARTITION_VALUE)
+            count = await hbase.getHbaseValue(config.TABLE_NAME_REPARTITION_HASHTAGS, i.toString(), config.NB_VALUE)
+            name.push(rep)
+            countArray.push(count)
+        }
+        resolve([name.join(), countArray.join()])
+    })
+} 
+
+
+/**
+ * @namespace Model_tweet
+ */
+/**
+ * Get number of tweet by day
+ * @memberof Model_tweet 
+ */
+async function getNbHashtagByDay() {
+    let tmp = []  
+    let date, count
+    return new Promise(async (resolve, reject) => { 
+        let n = await hbase.getTableLength(config.TABLE_NAME_HASHTAG_BY_DAY)
+        for (let i = 0; i < n; i++) {
+            date = await hbase.getHbaseValue(config.TABLE_NAME_HASHTAG_BY_DAY, i.toString(), config.DATE_VALUE)
+            count = await hbase.getHbaseValue(config.TABLE_NAME_HASHTAG_BY_DAY, i.toString(), config.NB_VALUE)
+            tmp.push([date.split(" ")[2], count])
+        }
+        tmp = tmp.sort().map(v => v[1]).join()
+        resolve(tmp)
+    })
+}
+
+
 function getRanking(){
     return RANKING
 } 
@@ -109,6 +162,8 @@ module.exports = {
     getTopKHashtag,
     getTopKTriplet,
     getHashtagInfo,
+    getHashtagRepartition,
+    getNbHashtagByDay,
     convert,
     getRanking
 }

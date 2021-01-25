@@ -76,7 +76,7 @@ public class ProjetTwitter {
                 DisplayResult.displayResult(process.getInfluencers(saveValues), Config.DISPLAY);
                 break;
             case "fake-influencers":
-                DisplayResult.displayResult(process.getFakeInfluencers(saveValues), 500);
+                DisplayResult.displayResult(process.getFakeInfluencers(saveValues), Config.DISPLAY);
                 break;
             default:
                 process.close();
