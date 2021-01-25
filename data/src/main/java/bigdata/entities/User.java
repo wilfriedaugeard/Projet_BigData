@@ -16,7 +16,7 @@ public class User extends BigDataObject implements IBigDataObject {
     private long friends_count;
     private long reply_count;
     private long favorite_count;
-
+   private String  profile_image_url_https;
 
     public String getId() {
         return this.id_str;
