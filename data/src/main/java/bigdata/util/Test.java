@@ -20,7 +20,7 @@ public class Test {
      * @param fileRDD  : the RDD with the initial data
      * @throws Exception
      */
-    public static <T,U> void apply(String fileName, JavaRDD<String> fileRDD) throws Exception {
+    public static <T, U> void apply(String fileName, JavaRDD<String> fileRDD) throws Exception {
         try {
             File file = new File("test-time-" + fileName + ".txt");
             if (!file.createNewFile()) {
@@ -29,8 +29,8 @@ public class Test {
             }
             FileWriter timeFile = new FileWriter("test-time-" + fileName + ".txt");
             JavaRDD<Tweet> tweetRDD;
-    	    JavaPairRDD<T, U> rdd;
-    	    long startTime = 0;
+            JavaPairRDD<T, U> rdd;
+            long startTime = 0;
             long endTime = 0;
 
             timeFile.write("******* Hashtag Builder  *******\n");
@@ -38,35 +38,35 @@ public class Test {
             timeFile.write(" - Top Hashtag : ");
             startTime = new Date().getTime();
             tweetRDD = BuilderRDDTweet.getAllTweet(fileRDD);
-            rdd = (JavaPairRDD<T,U>) BuilderRDDHashtags.topHastag(tweetRDD);
+            rdd = (JavaPairRDD<T, U>) BuilderRDDHashtags.topHastag(tweetRDD);
             endTime = new Date().getTime();
             timeFile.write((endTime - startTime) + " ms\n");
 
             timeFile.write(" - Top Hashtag by day : ");
             startTime = new Date().getTime();
             tweetRDD = BuilderRDDTweet.getAllTweet(fileRDD);
-            rdd =(JavaPairRDD<T,U>) BuilderRDDHashtags.topHastagByDay(tweetRDD);
+            rdd = (JavaPairRDD<T, U>) BuilderRDDHashtags.topHastagByDay(tweetRDD);
             endTime = new Date().getTime();
             timeFile.write((endTime - startTime) + " ms\n");
 
             timeFile.write(" - User Hashtag : ");
             startTime = new Date().getTime();
             tweetRDD = BuilderRDDTweet.getAllTweet(fileRDD);
-            rdd =(JavaPairRDD<T,U>) BuilderRDDHashtags.userHashtags(tweetRDD);
+            rdd = (JavaPairRDD<T, U>) BuilderRDDHashtags.userHashtags(tweetRDD);
             endTime = new Date().getTime();
             timeFile.write((endTime - startTime) + " ms\n");
 
             timeFile.write(" - Top Triplet Hashtag : ");
             startTime = new Date().getTime();
             tweetRDD = BuilderRDDTweet.getAllTweet(fileRDD);
-            rdd = (JavaPairRDD<T,U>) BuilderRDDHashtags.topTripletHashtag(tweetRDD);
+            rdd = (JavaPairRDD<T, U>) BuilderRDDHashtags.topTripletHashtag(tweetRDD);
             endTime = new Date().getTime();
             timeFile.write((endTime - startTime) + " ms\n");
 
             timeFile.write(" - Nb Hashtag by day : ");
             startTime = new Date().getTime();
             tweetRDD = BuilderRDDTweet.getAllTweet(fileRDD);
-            rdd = (JavaPairRDD<T,U>) BuilderRDDHashtags.getNbHashtagByDay(tweetRDD);
+            rdd = (JavaPairRDD<T, U>) BuilderRDDHashtags.getNbHashtagByDay(tweetRDD);
             endTime = new Date().getTime();
             timeFile.write((endTime - startTime) + " ms\n");
 
@@ -116,7 +116,11 @@ public class Test {
             endTime = new Date().getTime();
             timeFile.write((endTime - startTime) + " ms\n");
 */
-           try{ timeFile.close();}catch(Exception e){System.exit(-1);}
+            try {
+                timeFile.close();
+            } catch (Exception e) {
+                System.exit(-1);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

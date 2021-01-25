@@ -181,10 +181,7 @@ public class BuilderRDDHashtags {
         JavaPairRDD<String, Long> tuple = tweetRDD.mapToPair(tweet -> {
             return new Tuple2(tweet.getCreated_at(), new Long(tweet.getEntities().getHashtags().size()));
         });
-        return tuple.reduceByKey((a, b) -> a + b)
-                .mapToPair(item -> new Tuple2<Long, String>(item._2, item._1))
-                .sortByKey(false)
-                .mapToPair(item -> new Tuple2<String, Long>(item._2, item._1));
+        return tuple.reduceByKey((a, b) -> a + b);
     }
 
 }

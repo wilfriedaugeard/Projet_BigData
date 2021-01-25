@@ -44,7 +44,7 @@ public class BuilderRDDTweet {
             String range = "";
             if (nbHashtag == 0) {
                 range = "0";
-            } else if (1<= nbHashtag && nbHashtag <=3) {
+            } else if (1 <= nbHashtag && nbHashtag <= 3) {
                 range = "[1-3]";
             } else if (4 <= nbHashtag && nbHashtag <= 7) {
                 range = "[4-7]";
@@ -54,10 +54,7 @@ public class BuilderRDDTweet {
             return new Tuple2<String, Long>(range, new Long(1));
         });
 
-        return tuple.reduceByKey((a, b) -> a + b)
-                .mapToPair(item -> new Tuple2<Long, String>(item._2, item._1))
-                .sortByKey(false)
-                .mapToPair(item -> new Tuple2<String, Long>(item._2, item._1));
+        return tuple.reduceByKey((a, b) -> a + b);
     }
 
     /**
@@ -86,10 +83,7 @@ public class BuilderRDDTweet {
         JavaPairRDD<String, Long> tuple = tweetRDD.mapToPair(tweet -> {
             return new Tuple2(tweet.getCreated_at(), new Long(1));
         });
-        return tuple.reduceByKey((a, b) -> a + b)
-                .mapToPair(item -> new Tuple2<Long, String>(item._2, item._1))
-                .sortByKey(false)
-                .mapToPair(item -> new Tuple2<String, Long>(item._2, item._1));
+        return tuple.reduceByKey((a, b) -> a + b);
     }
 
 }

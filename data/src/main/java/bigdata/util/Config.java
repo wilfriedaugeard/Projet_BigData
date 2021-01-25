@@ -34,15 +34,15 @@ public class Config {
             "/raw_data/tweet_19_03_2020.nljson",
             "/raw_data/tweet_20_03_2020.nljson",
             "/raw_data/tweet_21_03_2020.nljson",
-  	    "/raw_data/tweet_22_03_2020.nljson",
-              "/raw_data/tweet_23_03_2020.nljson",
-              "/raw_data/tweet_24_03_2020.nljson",
-              "/raw_data/tweet_25_03_2020.nljson",
-              "/raw_data/tweet_26_03_2020.nljson",
-             "/raw_data/tweet_27_03_2020.nljson",
-  	    "/raw_data/tweet_28_03_2020.nljson",
-              "/raw_data/tweet_29_03_2020.nljson",
-             "/raw_data/tweet_30_03_2020.nljson",                       
+            /*"/raw_data/tweet_22_03_2020.nljson",
+            "/raw_data/tweet_23_03_2020.nljson",
+            "/raw_data/tweet_24_03_2020.nljson",
+            "/raw_data/tweet_25_03_2020.nljson",
+            "/raw_data/tweet_26_03_2020.nljson",
+            "/raw_data/tweet_27_03_2020.nljson",
+            "/raw_data/tweet_28_03_2020.nljson",
+            "/raw_data/tweet_29_03_2020.nljson",
+            "/raw_data/tweet_30_03_2020.nljson",*/
     };
 
     public static String concatFiles() {
