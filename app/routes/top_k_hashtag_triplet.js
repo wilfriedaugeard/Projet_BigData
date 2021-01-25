@@ -12,7 +12,6 @@ let data = null
  * @memberof Route_topk_hashtag_triplet
  */
 async function init(app) {
-    data = await loadService.load(hashtag.getTopKTriplet)
     app.get("/topk/hashtag_triplet", async (req, res) => {
         let wait = (data == null)
         res.render("pages/top_k_hashtag_triplet.ejs", {triplet: data, waiting: wait})
