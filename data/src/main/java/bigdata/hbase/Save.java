@@ -26,7 +26,7 @@ public class Save {
      * @param <U>       : the class of the second value of the tuple
      * @throws Exception
      */
-    public static final <T, U> void apply(Configuration hConf, String tableName, String[] families, String[] columns, List<Tuple2<T, U>> values) throws Exception {
+    public static final <T, U> void apply(Configuration hConf, String tableName, String[] families, String[] columns, JavaPairRDD<T, U> rdd,) throws Exception {
         try {
             BuilderTable.createTable(
                     hConf,
@@ -37,7 +37,7 @@ public class Save {
 
             InsertValues.insert(
                     hConf,
-                    values,
+                    rdd,
                     tableName,
                     families,
                     columns

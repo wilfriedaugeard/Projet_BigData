@@ -59,7 +59,7 @@ public class Process {
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"value", "count"};
-            Save.apply(this.hConf, "top-hashtag", families, columns, rdd.take(Config.TOP_K));
+            Save.apply(this.hConf, "top-hashtag", families, columns, rdd);
         }
         return rdd;
     }
@@ -80,7 +80,7 @@ public class Process {
                 }
                 return new Tuple2<String, Set<String>>(item._1, newSet);
             });
-            Save.apply(this.hConf, "top-hashtag-by-day", families, columns, rdd2.take(Config.TOP_K));
+            Save.apply(this.hConf, "top-hashtag-by-day", families, columns, rdd2);
         }
         return rdd;
 
@@ -93,7 +93,7 @@ public class Process {
         if (saveValues) {
             String[] families = {User.class.getSimpleName(), HashSet.class.getSimpleName()};
             String[] columns = {"user", "hashtags"};
-            Save.apply(this.hConf, "user-hashtag", families, columns, InsertValues.convert(rdd));
+            Save.apply(this.hConf, "test-user-hashtag", families, columns, rdd);
         }
         return rdd;
     }
@@ -105,7 +105,7 @@ public class Process {
         if (saveValues) {
             String[] families = {Triplet.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"value", "count"};
-            Save.apply(this.hConf, "triplet-hashtags", families, columns, rdd.take(Config.TOP_K));
+            Save.apply(this.hConf, "triplet-hashtags", families, columns, rdd);
         }
         return rdd;
     }
@@ -116,7 +116,7 @@ public class Process {
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"nb-hashtag", "count"};
-            Save.apply(this.hConf, "tweet-by-hashtag-nb", families, columns, InsertValues.convert(rdd));
+            Save.apply(this.hConf, "tweet-by-hashtag-nb", families, columns, rdd);
         }
         return rdd;
     }
@@ -128,7 +128,7 @@ public class Process {
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"date", "count"};
-            Save.apply(this.hConf, "hashtag-by-day", families, columns, InsertValues.convert(rdd));
+            Save.apply(this.hConf, "hashtag-by-day", families, columns, rdd);
         }
         return rdd;
     }
@@ -140,7 +140,7 @@ public class Process {
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"language", "count"};
-            Save.apply(this.hConf, "tweet-by-language", families, columns, InsertValues.convert(rdd));
+            Save.apply(this.hConf, "tweet-by-language", families, columns, rdd);
         }
         return rdd;
     }
@@ -152,7 +152,7 @@ public class Process {
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"date", "count"};
-            Save.apply(this.hConf, "tweet-by-day", families, columns, InsertValues.convert(rdd));
+            Save.apply(this.hConf, "tweet-by-day", families, columns, rdd);
         }
         return rdd;
     }
@@ -163,7 +163,7 @@ public class Process {
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"user", "count"};
-            Save.apply(this.hConf, "top-" + category + "-user", families, columns, rdd.take(Config.TOP_K));
+            Save.apply(this.hConf, "top-" + category + "-user", families, columns, rdd);
         }
         return rdd;
     }
@@ -174,7 +174,7 @@ public class Process {
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"user", "top-triplet-tweet"};
-            Save.apply(this.hConf, "influencers", families, columns, rdd.take(Config.TOP_K));
+            Save.apply(this.hConf, "influencers", families, columns, rdd);
         }
         return rdd;
     }
@@ -184,7 +184,7 @@ public class Process {
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Tuple2.class.getSimpleName()};
             String[] columns = {"user", "followers-averageRT"};
-            Save.apply(this.hConf, "fake-influencers", families, columns, rdd.take(Config.TOP_K));
+            Save.apply(this.hConf, "fake-influencers", families, columns, rdd);
         }
         return rdd;
 
