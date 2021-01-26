@@ -39,15 +39,17 @@ public class InsertValues {
     public static final <T, U> List<Tuple2<T, U>> convert(JavaPairRDD<T, U> rdd) throws Exception {
         List<Tuple2<T, U>> values = new ArrayList<>();
         rdd.cache();
-        try {
-            if (rdd.count() > Config.TOP_K) {
-                rdd = rdd.foreachPartition(partition -> {
-			while(partition.hasNext()){
-				list.add(partition.next();
-			}
+long count = rdd.count();
+	        
+try {
+	 if(count > Config.MAX_RDD_VALUES){
+	values.addAll(rdd.take(Config.MAX_RDD_VALUES));	
+}
+           else  if (rdd.count() > Config.TOP_K) {
+		rdd.foreach(item -> {
+			values.add(item);
 		});
-
-            } else {
+       } else {
                 values.addAll(rdd.collect());
 
             }
