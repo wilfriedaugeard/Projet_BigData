@@ -106,5 +106,5 @@ Avec pour save :
 Pour lancer spark sur le cluster
 
 ```
-spark-submit --master yarn --num-executors 10 target/ProjetTwitter-0.0.1.jar fct file save
+spark-submit --master yarn --num-executors 20 target/ProjetTwitter-0.0.1.jar fct file save
 ```

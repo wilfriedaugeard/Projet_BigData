@@ -26,6 +26,37 @@ import java.io.IOException;
 
 public class InsertValues {
 
+
+    /**
+     * Create the List of values of a Pair RDD
+     *
+     * @param rdd : the RDD to convert into list
+     * @param <T> : the class of the first value of the tuple
+     * @param <U> : the class of the second value of the tuple
+     * @return : the new list of values
+     * @throws Exception
+     */
+    public static final <T, U> List<Tuple2<T, U>> convert(JavaPairRDD<T, U> rdd) throws Exception {
+        List<Tuple2<T, U>> values = new ArrayList<>();
+        rrd.cache();
+        try {
+            if (rdd.count() > Config.TOP_K) {
+
+                rdd.foreach(item -> {
+                    values.add(item);
+                });
+
+            } else {
+                values.addAll(rdd.collect());
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return values;
+    }
+
+
     /**
      * Insert the values of a list (representing the RDD) into a table in Hbase
      *
@@ -64,6 +95,9 @@ public class InsertValues {
                 if (row % Config.MAX_LIST_SIZE == 0) {
                     table.put(list);
                     list.clear();
+                }
+                if (row == Config.MAX_RDD_VALUES) {
+                    break;
                 }
             }
             table.put(list);
