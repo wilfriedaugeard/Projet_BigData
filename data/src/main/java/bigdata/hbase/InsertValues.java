@@ -38,13 +38,14 @@ public class InsertValues {
      */
     public static final <T, U> List<Tuple2<T, U>> convert(JavaPairRDD<T, U> rdd) throws Exception {
         List<Tuple2<T, U>> values = new ArrayList<>();
-        rrd.cache();
+        rdd.cache();
         try {
             if (rdd.count() > Config.TOP_K) {
-
-                rdd.foreach(item -> {
-                    values.add(item);
-                });
+                rdd = rdd.foreachPartition(partition -> {
+			while(partition.hasNext()){
+				list.add(partition.next();
+			}
+		});
 
             } else {
                 values.addAll(rdd.collect());
@@ -53,6 +54,7 @@ public class InsertValues {
         } catch (Exception e) {
             e.printStackTrace();
         }
+	System.out.println("\n\n\n count : "+values.size()+"\n\n");
         return values;
     }
 
@@ -94,12 +96,13 @@ public class InsertValues {
                 list.add(put);
                 if (row % Config.MAX_LIST_SIZE == 0) {
                     table.put(list);
-                    list.clear();
+		    list.clear();
                 }
-                if (row == Config.MAX_RDD_VALUES) {
+                if (row == 500000) {
                     break;
                 }
-            }
+          }
+
             table.put(list);
 
         } catch (IOException ioe) {
