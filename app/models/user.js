@@ -62,7 +62,6 @@ async function getTopTweetingUser(){
             user = JSON.parse(user)
             ranking.push([user._1, user._2, nbTweet])
         }
-        console.log(ranking)
         resolve(ranking) 
     }) 
 } 

@@ -17,7 +17,6 @@
                             <ol class="breadcrumb mb-4">
                                 <li class="breadcrumb-item active">Vue global - Mois de mars 2020</li>
                             </ol>
-
                             <div class="col-xl-12">
                                 <% if(waiting){ %>
                                     <%- include("../templates/waiting")%>
@@ -25,18 +24,20 @@
                                     <%- include("../templates/topk/user_by_tweet_table")%>
                                 <%} %>
                             </div>
-
                             <div class="col-xl-12">
-                                <%- include("../templates/topk/user_by_tweet_day_table")%>
+                                <% if(waiting){ %>
+                                    <%- include("../templates/waiting")%>
+                                <%}else{%>
+                                    <%- include("../templates/topk/influencer_table")%>
+                                <%} %>
                             </div>
-
-                            <div class="col-xl-12">
+                            <!-- <div class="col-xl-12">
                                 <% if(waiting){ %>
                                     <%- include("../templates/waiting")%>
                                 <%}else{%>
                                     <%- include("../templates/topk/tweet_mostly")%>
                                 <%} %>
-                            </div>
+                            </div> -->
 
                         </div>
                     </main>

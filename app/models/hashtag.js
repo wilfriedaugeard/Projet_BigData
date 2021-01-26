@@ -1,5 +1,4 @@
 /* eslint-disable no-async-promise-executor */
-const { join } = require("path")
 const path   = require("path")
 const config = require(path.resolve("./models/hbase_config.js"))
 const hbase  = require(path.resolve("./models/hbase.js"))
