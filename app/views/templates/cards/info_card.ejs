@@ -1,0 +1,26 @@
+<div class="col-xl-3 col-md-6">
+    <div class="card mb-4 bg-success text-white">
+        <div class="card-header">
+            <h6><i class="fab fa-twitter mr-1"></i> Total de Tweets:</h6> 
+        </div>
+        <div class="card-body text-center">
+            <h2>
+                <%let sum = 0; nbTweetList.split(",").map(v => sum+=parseInt(v))%>
+                <%= (sum/(1000000)).toFixed(2) %>M
+            </h2>
+        </div>
+    </div>
+</div>
+<div class="col-xl-3 col-md-6">
+    <div class="card mb-4 bg-warning text-white">
+        <div class="card-header">
+            <h6><i class="fas fa-hashtag mr-1"></i> Total de Hashtags:</h6> 
+        </div>
+        <div class="card-body text-center">
+            <h2>
+                <%let sum2 = 0; nbHashtagList.split(",").map(v => sum2+=parseInt(v))%>
+                <%= (sum2/(1000000)).toFixed(2) %>M
+            </h2>
+        </div>
+    </div>
+</div>

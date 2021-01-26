@@ -22,9 +22,9 @@ async function init(app, flag) {
         res.render("pages/hashtag.ejs", {list: null, word:request, waiting: true} )
     })
     app.get("/hashtag/load", async (req, res) => {
-        if(!flag.LOADED_FLAG){
+        if(!flag.isActivated()){
             data = await loadService.load(hashtag.getTopKHashtag)
-            flag.collectEnd()
+            flag.collectEnd(data)
         } 
         data = hashtag.getHashtagInfo(request)
         res.render("pages/hashtag.ejs", {list: data, word:request, waiting: false} )

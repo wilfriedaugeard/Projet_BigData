@@ -6,11 +6,11 @@
     <div class="card-body">
         <div class="container mt-3">
             <div class="media border p-3">
-                <img src="https://w3schools.com/bootstrap4/img_avatar3.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                <img src="<%=user.profile_image_url_https%>" alt="invalid image" class="mr-3 mt-3 rounded-circle" style="width:60px;">
                 <div class="media-body">
-                    <h4><%=user.name%> <small><em>alias <%=user.screen_name%></em></small></h4>
-                    <pre>membre depuis le <%= user.created_at.split(" ")[2]%> <%= user.created_at.split(" ")[1]%> <%= user.created_at.split(" ")[5]%> <% if(user.verified){ %><i class="fas fa-check-circle text-success"></i><%}else{%><i class="fas fa-check-circle text-secondary"></i><%}%>
-                    </pre>
+                    <h4><%=user.name%><% if(user.verified == "true"){ %> <i class="fas fa-check-circle text-success"></i><%}else{%> <i class="fas fa-check-circle text-secondary"></i><%}%></h4>
+                    <pre>alias<em> <%=user.screen_name%></em></pre>
+                   
                     <ul>
                         <li>
                             ID: <%=user.id_str%>
@@ -20,6 +20,9 @@
                         </li>
                         <li>
                             Amis: <%= user.friends_count %>
+                        </li>
+                        <li>
+                            Membre depuis le <%= user.created_at.split(" ")[2]%> <%= user.created_at.split(" ")[1]%> <%= user.created_at.split(" ")[5]%> 
                         </li>
                         <li>
                             hashtags utilisés: <span class="tooltipHashtag"><%= hashtagList %></span>

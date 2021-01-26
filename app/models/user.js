@@ -96,7 +96,11 @@ async function getInfo(user_id){
     for(let i=0; i<pos.length; i++){
         let hashtagList = await hbase.getHbaseValue(config.TABLE_NAME_USER_INFO, pos[i], config.HASHTAG_LIST)
         let user = await hbase.getHbaseValue(config.TABLE_NAME_USER_INFO, pos[i], config.USER_DETAILS)
-        if(user_id == JSON.parse(user).id_str) return [JSON.parse(user), hashtagList.split(", ").map(v => "#"+v).filter(v => v!= "[" && v!="]" ).join(", ")] 
+        hashtagList = hashtagList.split("")
+        hashtagList.shift()
+        hashtagList.pop()
+        hashtagList = hashtagList.join("")
+        if(user_id == JSON.parse(user).id_str) return [JSON.parse(user), hashtagList.split(", ").map(v => "#"+v).join(", ")] 
     } 
     return null
 } 

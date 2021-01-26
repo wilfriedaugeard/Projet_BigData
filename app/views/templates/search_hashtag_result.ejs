@@ -1,7 +1,7 @@
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-table mr-1"></i>
-        Résultats de la recherche pour: <%=word%>
+        Résultats de la recherche pour: <span class="tooltipHashtag">#<%=word%></span>
     </div>
     <div class="card-body">
         <%if (list.length == 0){%>
@@ -23,7 +23,7 @@
                         <td><%= list[i][1]%> </td>
                         <td>
                             <div class="sparkline-bar-stats1">
-                                36,41,30,75,63,35,49,47,65,32,57,65,15,63,29,45
+                                <%= list[i][2]%> 
                             </div>
                         </td>
                     </tr>

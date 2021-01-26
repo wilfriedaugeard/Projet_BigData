@@ -1,7 +1,7 @@
 const TABLE_NAME_TOPK_HASHTAG       = "augeard-tarmil-top-hashtag"
 const TABLE_NAME_TOPK_HASHTAG_DETAILS = "augeard-tarmil-top-hashtag-by-day"
 const TABLE_NAME_TOPK_LANG          = "augeard-tarmil-tweet-by-language"
-const TABLE_NAME_TOPK_USER_BY_TWEET = "augeard-tarmil-top-user"
+const TABLE_NAME_TOPK_USER_BY_TWEET = "augeard-tarmil-top-user"//
 const TABLE_NAME_TOPK_TRIPLET       = "augeard-tarmil-triplet-hashtags"
 const TABLE_NAME_TRIPLET_INFLUENCER = "augeard-tarmil-influencers"
 const TABLE_NAME_TWEET_BY_DAY       = "augeard-tarmil-tweet-by-day"
@@ -9,7 +9,7 @@ const TABLE_NAME_REPARTITION_HASHTAGS = "augeard-tarmil-tweet-by-hashtag-nb"
 const TABLE_NAME_TOPK_TWEETING_USER = "augeard-tarmil-top-tweeting-user"
 const TABLE_NAME_TOPK_FOLLOWED_USER = "augeard-tarmil-top-followed-user" 
 const TABLE_NAME_HASHTAG_BY_DAY     = "augeard-tarmil-hashtag-by-day"
-const TABLE_NAME_USER_INFO          = "augeard-tarmil-user-hashtag"
+const TABLE_NAME_USER_INFO          = "augeard-tarmil-user-hashtag"//
 const TABLE_NAME_TOPK_RT_USER       = "augeard-tarmil-top-retweeted-user"
 
 const HASHTAG_VALUE = "String:value"
