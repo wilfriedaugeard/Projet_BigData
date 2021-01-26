@@ -49,16 +49,17 @@ public class InsertValues {
 		   Configuration hconf =  HBaseConfiguration.create();
 		   Connection connection = ConnectionFactory.createConnection(hconf);
                     BufferedMutator table = connection.getBufferedMutator(TableName.valueOf(Config.tablePrefix + tableName));
-while(iterator.hasNext()){                    
-Tuple2<T, U> tuple = iterator.next();
+		while(iterator.hasNext()){                    
+		   Tuple2<T, U> tuple = iterator.next();
                     Put put = new Put(Bytes.toBytes(tuple._1.toString()));
                     put.addColumn(
                             Bytes.toBytes(families[1]),
                             Bytes.toBytes(columns[1]),
-                            Bytes.toBytes(tuple._2.toString())
-                    );
-                    table.mutate(put);
-}
+                            		
+Bytes.toBytes(tuple._2.toString())
+                    		);
+                    		table.mutate(put);
+			}
                 } catch (IOException ioe) {
                     ioe.printStackTrace();
                     System.exit(-1);

@@ -59,7 +59,7 @@ public class Process {
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"value", "count"};
-            Save.apply(this.hConf, "top-hashtag", families, columns, rdd);
+            Save.apply(this.hConf, "test-top-hashtag", families, columns, rdd);
         }
         return rdd;
     }

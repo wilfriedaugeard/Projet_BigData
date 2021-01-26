@@ -2,6 +2,8 @@ package bigdata.hbase;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.hadoop.hbase.client.Connection;
+import org.apache.hadoop.hbase.client.ConnectionFactory;
 
 import bigdata.entities.*;
 import bigdata.builder.BuilderTable;
@@ -26,7 +28,7 @@ public class Save {
      * @param <U>       : the class of the second value of the tuple
      * @throws Exception
      */
-    public static final <T, U> void apply(Configuration hConf, String tableName, String[] families, String[] columns, JavaPairRDD<T, U> rdd,) throws Exception {
+    public static final <T, U> void apply(Configuration hConf, String tableName, String[] families, String[] columns, JavaPairRDD<T, U> rdd) throws Exception {
         try {
             BuilderTable.createTable(
                     hConf,
@@ -36,7 +38,7 @@ public class Save {
             );
 
             InsertValues.insert(
-                    hConf,
+//                    ConnectionFactory.createConnection(hConf),
                     rdd,
                     tableName,
                     families,
