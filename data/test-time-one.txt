@@ -1,18 +1,20 @@
 ******* Hashtag Builder  *******
- - Top Hashtag : 41492 ms
+ - Top Hashtag : 33217 ms
  - Top Hashtag by day : 15 ms
  - User Hashtag : 14 ms
- - Top Triplet Hashtag : 23892 ms
- - Nb Hashtag by day : 23572 ms
+ - Top Triplet Hashtag : 15401 ms
+ - Nb Hashtag by day : 8 ms
 
 
  ******* Tweet Builder  *******
- - Nb Tweet by hashtag number : 24887 ms
- - Nb Tweet by language: 23624 ms
- - Nb Tweet by day : 25069 ms
+ - Nb Tweet by hashtag number : 7 ms
+ - Nb Tweet by language: 14158 ms
+ - Nb Tweet by day : 7 ms
 
 
  ******* User Builder  *******
- - Top Tweeting User : 27016 ms
- - Top Followed User : 27005 ms
- - Influencers : 24329 ms
+ - Top Tweeting User : 17571 ms
+ - Top Followed User : 16331 ms
+ - Influencers : 14598 ms
+
+
