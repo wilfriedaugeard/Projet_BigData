@@ -116,7 +116,7 @@ public class Process {
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"nb-hashtag", "count"};
-            Save.apply(this.hConf, "tweet-by-hashtag-nb", families, columns, InsertValues.convert(rdd));
+            Save.apply(this.hConf, "tweet-by-hashtag-nb", families, columns, rdd.collect());
         }
         return rdd;
     }
@@ -128,7 +128,7 @@ public class Process {
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"date", "count"};
-            Save.apply(this.hConf, "hashtag-by-day", families, columns, InsertValues.convert(rdd));
+            Save.apply(this.hConf, "hashtag-by-day", families, columns, rdd.collect());
         }
         return rdd;
     }
@@ -140,7 +140,7 @@ public class Process {
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"language", "count"};
-            Save.apply(this.hConf, "tweet-by-language", families, columns, InsertValues.convert(rdd));
+            Save.apply(this.hConf, "tweet-by-language", families, columns, rdd.collect());
         }
         return rdd;
     }
@@ -152,7 +152,7 @@ public class Process {
         if (saveValues) {
             String[] families = {String.class.getSimpleName(), Long.class.getSimpleName()};
             String[] columns = {"date", "count"};
-            Save.apply(this.hConf, "tweet-by-day", families, columns, InsertValues.convert(rdd));
+            Save.apply(this.hConf, "tweet-by-day", families, columns, rdd.collect());
         }
         return rdd;
     }

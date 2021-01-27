@@ -35,7 +35,7 @@ public class Tweet extends BigDataObject implements IBigDataObject {
     }
 
     public long getRetweet_count() {
-       return  this.retweet_count;
+        return this.retweet_count;
     }
 
     public String getCreated_at() {

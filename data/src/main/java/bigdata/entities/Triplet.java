@@ -17,7 +17,6 @@ public class Triplet extends BigDataObject implements IBigDataObject {
         this.triplet = new ArrayList<>();
     }
 
-    // Add and sort by string
     public void add(Hashtag h) {
         if (this.triplet.isEmpty()) {
             this.triplet.add(h);

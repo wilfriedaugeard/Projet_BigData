@@ -13,7 +13,7 @@ public class Entities extends BigDataObject {
         return (!this.hashtags.isEmpty() && this.hashtags != null) ? this.hashtags : new ArrayList<>();
     }
 
-    public int getNbHashtags(){
+    public int getNbHashtags() {
         return (this.hashtags != null) ? this.hashtags.size() : 0;
     }
 } 
