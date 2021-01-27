@@ -23,8 +23,6 @@ import bigdata.entities.Triplet;
 import bigdata.entities.IBigDataObject;
 import bigdata.hbase.*;
 
-import bigdata.util.GsonFactory;
-
 import java.util.Iterator;
 
 public class Process {

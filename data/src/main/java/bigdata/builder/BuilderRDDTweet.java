@@ -1,6 +1,6 @@
 package bigdata.builder;
 
-import bigdata.util.GsonFactory;
+import bigdata.builder.GsonFactory;
 import bigdata.entities.Tweet;
 
 import scala.Tuple2;

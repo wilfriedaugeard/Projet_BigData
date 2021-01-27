@@ -1,4 +1,4 @@
-package bigdata.util;
+package bigdata.builder;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
